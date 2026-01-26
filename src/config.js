@@ -1,10 +1,9 @@
 /**
- * Update this file to customize trend data.
- * Google Trends: https://support.google.com/trends/answer/4359582?hl=enand globe properties
+ * Configuration for Ho Chi Minh Thought Globe Visualization
  * react-globe: https://github.com/chrisrzhou/react-globe
  */
 export default {
-  keyword: 'covid + covid19 + coronavirus',
+  keyword: 'Hành trình Cách mạng của Chủ tịch Hồ Chí Minh',
   globeBackgroundTexture:
     'https://raw.githubusercontent.com/chrisrzhou/react-globe/main/textures/background.png',
   globeCloudsTexture:
@@ -12,7 +11,7 @@ export default {
   globeTexture:
     'https://raw.githubusercontent.com/chrisrzhou/react-globe/main/textures/globe_dark.jpg',
   options: {
-    ambientLightColor: '#b34444',
+    ambientLightColor: '#4a90e2',
     ambientLightIntensity: 1,
     cameraAutoRotateSpeed: 0.01,
     cameraRotateSpeed: 0.2,
@@ -21,7 +20,7 @@ export default {
     focusAnimationDuration: 1000,
     globeCloudsOpacity: 0.1,
     globeGlowCoefficient: 0.1,
-    globeGlowColor: 'red',
+    globeGlowColor: '#4a90e2',
     globeGlowPower: 5,
     globeGlowRadiusScale: 0.2,
     pointLightIntensity: 3,

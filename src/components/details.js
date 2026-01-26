@@ -5,31 +5,55 @@ import Button from './button';
 import Fade from './fade';
 
 function getSearchUrl(city, country, keyword) {
-  const formattedQuery = `${encodeURIComponent(city)}, ${encodeURIComponent(
-    country,
-  )} ${encodeURIComponent(keyword)}`.replace(/(%20| )/g, '+');
+  const formattedQuery = `${encodeURIComponent(
+    city || '',
+  )}, ${encodeURIComponent(country || '')} ${encodeURIComponent(
+    keyword || '',
+  )}`.replace(/(%20| )/g, '+');
   return `https://www.google.com/search?q=${formattedQuery}`;
 }
 
 export function getRandomMarker({ focusedMarker, markers }) {
+  if (!markers || !Array.isArray(markers)) return null;
+
   const filteredMarkers = markers.filter((marker) => {
-    return marker.id !== focusedMarker?.id;
+    return marker?.id !== focusedMarker?.id;
   });
   return filteredMarkers[Math.floor(Math.random() * filteredMarkers.length)];
 }
 
 export default function Details() {
-  const [
-    { config, focusedMarker, markers, relatedTopics },
-    dispatch,
-  ] = useStateValue();
+  const [{ config, focusedMarker, markers, events }, dispatch] =
+    useStateValue();
   const randomMarker = getRandomMarker({ focusedMarker, markers });
 
   let content;
   if (focusedMarker) {
-    const { city, countryCode, countryName, value } = focusedMarker;
-    const url = getSearchUrl(city, countryName, config.keyword);
-    const topics = relatedTopics[countryCode] || [];
+    const {
+      city,
+      countryCode,
+      countryName,
+      value,
+      eventName,
+      description,
+      year,
+      location,
+      mediaUrl,
+      sourceMedia,
+      quoteSource,
+      templateType,
+    } = focusedMarker || {};
+
+    // Use fallback values to prevent undefined errors
+    const cityName = city || location || 'Unknown Location';
+    const country = countryName || '';
+    const displayValue = value || 0;
+    const eventTitle = eventName || 'Historical Event';
+    const eventDescription = description || 'No description available.';
+    const eventYear = year || 'Unknown Year';
+
+    // Since we removed relatedTopics, we'll skip that part
+    const topics = []; // Empty array since we don't have related topics anymore
 
     content = (
       <>
@@ -38,40 +62,46 @@ export default function Details() {
             label="Back to globe"
             onClick={() => dispatch({ type: 'FOCUS' })}
           />
-          <Button
-            label="Random City"
-            onClick={() => dispatch({ type: 'FOCUS', payload: randomMarker })}
-          />
+          {randomMarker && (
+            <Button
+              label="Random Location"
+              onClick={() => dispatch({ type: 'FOCUS', payload: randomMarker })}
+            />
+          )}
         </div>
         <div className="content">
           <h2>
-            {city}, {countryName} ({value})
+            {eventTitle} ({eventYear})
           </h2>
+          <p>
+            <strong>Location:</strong> {cityName}
+            {country ? `, ${country}` : ''}
+          </p>
+          <p>
+            <strong>Phase:</strong> {displayValue}
+          </p>
           <div className="details-content">
-            RELATED TOPICS
-            {topics.map(({ topic, link }) => {
-              return (
-                <a
-                  key={topic}
-                  href={`https://trends.google.com${link}`}
-                  rel="noopener noreferrer"
-                  target="_blank">
-                  {topic}
-                </a>
-              );
-            })}
+            <p>{eventDescription}</p>
+            {mediaUrl && (
+              <div>
+                <p>
+                  <strong>Media:</strong> {sourceMedia || 'Historical Archive'}
+                </p>
+              </div>
+            )}
+            {quoteSource && (
+              <p>
+                <em>Source: {quoteSource}</em>
+              </p>
+            )}
           </div>
-          <Button
-            label="View search results"
-            onClick={() => window.open(url, '_blank')}
-          />
         </div>
       </>
     );
   }
 
   return (
-    <Fade className="details" show={focusedMarker}>
+    <Fade className="details" show={!!focusedMarker}>
       {content}
     </Fade>
   );

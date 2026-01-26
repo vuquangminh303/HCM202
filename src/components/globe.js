@@ -18,7 +18,7 @@ function random(scaleFactor) {
 }
 
 function markerRenderer(marker) {
-  const size = Math.max(marker.value / 20, 1);
+  const size = Math.max(marker.value / 5, 1); // Adjusted for phase values (1-5)
   const geometry = new THREE.SphereGeometry(size, 10, 10);
   const material = new THREE.MeshBasicMaterial({
     color: new THREE.Color(MARKER_COLOR),
@@ -125,7 +125,7 @@ export default function Globe() {
     ...config.options,
     enableGlobeGlow: !isFocusing,
     enableCameraRotate: start && !isFocusing,
-    markerTooltipRenderer: (marker) => `${marker.city} (${marker.value})`,
+    markerTooltipRenderer: (marker) => `${marker.eventName} (${marker.year})`,
     markerRenderer,
   };
 

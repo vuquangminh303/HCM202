@@ -1,0 +1,97 @@
+{
+  "lastUpdated": 1732636800000,
+  "keyword": "Hành trình Cách mạng của Chủ tịch Hồ Chí Minh",
+  "events": [
+    {
+      "id": 1,
+      "phase": 1,
+      "year": 1890,
+      "location": "Kim Liên, Nam Đàn, Nghệ An",
+      "coordinates": [18.8833, 105.5833],
+      "eventName": "Sinh ra tại làng Kim Liên",
+      "description": "Nguyễn Sinh Cung (sau này là Hồ Chí Minh) sinh ra trong một gia đình nhà nho yêu nước tại làng Kim Liên, tỉnh Nghệ An.",
+      "mediaUrl": "/images/kimlien.jpg",
+      "sourceMedia": "Bảo tàng Hồ Chí Minh",
+      "quoteSource": "Sự nghiệp giải phóng dân tộc của Chủ tịch Hồ Chí Minh",
+      "templateType": "normal"
+    },
+    {
+      "id": 2,
+      "phase": 1,
+      "year": 1911,
+      "location": "Sài Gòn, Việt Nam",
+      "coordinates": [10.8231, 106.6297],
+      "eventName": "Ra đi tìm đường cứu nước",
+      "description": "Nguyễn Tất Thành rời cảng Nhà Rồng, bắt đầu hành trình tìm đường cứu nước kéo dài 30 năm.",
+      "mediaUrl": "/images/nharong.jpg",
+      "sourceMedia": "Bảo tàng Hồ Chí Minh",
+      "quoteSource": "Nhật ký trong tù - Hồ Chí Minh",
+      "templateType": "story_scroll"
+    },
+    {
+      "id": 3,
+      "phase": 2,
+      "year": 1920,
+      "location": "Paris, Pháp",
+      "coordinates": [48.8566, 2.3522],
+      "eventName": "Tham gia thành lập Đảng Cộng sản Pháp",
+      "description": "Nguyễn Ái Quốc tham gia Đại hội Tours, trở thành một trong những người sáng lập Đảng Cộng sản Pháp.",
+      "mediaUrl": "/images/paris.jpg",
+      "sourceMedia": "Pháp - Việt sử liệu",
+      "quoteSource": "Tuyên ngôn Đảng cộng sản",
+      "templateType": "grid"
+    },
+    {
+      "id": 4,
+      "phase": 2,
+      "year": 1925,
+      "location": "Quảng Châu, Trung Quốc",
+      "coordinates": [23.1291, 113.2644],
+      "eventName": "Thành lập Hội Việt Nam Cách mạng Thanh niên",
+      "description": "Nguyễn Ái Quốc thành lập Hội Việt Nam Cách mạng Thanh niên, đào tạo cán bộ cho phong trào cách mạng Việt Nam.",
+      "mediaUrl": "/images/quangchau.jpg",
+      "sourceMedia": "Lịch sử Đảng Cộng sản Việt Nam",
+      "quoteSource": "Đường Kách mệnh - Hồ Chí Minh",
+      "templateType": "normal"
+    },
+    {
+      "id": 5,
+      "phase": 3,
+      "year": 1941,
+      "location": "Pác Bó, Cao Bằng, Việt Nam",
+      "coordinates": [22.6658, 106.4167],
+      "eventName": "Trở lại Việt Nam, thành lập Việt Minh",
+      "description": "Chủ tịch Hồ Chí Minh trở lại Việt Nam sau 30 năm bôn ba, thành lập Mặt trận Việt Minh để lãnh đạo kháng chiến.",
+      "mediaUrl": "/images/pacbo.jpg",
+      "sourceMedia": "Bảo tàng Cách mạng Việt Nam",
+      "quoteSource": "Lời kêu gọi toàn quốc kháng chiến",
+      "templateType": "story_scroll"
+    },
+    {
+      "id": 6,
+      "phase": 4,
+      "year": 1945,
+      "location": "Hà Nội, Việt Nam",
+      "coordinates": [21.0285, 105.8542],
+      "eventName": "Tuyên bố độc lập khai sinh nước Việt Nam Dân chủ Cộng hòa",
+      "description": "Chủ tịch Hồ Chí Minh đọc bản Tuyên ngôn Độc lập tại Quảng trường Ba Đình, khai sinh nước Việt Nam Dân chủ Cộng hòa.",
+      "mediaUrl": "/images/badinh.jpg",
+      "sourceMedia": "Bộ Văn hóa Thể thao và Du lịch",
+      "quoteSource": "Tuyên ngôn Độc lập - Hồ Chí Minh",
+      "templateType": "normal"
+    },
+    {
+      "id": 7,
+      "phase": 5,
+      "year": 1969,
+      "location": "Hà Nội, Việt Nam",
+      "coordinates": [21.0285, 105.8542],
+      "eventName": "Bác Hồ qua đời",
+      "description": "Chủ tịch Hồ Chí Minh qua đời ngày 2/9/1969, để lại di sản tư tưởng và đạo đức cách mạng vô giá cho dân tộc Việt Nam.",
+      "mediaUrl": "/images/langbac.jpg",
+      "sourceMedia": "Bảo tàng Hồ Chí Minh",
+      "quoteSource": "Di chúc - Hồ Chí Minh",
+      "templateType": "grid"
+    }
+  ]
+}
