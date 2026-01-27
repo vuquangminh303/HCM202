@@ -49,6 +49,11 @@ export function reducer(state, action) {
         ...state,
         focusedMarker: payload,
       };
+    case 'UNFOCUS':
+      return {
+        ...state,
+        focusedMarker: null,
+      };
     default:
       return state;
   }
