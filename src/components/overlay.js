@@ -8,10 +8,8 @@ import Fade from './fade';
 import Link from './link';
 
 export default function Overlay() {
-  const [
-    { focusedMarker, lastUpdated, markers, start },
-    dispatch,
-  ] = useStateValue();
+  const [{ focusedMarker, lastUpdated, markers, start }, dispatch] =
+    useStateValue();
   const [showAbout, setShowAbout] = useState(false);
 
   const showOverlay = start && !showAbout && !focusedMarker;

@@ -4,15 +4,6 @@ import { useStateValue } from '../state';
 import Button from './button';
 import Fade from './fade';
 
-function getSearchUrl(city, country, keyword) {
-  const formattedQuery = `${encodeURIComponent(
-    city || '',
-  )}, ${encodeURIComponent(country || '')} ${encodeURIComponent(
-    keyword || '',
-  )}`.replace(/(%20| )/g, '+');
-  return `https://www.google.com/search?q=${formattedQuery}`;
-}
-
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers)) return null;
 
@@ -23,7 +14,7 @@ export function getRandomMarker({ focusedMarker, markers }) {
 }
 
 export default function Details() {
-  const [{ config, focusedMarker, markers, events }, dispatch] =
+  const [{ focusedMarker, markers }, dispatch] =
     useStateValue();
   const randomMarker = getRandomMarker({ focusedMarker, markers });
 
@@ -31,7 +22,6 @@ export default function Details() {
   if (focusedMarker) {
     const {
       city,
-      countryCode,
       countryName,
       value,
       eventName,
@@ -41,7 +31,6 @@ export default function Details() {
       mediaUrl,
       sourceMedia,
       quoteSource,
-      templateType,
     } = focusedMarker || {};
 
     // Use fallback values to prevent undefined errors
@@ -52,9 +41,6 @@ export default function Details() {
     const eventDescription = description || 'No description available.';
     const eventYear = year || 'Unknown Year';
 
-    // Since we removed relatedTopics, we'll skip that part
-    const topics = []; // Empty array since we don't have related topics anymore
-
     content = (
       <>
         <div className="header">
@@ -62,12 +48,6 @@ export default function Details() {
             label="Back to globe"
             onClick={() => dispatch({ type: 'FOCUS' })}
           />
-          {randomMarker && (
-            <Button
-              label="Random Location"
-              onClick={() => dispatch({ type: 'FOCUS', payload: randomMarker })}
-            />
-          )}
         </div>
         <div className="content">
           <h2>

@@ -4,7 +4,6 @@ import * as THREE from 'three';
 
 import { useStateValue } from '../state';
 import Fade from './fade';
-import ZoomControls from './zoom-controls';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
@@ -40,7 +39,7 @@ function markerRenderer(marker) {
 
   const material = new THREE.MeshBasicMaterial({
     color: new THREE.Color(selectedColor),
-    side: THREE.DoubleSide // Show both sides of the triangle
+    side: THREE.DoubleSide, // Show both sides of the triangle
   });
 
   const mesh = new THREE.Mesh(geometry, material);
@@ -49,7 +48,8 @@ function markerRenderer(marker) {
   mesh.add(light);
 
   const companions = [];
-  for (let i = 0; i < 3; i++) { // Fewer companions to reduce clutter
+  for (let i = 0; i < 3; i++) {
+    // Fewer companions to reduce clutter
     const companionGeometry = new THREE.SphereGeometry(
       Math.min((size * Math.random()) / 3, 0.6), // Smaller companions
       6,
@@ -184,11 +184,6 @@ export default function Globe() {
           onGlobeCloudsTextureLoaded={() =>
             setHasGlobeCloudsTextureLoaded(true)
           }
-        />
-        <ZoomControls
-          onZoomIn={handleZoomIn}
-          onZoomOut={handleZoomOut}
-          disabled={!hasLoaded || isFocusing}
         />
       </div>
       <Fade animationDuration={3000} className="cover" show={!hasLoaded} />

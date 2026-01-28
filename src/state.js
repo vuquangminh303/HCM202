@@ -6,7 +6,7 @@ import hcmData from './data/hcm_data.json';
 const { lastUpdated, events } = hcmData;
 
 // Transform the events data to match the expected marker format
-const transformedMarkers = events.map(event => ({
+const transformedMarkers = events.map((event) => ({
   id: event.id,
   phase: event.phase,
   year: event.year,
@@ -18,7 +18,7 @@ const transformedMarkers = events.map(event => ({
   sourceMedia: event.sourceMedia,
   quoteSource: event.quoteSource,
   templateType: event.templateType,
-  value: event.phase || 1 // Using phase as value for sizing purposes
+  value: event.phase || 1, // Using phase as value for sizing purposes
 }));
 
 export const initialState = {

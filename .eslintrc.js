@@ -5,9 +5,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  plugins: [
-    'prettier',
-  ],
+  plugins: ['prettier'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     'prettier/prettier': [
@@ -28,4 +26,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}
+};
