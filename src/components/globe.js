@@ -23,87 +23,37 @@ function random(scaleFactor) {
 }
 
 function markerRenderer(marker) {
-  const size = Math.max(marker.value / 2, 2.5); // Increased size significantly for better visibility
+  // Use the eventsCount property from the marker
+  const eventsAtLocation = marker.eventsCount || 1;
 
-  // Select a color based on marker properties to ensure consistent coloring
-  const colorIndex = marker.id
-    ? marker.id % MARKER_COLORS.length
-    : Math.abs(marker.eventName.charCodeAt(0)) % MARKER_COLORS.length;
-  const selectedColor = MARKER_COLORS[colorIndex];
+  // Calculate size based on number of events at this location - increased overall size
+  const baseSize = 1.0; // Increased from 0.5 to 1.0
+  const size = Math.min(baseSize + (eventsAtLocation * 0.6), 4.0); // Increased multiplier and max size
 
-  // Use a 3D triangle (flat pyramid) geometry
-  const geometry = new THREE.ConeGeometry(size * 0.6, size * 1.2, 3); // 3 sides creates a triangle/pyramid
-
-  // Position the triangle to point outward from the globe surface
-  geometry.translate(0, 0, size * 0.6); // Move the triangle so it extends outward from the surface
-
-  const material = new THREE.MeshBasicMaterial({
-    color: new THREE.Color(selectedColor),
-    side: THREE.DoubleSide, // Show both sides of the triangle
-  });
-
-  const mesh = new THREE.Mesh(geometry, material);
-  const light = new THREE.PointLight(selectedColor, 1.2, 0, 0);
-  mesh.children = [];
-  mesh.add(light);
-
-  const companions = [];
-  for (let i = 0; i < 3; i++) {
-    // Fewer companions to reduce clutter
-    const companionGeometry = new THREE.SphereGeometry(
-      Math.min((size * Math.random()) / 3, 0.6), // Smaller companions
-      6,
-      6,
-    );
-    const companionMaterial = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(MARKER_COMPANION_COLOR),
-    });
-    const companion = new THREE.Mesh(companionGeometry, companionMaterial);
-    companion.lookAt(new THREE.Vector3(0, 0, 0));
-    companions.push(companion);
-    mesh.add(companion);
+  // Define contrasting colors based on event count
+  let color;
+  if (eventsAtLocation === 1) {
+    color = new THREE.Color('#FFD700'); // Gold - for single events
+  } else if (eventsAtLocation === 2) {
+    color = new THREE.Color('#FF4500'); // Orange-red - for 2 events
+  } else if (eventsAtLocation === 3) {
+    color = new THREE.Color('#DC143C'); // Crimson - for 3 events
+  } else if (eventsAtLocation === 4) {
+    color = new THREE.Color('#9932CC'); // Dark Orchid - for 4 events
+  } else {
+    color = new THREE.Color('#FF1493'); // Deep Pink - for 5+ events
   }
 
-  companions.forEach((companion, i) => {
-    function animate() {
-      const from = {
-        opacity: 0.1,
-        position: companion.position.clone().toArray(),
-        scale: Math.max(0.5, Math.random()),
-      };
-      const to = {
-        opacity: 0.5,
-        position: [random(size * 3), random(size * 3), random(size)],
-        scale: 0.01,
-      };
-      tween({
-        from,
-        to,
-        animationDuration: 4000,
-        easingFunction: ['Quadratic', 'InOut'],
-        onUpdate: () => {
-          const [x, y, z] = from.position;
-          const companionMaterial = companion.material;
-          const intensityChange = random(0.05);
-          if (
-            light.intensity + intensityChange > 0 &&
-            light.intensity + intensityChange < 1.5
-          ) {
-            light.intensity += intensityChange;
-          }
-          companionMaterial.opacity = from.opacity;
-          companion.scale.x = from.scale;
-          companion.scale.y = from.scale;
-          companion.scale.z = from.scale;
-          companion.position.set(x, y, z);
-        },
-        onEnd: animate,
-        delay: i * 200,
-      });
-    }
-    animate();
+  // Create a solid sphere marker
+  const geometry = new THREE.SphereGeometry(size, 16, 16);
+  const material = new THREE.MeshBasicMaterial({
+    color: color,
+    side: THREE.DoubleSide,
   });
-  return mesh;
+
+  const sphere = new THREE.Mesh(geometry, material);
+
+  return sphere;
 }
 
 export default function Globe() {
@@ -113,8 +63,7 @@ export default function Globe() {
   const [hasGlobeCloudsTextureLoaded, setHasGlobeCloudsTextureLoaded] =
     useState(false);
   const [hasGlobeTextureLoaded, setHasGlobeTextureLoaded] = useState(false);
-  const [{ config, focusedMarker, hasLoaded, markers, start }, dispatch] =
-    useStateValue();
+  const [{ config, focusedMarker, hasLoaded, markers, start }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (
@@ -131,27 +80,16 @@ export default function Globe() {
     hasGlobeTextureLoaded,
   ]);
 
+  // Store markers globally so the markerRenderer can access them
+  useEffect(() => {
+    if (markers && markers.length > 0) {
+      window.allMarkers = markers;
+    }
+  }, [markers]);
+
   const { globeBackgroundTexture, globeCloudsTexture, globeTexture } = config;
 
   const isFocusing = focusedMarker;
-
-  // Zoom functions with limits - using focus/unfocus functionality
-  const handleZoomIn = useCallback(() => {
-    // For zooming in, we'll refocus on the same marker to potentially trigger deeper zoom
-    if (focusedMarker) {
-      // Dispatch focus action again to potentially trigger deeper zoom
-      setTimeout(() => {
-        dispatch({ type: 'FOCUS', payload: focusedMarker });
-      }, 10);
-    }
-  }, [focusedMarker, dispatch]);
-
-  const handleZoomOut = useCallback(() => {
-    // For zooming out, we'll unfocus to return to the global view
-    if (focusedMarker) {
-      dispatch({ type: 'UNFOCUS' });
-    }
-  }, [focusedMarker, dispatch]);
 
   const options = {
     ...config.options,

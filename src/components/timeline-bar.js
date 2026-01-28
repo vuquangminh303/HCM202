@@ -28,17 +28,27 @@ const TimelineBar = () => {
       const currentPhase = focusedMarker.phase;
 
       // Track viewed event in localStorage immediately when focused
-      const viewedEvents = JSON.parse(localStorage.getItem(`viewedEvents_phase_${currentPhase}`)) || [];
+      const viewedEvents =
+        JSON.parse(
+          localStorage.getItem(`viewedEvents_phase_${currentPhase}`),
+        ) || [];
       if (!viewedEvents.includes(focusedMarker.id)) {
-        localStorage.setItem(`viewedEvents_phase_${currentPhase}`,
-          JSON.stringify([...viewedEvents, focusedMarker.id]));
+        localStorage.setItem(
+          `viewedEvents_phase_${currentPhase}`,
+          JSON.stringify([...viewedEvents, focusedMarker.id]),
+        );
 
         // Check if all events in current phase are now viewed to unlock the next phase
-        const phaseEvents = events.filter(event => event.phase === currentPhase);
-        const allViewedEvents = JSON.parse(localStorage.getItem(`viewedEvents_phase_${currentPhase}`)) || [];
+        const phaseEvents = events.filter(
+          (event) => event.phase === currentPhase,
+        );
+        const allViewedEvents =
+          JSON.parse(
+            localStorage.getItem(`viewedEvents_phase_${currentPhase}`),
+          ) || [];
 
         if (allViewedEvents.length >= phaseEvents.length && currentPhase < 5) {
-          setUnlockedPhases(prev => new Set(prev).add(currentPhase + 1));
+          setUnlockedPhases((prev) => new Set(prev).add(currentPhase + 1));
         }
       }
     }
@@ -100,40 +110,49 @@ const TimelineBar = () => {
         <div className="timeline-dropdown">
           {[1, 2, 3, 4, 5].map((phase) => {
             const isLocked = !unlockedPhases.has(phase);
-            const isCurrentPhase = focusedMarker && focusedMarker.phase === phase;
+            const isCurrentPhase =
+              focusedMarker && focusedMarker.phase === phase;
             const isExpanded = expandedPhases[phase] || false;
 
             const togglePhase = () => {
               if (!isLocked) {
-                setExpandedPhases(prev => ({
+                setExpandedPhases((prev) => ({
                   ...prev,
-                  [phase]: !prev[phase]
+                  [phase]: !prev[phase],
                 }));
               }
             };
 
             return (
-              <div key={phase} className={`phase-section ${isCurrentPhase ? 'active-phase' : ''}`}>
-                <div className={`phase-header ${isLocked ? 'locked' : 'unlocked'}`}
-                     onClick={togglePhase}>
-                  <span className="phase-icon">
-                    {isLocked ? '🔒' : '🔓'}
-                  </span>
+              <div
+                key={phase}
+                className={`phase-section ${
+                  isCurrentPhase ? 'active-phase' : ''
+                }`}>
+                <div
+                  className={`phase-header ${isLocked ? 'locked' : 'unlocked'}`}
+                  onClick={togglePhase}>
+                  <span className="phase-icon">{isLocked ? '🔒' : '🔓'}</span>
                   <h3>{phaseLabels[phase]}</h3>
-                  <span className={`phase-arrow ${isExpanded ? 'expanded' : ''}`}>&#9660;</span>
+                  <span
+                    className={`phase-arrow ${isExpanded ? 'expanded' : ''}`}>
+                    &#9660;
+                  </span>
                 </div>
                 {!isLocked && isExpanded && (
                   <div className="phase-events">
                     {(groupedEvents[phase] || []).map((event) => {
-                      const viewedEvents = JSON.parse(localStorage.getItem(`viewedEvents_phase_${phase}`)) || [];
+                      const viewedEvents =
+                        JSON.parse(
+                          localStorage.getItem(`viewedEvents_phase_${phase}`),
+                        ) || [];
                       const isViewed = viewedEvents.includes(event.id);
 
                       return (
                         <div
                           key={event.id}
                           className={`event-item ${isViewed ? 'viewed' : ''}`}
-                          onClick={() => handleEventClick(event)}
-                        >
+                          onClick={() => handleEventClick(event)}>
                           <div className="event-year">{event.year}</div>
                           <div className="event-name">{event.eventName}</div>
                         </div>

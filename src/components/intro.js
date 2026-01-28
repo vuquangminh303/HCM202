@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useStateValue } from '../state';
-import Button from './button';
 import Description from './description';
 import Fade from './fade';
 
 export default function Intro() {
   const [{ hasLoaded, start }, dispatch] = useStateValue();
 
+  // Auto-start the application when loaded
+  useEffect(() => {
+    if (hasLoaded && !start) {
+      dispatch({ type: 'START' });
+    }
+  }, [hasLoaded, start, dispatch]);
+
   return (
     <Fade className="intro" show={!start}>
-      <h1>Google Globe Trends</h1>
+      <h1>Hành Trình Tư Tưởng Hồ Chí Minh</h1>
       <p>
         <Description />
       </p>
-      <Fade show={hasLoaded}>
-        <Button label="Explore" onClick={() => dispatch({ type: 'START' })} />
-      </Fade>
     </Fade>
   );
 }

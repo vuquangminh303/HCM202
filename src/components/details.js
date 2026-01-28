@@ -14,8 +14,7 @@ export function getRandomMarker({ focusedMarker, markers }) {
 }
 
 export default function Details() {
-  const [{ focusedMarker, markers }, dispatch] =
-    useStateValue();
+  const [{ focusedMarker, markers }, dispatch] = useStateValue();
   const randomMarker = getRandomMarker({ focusedMarker, markers });
 
   let content;
@@ -31,6 +30,7 @@ export default function Details() {
       mediaUrl,
       sourceMedia,
       quoteSource,
+      eventsAtLocation,
     } = focusedMarker || {};
 
     // Use fallback values to prevent undefined errors
@@ -50,31 +50,75 @@ export default function Details() {
           />
         </div>
         <div className="content">
-          <h2>
-            {eventTitle} ({eventYear})
-          </h2>
-          <p>
-            <strong>Location:</strong> {cityName}
-            {country ? `, ${country}` : ''}
-          </p>
-          <p>
-            <strong>Phase:</strong> {displayValue}
-          </p>
-          <div className="details-content">
-            <p>{eventDescription}</p>
-            {mediaUrl && (
-              <div>
-                <p>
-                  <strong>Media:</strong> {sourceMedia || 'Historical Archive'}
-                </p>
-              </div>
-            )}
-            {quoteSource && (
+          {eventsAtLocation && eventsAtLocation.length > 1 ? (
+            // If multiple events at this location, show a list
+            <>
+              <h2>Events at {cityName}</h2>
               <p>
-                <em>Source: {quoteSource}</em>
+                <strong>Number of events:</strong> {eventsAtLocation.length}
               </p>
-            )}
-          </div>
+              <div className="multiple-events-list">
+                {eventsAtLocation.map((event, index) => (
+                  <div
+                    key={event.id}
+                    className="event-item"
+                    onClick={() => {
+                      // Create a temporary marker with this specific event's data
+                      const tempMarker = {
+                        id: event.id,
+                        phase: event.phase,
+                        year: event.year,
+                        city: event.location,
+                        coordinates: focusedMarker.coordinates,
+                        eventName: event.eventName,
+                        description: event.description,
+                        mediaUrl: event.mediaUrl,
+                        sourceMedia: event.sourceMedia,
+                        quoteSource: event.quoteSource,
+                        templateType: event.templateType,
+                        value: focusedMarker.value,
+                      };
+                      dispatch({ type: 'FOCUS', payload: tempMarker });
+                    }}>
+                    <h3>
+                      {event.eventName} ({event.year})
+                    </h3>
+                    <p>{event.description}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            // If single event, show normally
+            <>
+              <h2>
+                {eventTitle} ({eventYear})
+              </h2>
+              <p>
+                <strong>Location:</strong> {cityName}
+                {country ? `, ${country}` : ''}
+              </p>
+              <p>
+                <strong>Phase:</strong> {displayValue}
+              </p>
+              <div className="details-content">
+                <p>{eventDescription}</p>
+                {mediaUrl && (
+                  <div>
+                    <p>
+                      <strong>Media:</strong>{' '}
+                      {sourceMedia || 'Historical Archive'}
+                    </p>
+                  </div>
+                )}
+                {quoteSource && (
+                  <p>
+                    <em>Source: {quoteSource}</em>
+                  </p>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </>
     );

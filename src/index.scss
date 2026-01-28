@@ -161,6 +161,31 @@ body {
     flex-direction: column;
     margin: $spacing * 2 0;
   }
+
+  .multiple-events-list {
+    width: 100%;
+
+    .event-item {
+      padding: $spacing / 2;
+      margin-bottom: $spacing / 2;
+      border: 1px solid $border-color;
+      border-radius: $spacing / 2;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: $spacing / 4;
+      }
+
+      p {
+        margin: 0 0 $spacing / 2 0;
+      }
+    }
+  }
 }
 
 .footer {
