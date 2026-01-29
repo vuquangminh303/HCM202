@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import ReactGlobe, { tween } from 'react-globe';
+import React, { useEffect, useState, useRef } from 'react';
+import ReactGlobe from 'react-globe';
 import * as THREE from 'three';
 
 import { useStateValue } from '../state';
@@ -9,18 +9,18 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 // Limit marker colors to red and green only
-const MARKER_COLORS = [
-  '#ff6b6b', // Red
-  '#2ecc71', // Green
-];
+// const MARKER_COLORS = [
+//   '#ff6b6b', // Red
+//   '#2ecc71', // Green
+// ];
 
-const MARKER_COMPANION_COLOR = '#ffffff';
+// const MARKER_COMPANION_COLOR = '#ffffff';
 
-function random(scaleFactor) {
-  return Math.random() > 0.5
-    ? scaleFactor * Math.random()
-    : -scaleFactor * Math.random();
-}
+// function random(scaleFactor) {
+//   return Math.random() > 0.5
+//     ? scaleFactor * Math.random()
+//     : -scaleFactor * Math.random();
+// }
 
 function markerRenderer(marker) {
   // Use the eventsCount property from the marker
@@ -28,7 +28,7 @@ function markerRenderer(marker) {
 
   // Calculate size based on number of events at this location - increased overall size
   const baseSize = 1.0; // Increased from 0.5 to 1.0
-  const size = Math.min(baseSize + (eventsAtLocation * 0.6), 4.0); // Increased multiplier and max size
+  const size = Math.min(baseSize + eventsAtLocation * 0.6, 4.0); // Increased multiplier and max size
 
   // Define contrasting colors based on event count
   let color;
@@ -63,7 +63,8 @@ export default function Globe() {
   const [hasGlobeCloudsTextureLoaded, setHasGlobeCloudsTextureLoaded] =
     useState(false);
   const [hasGlobeTextureLoaded, setHasGlobeTextureLoaded] = useState(false);
-  const [{ config, focusedMarker, hasLoaded, markers, start }, dispatch] = useStateValue();
+  const [{ config, focusedMarker, hasLoaded, markers, start }, dispatch] =
+    useStateValue();
 
   useEffect(() => {
     if (

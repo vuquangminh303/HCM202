@@ -136,12 +136,22 @@ body {
 .content {
   max-width: 30vw;
   position: absolute;
-  right: 10%;
-  top: 50%;
-  transform: translate(0%, -50%);
+  left: 10%;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  background-color: white;
+  padding: $spacing * 2;
+  border-radius: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
   @media only screen and (max-width: $media-phone-max-width) {
     max-width: 60vw;
-    right: $spacing * 2;
+    left: 0;
+  }
+
+  * {
+    color: #000000 !important;
   }
 }
 
