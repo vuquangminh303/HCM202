@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { useStateValue } from '../state';
-import Button from './button';
-import Fade from './fade';
+import { useStateValue } from "../state";
+import Button from "./button";
+import Fade from "./fade";
 
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
@@ -22,7 +22,8 @@ export default function Details() {
 
   // Component to handle story scroll template with shared state
   const StoryScrollContent = ({ focusedMarker, dispatch }) => {
-    const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
+    const { eventName, mediaUrl, sourceMedia, description, references } =
+      focusedMarker;
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -32,12 +33,12 @@ export default function Details() {
         <div className="header">
           <Button
             label="Back to globe"
-            onClick={() => dispatch({ type: 'FOCUS' })}
+            onClick={() => dispatch({ type: "FOCUS" })}
           />
         </div>
         <div className="detail-content">
           {/* Title from eventName */}
-          <h2 className="event-title">{eventName || 'Historical Event'}</h2>
+          <h2 className="event-title">{eventName || "Historical Event"}</h2>
 
           {/* Media (image/video) from mediaUrl - story_scroll template */}
           {mediaArray.length > 0 && (
@@ -48,22 +49,24 @@ export default function Details() {
                     className="nav-btn prev-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCurrentIndex(prev => prev > 0 ? prev - 1 : mediaArray.length - 1);
+                      setCurrentIndex((prev) =>
+                        prev > 0 ? prev - 1 : mediaArray.length - 1
+                      );
                     }}
                   >
                     &#8249;
                   </button>
 
                   <div className="media-display">
-                    {mediaArray[currentIndex]?.endsWith('.mp4') ||
-                     mediaArray[currentIndex]?.endsWith('.mov') ||
-                     mediaArray[currentIndex]?.endsWith('.avi') ? (
+                    {mediaArray[currentIndex]?.endsWith(".mp4") ||
+                    mediaArray[currentIndex]?.endsWith(".mov") ||
+                    mediaArray[currentIndex]?.endsWith(".avi") ? (
                       <video
                         controls
                         src={mediaArray[currentIndex]}
                         className="event-media"
                         onError={(e) => {
-                          e.target.style.display = 'none';
+                          e.target.style.display = "none";
                         }}
                       >
                         Your browser does not support the video tag.
@@ -71,7 +74,9 @@ export default function Details() {
                     ) : (
                       <img
                         src={mediaArray[currentIndex]}
-                        alt={`${eventName || 'Historical media'} - Item ${currentIndex + 1}`}
+                        alt={`${eventName || "Historical media"} - Item ${
+                          currentIndex + 1
+                        }`}
                         className="event-media"
                       />
                     )}
@@ -79,11 +84,14 @@ export default function Details() {
                     {/* Source media caption */}
                     {sourceMedia && (
                       <div className="media-caption">
-                        {typeof sourceMedia === 'string' ? sourceMedia :
-                         Array.isArray(sourceMedia) ?
-                           (Array.isArray(sourceMedia) && sourceMedia[currentIndex]) ?
-                             sourceMedia[currentIndex] : sourceMedia[0] || 'Source'
-                           : 'Source'}
+                        {typeof sourceMedia === "string"
+                          ? sourceMedia
+                          : Array.isArray(sourceMedia)
+                          ? Array.isArray(sourceMedia) &&
+                            sourceMedia[currentIndex]
+                            ? sourceMedia[currentIndex]
+                            : sourceMedia[0] || "Source"
+                          : "Source"}
                       </div>
                     )}
                   </div>
@@ -92,7 +100,9 @@ export default function Details() {
                     className="nav-btn next-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCurrentIndex(prev => prev < mediaArray.length - 1 ? prev + 1 : 0);
+                      setCurrentIndex((prev) =>
+                        prev < mediaArray.length - 1 ? prev + 1 : 0
+                      );
                     }}
                   >
                     &#8250;
@@ -104,7 +114,9 @@ export default function Details() {
                   {mediaArray.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`story-tab ${currentIndex === idx ? 'active' : ''}`}
+                      className={`story-tab ${
+                        currentIndex === idx ? "active" : ""
+                      }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
                       {idx + 1}
@@ -118,7 +130,11 @@ export default function Details() {
           {/* Detailed description for story_scroll - synchronized with media */}
           <div className="event-description">
             {descArray.length > 0 && (
-              <p>{descArray[currentIndex] || descArray[0] || 'No description available.'}</p>
+              <p>
+                {descArray[currentIndex] ||
+                  descArray[0] ||
+                  "No description available."}
+              </p>
             )}
           </div>
 
@@ -130,7 +146,11 @@ export default function Details() {
                 {references.map((reference, index) => (
                   <li key={index}>
                     <a
-                      href={reference.startsWith('http') ? reference : `https://${reference}`}
+                      href={
+                        reference.startsWith("http")
+                          ? reference
+                          : `https://${reference}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="reference-link"
@@ -149,7 +169,8 @@ export default function Details() {
 
   // Component to handle grid template with shared state
   const GridTemplateContent = ({ focusedMarker, dispatch }) => {
-    const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
+    const { eventName, mediaUrl, sourceMedia, description, references } =
+      focusedMarker;
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -158,12 +179,12 @@ export default function Details() {
         <div className="header">
           <Button
             label="Back to globe"
-            onClick={() => dispatch({ type: 'FOCUS' })}
+            onClick={() => dispatch({ type: "FOCUS" })}
           />
         </div>
         <div className="detail-content">
           {/* Title from eventName */}
-          <h2 className="event-title">{eventName || 'Historical Event'}</h2>
+          <h2 className="event-title">{eventName || "Historical Event"}</h2>
 
           {/* Media (image/video) from mediaUrl - grid template with navigation */}
           {mediaArray.length > 0 && (
@@ -174,22 +195,24 @@ export default function Details() {
                     className="nav-btn prev-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCurrentIndex(prev => prev > 0 ? prev - 1 : mediaArray.length - 1);
+                      setCurrentIndex((prev) =>
+                        prev > 0 ? prev - 1 : mediaArray.length - 1
+                      );
                     }}
                   >
                     &#8249;
                   </button>
 
                   <div className="media-display">
-                    {mediaArray[currentIndex]?.endsWith('.mp4') ||
-                     mediaArray[currentIndex]?.endsWith('.mov') ||
-                     mediaArray[currentIndex]?.endsWith('.avi') ? (
+                    {mediaArray[currentIndex]?.endsWith(".mp4") ||
+                    mediaArray[currentIndex]?.endsWith(".mov") ||
+                    mediaArray[currentIndex]?.endsWith(".avi") ? (
                       <video
                         controls
                         src={mediaArray[currentIndex]}
                         className="event-media"
                         onError={(e) => {
-                          e.target.style.display = 'none';
+                          e.target.style.display = "none";
                         }}
                       >
                         Your browser does not support the video tag.
@@ -197,7 +220,9 @@ export default function Details() {
                     ) : (
                       <img
                         src={mediaArray[currentIndex]}
-                        alt={`${eventName || 'Historical media'} - Item ${currentIndex + 1}`}
+                        alt={`${eventName || "Historical media"} - Item ${
+                          currentIndex + 1
+                        }`}
                         className="event-media"
                       />
                     )}
@@ -205,11 +230,14 @@ export default function Details() {
                     {/* Source media caption */}
                     {sourceMedia && (
                       <div className="media-caption">
-                        {typeof sourceMedia === 'string' ? sourceMedia :
-                         Array.isArray(sourceMedia) ?
-                           (Array.isArray(sourceMedia) && sourceMedia[currentIndex]) ?
-                             sourceMedia[currentIndex] : sourceMedia[0] || 'Source'
-                           : 'Source'}
+                        {typeof sourceMedia === "string"
+                          ? sourceMedia
+                          : Array.isArray(sourceMedia)
+                          ? Array.isArray(sourceMedia) &&
+                            sourceMedia[currentIndex]
+                            ? sourceMedia[currentIndex]
+                            : sourceMedia[0] || "Source"
+                          : "Source"}
                       </div>
                     )}
                   </div>
@@ -218,7 +246,9 @@ export default function Details() {
                     className="nav-btn next-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCurrentIndex(prev => prev < mediaArray.length - 1 ? prev + 1 : 0);
+                      setCurrentIndex((prev) =>
+                        prev < mediaArray.length - 1 ? prev + 1 : 0
+                      );
                     }}
                   >
                     &#8250;
@@ -230,7 +260,9 @@ export default function Details() {
                   {mediaArray.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`grid-tab ${currentIndex === idx ? 'active' : ''}`}
+                      className={`grid-tab ${
+                        currentIndex === idx ? "active" : ""
+                      }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
                       {idx + 1}
@@ -243,16 +275,15 @@ export default function Details() {
 
           {/* Detailed description */}
           <div className="event-description">
-            {description && (
-              typeof description === 'string' ? (
+            {description &&
+              (typeof description === "string" ? (
                 <p>{description}</p>
               ) : Array.isArray(description) ? (
                 // If description is an array (for other templates), show the first item
                 <p>{description[0]}</p>
               ) : (
                 <p>No description available.</p>
-              )
-            )}
+              ))}
           </div>
 
           {/* References as links */}
@@ -263,7 +294,11 @@ export default function Details() {
                 {references.map((reference, index) => (
                   <li key={index}>
                     <a
-                      href={reference.startsWith('http') ? reference : `https://${reference}`}
+                      href={
+                        reference.startsWith("http")
+                          ? reference
+                          : `https://${reference}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="reference-link"
@@ -299,11 +334,14 @@ export default function Details() {
           <div className="header">
             <Button
               label="Back to globe"
-              onClick={() => dispatch({ type: 'FOCUS' })}
+              onClick={() => dispatch({ type: "FOCUS" })}
             />
           </div>
           <div className="content">
-            <h2>Events at this location</h2>
+            <h2>
+              Các sự kiện tại:{" "}
+              {eventsAtLocation[0]?.location || focusedMarker.city}
+            </h2>
             <div className="multiple-events-list">
               {eventsAtLocation.map((event, index) => (
                 <div
@@ -325,8 +363,9 @@ export default function Details() {
                       templateType: event.templateType,
                       value: focusedMarker.value,
                     };
-                    dispatch({ type: 'FOCUS', payload: tempMarker });
-                  }}>
+                    dispatch({ type: "FOCUS", payload: tempMarker });
+                  }}
+                >
                   <h3>
                     {event.eventName} ({event.year})
                   </h3>
@@ -339,20 +378,26 @@ export default function Details() {
       );
     } else {
       // Handle different template types
-      const templateType = focusedMarker.templateType || 'normal';
+      const templateType = focusedMarker.templateType || "normal";
 
-      if (templateType === 'story_scroll') {
+      if (templateType === "story_scroll") {
         // Render story scroll template with shared state
         return (
           <Fade className="details" show={!!focusedMarker}>
-            <StoryScrollContent focusedMarker={focusedMarker} dispatch={dispatch} />
+            <StoryScrollContent
+              focusedMarker={focusedMarker}
+              dispatch={dispatch}
+            />
           </Fade>
         );
-      } else if (templateType === 'grid') {
+      } else if (templateType === "grid") {
         // Render grid template with shared state
         return (
           <Fade className="details" show={!!focusedMarker}>
-            <GridTemplateContent focusedMarker={focusedMarker} dispatch={dispatch} />
+            <GridTemplateContent
+              focusedMarker={focusedMarker}
+              dispatch={dispatch}
+            />
           </Fade>
         );
       } else {
@@ -362,12 +407,12 @@ export default function Details() {
             <div className="header">
               <Button
                 label="Back to globe"
-                onClick={() => dispatch({ type: 'FOCUS' })}
+                onClick={() => dispatch({ type: "FOCUS" })}
               />
             </div>
             <div className="detail-content">
               {/* Title from eventName */}
-              <h2 className="event-title">{eventName || 'Historical Event'}</h2>
+              <h2 className="event-title">{eventName || "Historical Event"}</h2>
 
               {/* Media (image/video) from mediaUrl - normal template */}
               {mediaUrl && (
@@ -376,18 +421,20 @@ export default function Details() {
                     // If mediaUrl is an array (fallback for normal template), show the first item
                     <img
                       src={mediaUrl[0]}
-                      alt={eventName || 'Historical media'}
+                      alt={eventName || "Historical media"}
                       className="event-media"
                     />
-                  ) : typeof mediaUrl === 'string' ? (
+                  ) : typeof mediaUrl === "string" ? (
                     // If mediaUrl is a single string
-                    mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.mov') || mediaUrl.endsWith('.avi') ? (
+                    mediaUrl.endsWith(".mp4") ||
+                    mediaUrl.endsWith(".mov") ||
+                    mediaUrl.endsWith(".avi") ? (
                       <video
                         controls
                         src={mediaUrl}
                         className="event-media"
                         onError={(e) => {
-                          e.target.style.display = 'none';
+                          e.target.style.display = "none";
                         }}
                       >
                         Your browser does not support the video tag.
@@ -395,7 +442,7 @@ export default function Details() {
                     ) : (
                       <img
                         src={mediaUrl}
-                        alt={eventName || 'Historical media'}
+                        alt={eventName || "Historical media"}
                         className="event-media"
                       />
                     )
@@ -404,8 +451,11 @@ export default function Details() {
                   {/* Source media caption */}
                   {sourceMedia && (
                     <div className="media-caption">
-                      {typeof sourceMedia === 'string' ? sourceMedia :
-                       Array.isArray(sourceMedia) ? sourceMedia[0] || 'Source' : 'Source'}
+                      {typeof sourceMedia === "string"
+                        ? sourceMedia
+                        : Array.isArray(sourceMedia)
+                        ? sourceMedia[0] || "Source"
+                        : "Source"}
                     </div>
                   )}
                 </div>
@@ -413,38 +463,43 @@ export default function Details() {
 
               {/* Detailed description */}
               <div className="event-description">
-                {description && (
-                  typeof description === 'string' ? (
+                {description &&
+                  (typeof description === "string" ? (
                     <p>{description}</p>
                   ) : Array.isArray(description) ? (
                     // If description is an array (for other templates), show the first item
                     <p>{description[0]}</p>
                   ) : (
                     <p>No description available.</p>
-                  )
-                )}
+                  ))}
               </div>
 
               {/* References as links */}
-              {references && Array.isArray(references) && references.length > 0 && (
-                <div className="references-section">
-                  <h3>References:</h3>
-                  <ul className="references-list">
-                    {references.map((reference, index) => (
-                      <li key={index}>
-                        <a
-                          href={reference.startsWith('http') ? reference : `https://${reference}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="reference-link"
-                        >
-                          {reference}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {references &&
+                Array.isArray(references) &&
+                references.length > 0 && (
+                  <div className="references-section">
+                    <h3>References:</h3>
+                    <ul className="references-list">
+                      {references.map((reference, index) => (
+                        <li key={index}>
+                          <a
+                            href={
+                              reference.startsWith("http")
+                                ? reference
+                                : `https://${reference}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="reference-link"
+                          >
+                            {reference}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
             </div>
           </>
         );

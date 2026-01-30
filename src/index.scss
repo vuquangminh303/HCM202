@@ -21,6 +21,7 @@ $media-phone-max-width: 320px;
     filter: blur(10px);
     opacity: 0;
   }
+
   100% {
     filter: blur(0px);
     opacity: 1;
@@ -31,6 +32,7 @@ $media-phone-max-width: 320px;
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -44,6 +46,7 @@ body {
     font-size: $body-font-size;
     text-rendering: geometricPrecision;
     -webkit-font-smoothing: antialiased;
+
     @media only screen and (max-width: $media-phone-max-width) {
       font-size: $body-font-size * 0.75;
     }
@@ -60,6 +63,7 @@ body {
     cursor: pointer;
     font-weight: bold;
     pointer-events: auto;
+
     &:hover {
       color: lighten($body-font-color, 10%);
     }
@@ -76,14 +80,18 @@ body {
     font-family: $header-font-family;
     margin: $spacing 0;
   }
+
   h1 {
     font-size: $h1-font-size;
+
     @media only screen and (max-width: $media-phone-max-width) {
       font-size: $h1-font-size * 0.75;
     }
   }
+
   h2 {
     font-size: $h2-font-size;
+
     @media only screen and (max-width: $media-phone-max-width) {
       font-size: $h2-font-size * 0.5;
     }
@@ -98,6 +106,7 @@ body {
   cursor: pointer;
   padding: $spacing $spacing * 2;
   pointer-events: auto;
+
   &:hover {
     background-color: lighten($container-background-color, 10%);
   }
@@ -139,6 +148,7 @@ body {
   right: 10%;
   top: 50%;
   transform: translate(0%, -50%);
+
   @media only screen and (max-width: $media-phone-max-width) {
     max-width: 60vw;
     right: $spacing * 2;
@@ -160,6 +170,16 @@ body {
   width: 35%; // Take up right portion of screen
   overflow-y: auto; // Allow scrolling if content is too long
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); // Subtle shadow on left edge
+
+  // Override global body color for text elements in details panel
+  h2,
+  p,
+  span:not(.media-caption *),
+  div:not(.media-caption):not(.media-caption *),
+  li,
+  a {
+    color: #333 !important; // Dark gray text for readability on white background
+  }
 
   .header {
     padding: 0 0 $spacing * 2 0;
@@ -215,7 +235,7 @@ body {
 
     .event-description {
       margin: $spacing 0;
-      color: #000; // Black color as requested
+      color: #333 !important; // Dark gray for better readability
       flex-shrink: 1;
       overflow-y: auto;
       max-height: 25%;
@@ -226,6 +246,7 @@ body {
         line-height: 1.5;
         font-size: 14px; // Smaller font size to fit better
         word-wrap: break-word;
+        color: #333 !important; // Ensure paragraph text is also dark gray
       }
     }
 
@@ -451,6 +472,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: $spacing $spacing * 3;
+
   @media only screen and (max-width: $media-phone-max-width) {
     padding: $spacing;
   }
@@ -471,6 +493,7 @@ body {
 
 .overlay {
   @extend .fixed;
+
   .overlay-subtitle {
     @media only screen and (max-width: $media-phone-max-width) {
       display: none;

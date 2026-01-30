@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { useStateValue } from '../state';
-import Link from './link';
+import { useStateValue } from "../state";
+import Link from "./link";
 
 export default function Description() {
   const [{ config }] = useStateValue();
 
   return (
     <>
-      Visualizing <b>{`"${config.keyword}"`}</b> Google Trends with{' '}
-      <Link link="REACT_GLOBE_GITHUB">react-globe</Link>
+      Khám phá hành trình vạn dặm và sự kết tinh của Tư tưởng Hồ Chí Minh qua
+      không gian 3D.
     </>
   );
 }
