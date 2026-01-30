@@ -168,8 +168,10 @@ body {
   top: 0;
   bottom: 0;
   width: 35%; // Take up right portion of screen
-  overflow-y: auto; // Allow scrolling if content is too long
+  overflow-y: auto; // Single vertical scrollbar for the entire detail page
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); // Subtle shadow on left edge
+  z-index: 1000; // Ensure detail panel is above other elements
+  pointer-events: auto; // Ensure it captures mouse events
 
   // Override global body color for text elements in details panel
   h2,
@@ -178,7 +180,7 @@ body {
   div:not(.media-caption):not(.media-caption *),
   li,
   a {
-    color: #333 !important; // Dark gray text for readability on white background
+    color: #000 !important; // Black text as requested
   }
 
   .header {
@@ -191,6 +193,7 @@ body {
     display: flex;
     flex-direction: column;
     height: calc(100% - 60px); // Account for header height
+    min-height: 0; // Allow flex child to shrink below content size
 
     // Layout for single event details as per requirements
     .event-title {
@@ -199,8 +202,7 @@ body {
       font-size: $h2-font-size * 0.85;
       margin-bottom: $spacing;
       flex-shrink: 0;
-      max-height: 15%;
-      overflow-y: auto;
+      overflow: visible; // Allow full text display
       padding-bottom: $spacing / 2;
     }
 
@@ -208,8 +210,7 @@ body {
       position: relative;
       margin-bottom: $spacing;
       flex-shrink: 0;
-      max-height: 45%;
-      overflow: hidden;
+      overflow: visible; // Allow content to flow naturally
 
       .event-media {
         width: 100%;
@@ -235,10 +236,10 @@ body {
 
     .event-description {
       margin: $spacing 0;
-      color: #333 !important; // Dark gray for better readability
+      color: #000; // Black color as requested
       flex-shrink: 1;
-      overflow-y: auto;
-      max-height: 25%;
+      flex-grow: 1;
+      overflow-y: visible; // Let content flow naturally, scrolling handled by parent
       padding: $spacing / 2 0;
 
       p {
@@ -246,15 +247,13 @@ body {
         line-height: 1.5;
         font-size: 14px; // Smaller font size to fit better
         word-wrap: break-word;
-        color: #333 !important; // Ensure paragraph text is also dark gray
       }
     }
 
     .references-section {
       margin-top: $spacing;
       flex-shrink: 0;
-      max-height: 15%;
-      overflow-y: auto;
+      overflow-y: visible; // Let content flow naturally, scrolling handled by parent
 
       h3 {
         margin-top: 0;

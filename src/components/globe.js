@@ -103,6 +103,7 @@ export default function Globe() {
     ...config.options,
     enableGlobeGlow: !isFocusing,
     enableCameraRotate: start && !isFocusing,
+    enableCameraZoom: start && !isFocusing, // Disable zoom when detail page is open
     markerTooltipRenderer: (marker) =>
       `<div><strong>${marker.eventMeta || "Historical Event"}</strong><br/>${
         marker.eventName
