@@ -136,30 +136,70 @@ export default function Details() {
             )}
           </div>
 
-          {/* References as links */}
-          {references && Array.isArray(references) && references.length > 0 && (
-            <div className="references-section">
-              <h3>References:</h3>
-              <ul className="references-list">
-                {references.map((reference, index) => (
-                  <li key={index}>
+          {/* Original references section removed - using dropdown instead */}
+
+          {/* Container for both next button and references dropdown */}
+          <div className="navigation-container">
+            {/* References Dropdown */}
+            {references && Array.isArray(references) && references.length > 0 && (
+              <div className="references-dropdown">
+                <button className="references-dropdown-button">References ▼</button>
+                <div className="references-dropdown-content">
+                  {references.map((reference, index) => (
                     <a
-                      href={
-                        reference.startsWith("http")
-                          ? reference
-                          : `https://${reference}`
-                      }
+                      key={index}
+                      href={reference.startsWith('http') ? reference : `https://${reference}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="reference-link"
+                      className="reference-link-item"
                     >
                       {reference}
                     </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Next Event Button - only show if there's a next event */}
+            {(() => {
+              const allEvents = focusedMarker.eventsAtLocation || [];
+              const currentIndex = allEvents.findIndex(event => event.id === focusedMarker.id);
+              const hasNextEvent = currentIndex < allEvents.length - 1;
+
+              return hasNextEvent ? (
+                <div className="next-event-button-container">
+                  <button
+                    className="next-event-button"
+                    onClick={() => {
+                      const nextIndex = currentIndex + 1;
+                      const nextEvent = allEvents[nextIndex];
+
+                      if (nextEvent) {
+                        // Create a temporary marker with the next event's data
+                        const nextMarker = {
+                          id: nextEvent.id,
+                          phase: nextEvent.phase,
+                          year: nextEvent.year,
+                          city: nextEvent.location,
+                          coordinates: focusedMarker.coordinates,
+                          eventName: nextEvent.eventName,
+                          description: nextEvent.description,
+                          mediaUrl: nextEvent.mediaUrl,
+                          sourceMedia: nextEvent.sourceMedia,
+                          quoteSource: nextEvent.quoteSource,
+                          templateType: nextEvent.templateType,
+                          value: focusedMarker.value,
+                        };
+                        dispatch({ type: 'FOCUS', payload: nextMarker });
+                      }
+                    }}
+                  >
+                    Next Event →
+                  </button>
+                </div>
+              ) : null;
+            })()}
+          </div>
         </div>
       </>
     );
@@ -282,30 +322,70 @@ export default function Details() {
               ))}
           </div>
 
-          {/* References as links */}
-          {references && Array.isArray(references) && references.length > 0 && (
-            <div className="references-section">
-              <h3>References:</h3>
-              <ul className="references-list">
-                {references.map((reference, index) => (
-                  <li key={index}>
+          {/* Original references section removed - using dropdown instead */}
+
+          {/* Container for both next button and references dropdown */}
+          <div className="navigation-container">
+            {/* References Dropdown */}
+            {references && Array.isArray(references) && references.length > 0 && (
+              <div className="references-dropdown">
+                <button className="references-dropdown-button">References ▼</button>
+                <div className="references-dropdown-content">
+                  {references.map((reference, index) => (
                     <a
-                      href={
-                        reference.startsWith("http")
-                          ? reference
-                          : `https://${reference}`
-                      }
+                      key={index}
+                      href={reference.startsWith('http') ? reference : `https://${reference}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="reference-link"
+                      className="reference-link-item"
                     >
                       {reference}
                     </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Next Event Button - only show if there's a next event */}
+            {(() => {
+              const allEvents = focusedMarker.eventsAtLocation || [];
+              const currentIndex = allEvents.findIndex(event => event.id === focusedMarker.id);
+              const hasNextEvent = currentIndex < allEvents.length - 1;
+
+              return hasNextEvent ? (
+                <div className="next-event-button-container">
+                  <button
+                    className="next-event-button"
+                    onClick={() => {
+                      const nextIndex = currentIndex + 1;
+                      const nextEvent = allEvents[nextIndex];
+
+                      if (nextEvent) {
+                        // Create a temporary marker with the next event's data
+                        const nextMarker = {
+                          id: nextEvent.id,
+                          phase: nextEvent.phase,
+                          year: nextEvent.year,
+                          city: nextEvent.location,
+                          coordinates: focusedMarker.coordinates,
+                          eventName: nextEvent.eventName,
+                          description: nextEvent.description,
+                          mediaUrl: nextEvent.mediaUrl,
+                          sourceMedia: nextEvent.sourceMedia,
+                          quoteSource: nextEvent.quoteSource,
+                          templateType: nextEvent.templateType,
+                          value: focusedMarker.value,
+                        };
+                        dispatch({ type: 'FOCUS', payload: nextMarker });
+                      }
+                    }}
+                  >
+                    Next Event →
+                  </button>
+                </div>
+              ) : null;
+            })()}
+          </div>
         </div>
       </>
     );
@@ -469,32 +549,70 @@ export default function Details() {
                   ))}
               </div>
 
-              {/* References as links */}
-              {references &&
-                Array.isArray(references) &&
-                references.length > 0 && (
-                  <div className="references-section">
-                    <h3>References:</h3>
-                    <ul className="references-list">
+              {/* Original references section removed - using dropdown instead */}
+
+              {/* Container for both next button and references dropdown */}
+              <div className="navigation-container">
+                {/* References Dropdown */}
+                {references && Array.isArray(references) && references.length > 0 && (
+                  <div className="references-dropdown">
+                    <button className="references-dropdown-button">References ▼</button>
+                    <div className="references-dropdown-content">
                       {references.map((reference, index) => (
-                        <li key={index}>
-                          <a
-                            href={
-                              reference.startsWith("http")
-                                ? reference
-                                : `https://${reference}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="reference-link"
-                          >
-                            {reference}
-                          </a>
-                        </li>
+                        <a
+                          key={index}
+                          href={reference.startsWith('http') ? reference : `https://${reference}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="reference-link-item"
+                        >
+                          {reference}
+                        </a>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 )}
+
+                {/* Next Event Button - only show if there's a next event */}
+                {(() => {
+                  const allEvents = focusedMarker.eventsAtLocation || [];
+                  const currentIndex = allEvents.findIndex(event => event.id === focusedMarker.id);
+                  const hasNextEvent = currentIndex < allEvents.length - 1;
+
+                  return hasNextEvent ? (
+                    <div className="next-event-button-container">
+                      <button
+                        className="next-event-button"
+                        onClick={() => {
+                          const nextIndex = currentIndex + 1;
+                          const nextEvent = allEvents[nextIndex];
+
+                          if (nextEvent) {
+                            // Create a temporary marker with the next event's data
+                            const nextMarker = {
+                              id: nextEvent.id,
+                              phase: nextEvent.phase,
+                              year: nextEvent.year,
+                              city: nextEvent.location,
+                              coordinates: focusedMarker.coordinates,
+                              eventName: nextEvent.eventName,
+                              description: nextEvent.description,
+                              mediaUrl: nextEvent.mediaUrl,
+                              sourceMedia: nextEvent.sourceMedia,
+                              quoteSource: nextEvent.quoteSource,
+                              templateType: nextEvent.templateType,
+                              value: focusedMarker.value,
+                            };
+                            dispatch({ type: 'FOCUS', payload: nextMarker });
+                          }
+                        }}
+                      >
+                        Next Event →
+                      </button>
+                    </div>
+                  ) : null;
+                })()}
+              </div>
             </div>
           </>
         );

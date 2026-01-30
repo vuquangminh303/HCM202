@@ -194,6 +194,9 @@ body {
     flex-direction: column;
     height: calc(100% - 60px); // Account for header height
     min-height: 0; // Allow flex child to shrink below content size
+    position: relative; // Enable absolute positioning for child elements
+    padding-bottom: 80px; // Add space at the bottom for the floating buttons
+    overflow: visible; // Allow content to extend beyond bounds (for dropdown)
 
     // Layout for single event details as per requirements
     .event-title {
@@ -282,6 +285,91 @@ body {
           }
         }
       }
+    }
+  }
+
+  // Navigation Container for both next button and references dropdown
+  .navigation-container {
+    display: flex;
+    gap: $spacing / 2;
+    position: absolute;
+    bottom: $spacing * 2;
+    right: $spacing * 2;
+    flex-shrink: 0;
+
+    .next-event-button-container {
+      .next-event-button {
+        background-color: $container-background-color;
+        color: $body-font-color;
+        border: 1px solid $border-color;
+        border-radius: $spacing * 2;
+        padding: $spacing / 2 $spacing;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+
+        &:hover {
+          background-color: lighten($container-background-color, 10%);
+        }
+      }
+    }
+  }
+
+  // References Dropdown
+  .references-dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1001; // Higher than other elements
+
+    .references-dropdown-button {
+      background-color: $container-background-color;
+      color: $body-font-color;
+      border: 1px solid $border-color;
+      border-radius: $spacing * 2;
+      padding: $spacing / 2 $spacing;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+
+      &:hover {
+        background-color: lighten($container-background-color, 10%);
+      }
+    }
+
+    .references-dropdown-content {
+      display: none;
+      position: fixed; // Use fixed positioning to avoid clipping
+      bottom: calc(100% + #{1.5 * $spacing}); // Position above the button with some offset
+      right: $spacing * 2; // Align with the navigation container
+      background-color: $container-background-color;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1002; // Higher than dropdown button
+      border: 1px solid $border-color;
+      border-radius: $spacing / 2;
+      max-height: 200px;
+      overflow-y: auto;
+
+      a {
+        color: $body-font-color;
+        padding: $spacing / 2;
+        text-decoration: none;
+        display: block;
+        font-size: 12px;
+        border-bottom: 1px solid darken($border-color, 20%);
+
+        &:hover {
+          background-color: lighten($container-background-color, 10%);
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    &:hover .references-dropdown-content {
+      display: block;
     }
   }
 
@@ -616,5 +704,32 @@ body {
         }
       }
     }
+  }
+}
+
+// Tooltip styling for marker hover (Tippy.js)
+.tippy-box {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+
+  .tippy-content {
+    color: black !important;
+    padding: 0 !important;
+  }
+
+  // Arrow styling
+  .tippy-arrow {
+    color: white !important;
+  }
+
+  // Remove default Tippy styles
+  &[data-theme~="dark"] {
+    background-color: white !important;
+    color: black !important;
   }
 }

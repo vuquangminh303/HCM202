@@ -104,10 +104,12 @@ export default function Globe() {
     enableGlobeGlow: !isFocusing,
     enableCameraRotate: start && !isFocusing,
     enableCameraZoom: start && !isFocusing, // Disable zoom when detail page is open
-    markerTooltipRenderer: (marker) =>
-      `<div><strong>${marker.eventMeta || "Historical Event"}</strong><br/>${
-        marker.eventName
-      } (${marker.year})</div>`,
+    markerTooltipRenderer: (marker) => {
+      // Return plain text without HTML tags
+      const eventName = marker.eventName || marker.eventMeta || "Historical Event";
+      const year = marker.year || "";
+      return `${eventName} (${year})`;
+    },
     markerRenderer,
     markerLabel: (marker) => marker.city, // Show location name next to markers
   };
