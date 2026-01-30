@@ -3,82 +3,128 @@
   "keyword": "Hành trình Cách mạng của Chủ tịch Hồ Chí Minh",
   "events": [
     {
-      "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
+      "__comment": "TEMPLATE GRID: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
       "id": 1,
       "phase": 1,
-      "year": 1890,
-      "location": "Kim Liên, Nam Đàn, Nghệ An",
+      "year": "19-5-1890",
+      "location": "Làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An",
       "coordinates": [
-        18.8833,
-        105.5833
+        18.676754,
+        105.568941
       ],
-      "eventMeta": "Cơ sở hình thành tư tưởng",
-      "eventName": "Sinh ra tại quê hương Nghệ An",
-      "description": "Nguyễn Sinh Cung sinh ra trong một gia đình nhà nho yêu nước, tại vùng đất giàu truyền thống cách mạng. Đây là nhân tố khách quan quan trọng thuộc truyền thống văn hóa dân tộc góp phần hình thành tư tưởng yêu nước sớm ở Người.",
-      "mediaUrl": "/images/kimlien.jpg",
-      "sourceMedia": "Bảo tàng Hồ Chí Minh",
+      "eventMeta": "Ngày chủ tịch Hồ Chí Minh ra đời",
+      "eventName": "Ngày chủ tịch Hồ Chí Minh ra đời",
+      "description": "Chủ tịch Hồ Chí Minh (lúc nhỏ tên là Nguyễn Sinh Cung) sinh ngày 19-5-1890 trong một gia đình nhà nho yêu nước, tại làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An. Thân phụ là Nguyễn Sinh Sắc, thân mẫu là Hoàng Thị Loan.",
+      "mediaUrl": [
+        "https://file.qdnd.vn/data/images/0/2019/08/31/tuanson/2.jpg?dpi=150&quality=100&w=575",
+        "https://files-vnportal.camau.gov.vn/gov-cmu/5176/KTVHXH/nguoi_cha_cua_bac.jpg",
+        "https://bna.1cdn.vn/2024/05/31/than_mau_bac_11.jpg",
+        "https://ik.imagekit.io/tvlk/blog/2023/06/lang-sen-que-bac-acc-1.png"
+      ],
+      "sourceMedia": [
+        "Nguồn: Báo Quân đội nhân dân",
+        "Nguồn: Cổng TTĐT xã Lý Văn Lâm (Cà Mau)",
+        "Nguồn: Báo Nghệ An",
+        "Nguồn: Traveloka"
+      ],
       "references": [
-        "Giáo trình Tư tưởng Hồ Chí Minh"
+        "https://baoquangninh.vn/than-the-va-su-nghiep-cua-chu-tich-ho-chi-minh-2268680.html"
       ],
-      "templateType": "normal"
+      "templateType": "grid"
     },
     {
       "__comment": "TEMPLATE STORY_SCROLL: Dùng cho hành trình dài. 'description' và 'mediaUrl' phải là mảng (Array) có số phần tử bằng nhau để khớp cặp ảnh-chữ khi cuộn.",
       "id": 2,
-      "phase": 2,
-      "year": "1911 - 1917",
-      "location": "Hành trình xuyên đại dương",
+      "phase": 1,
+      "year": "1895",
+      "location": "Gian nhà nhỏ ở đường Đông Ba trong Thành Nội (nay là 112 - Mai Thúc Loan)",
       "coordinates": [
-        10.8231,
-        106.6297
+        16.4755189,
+        107.5805452
       ],
-      "eventMeta": "Tìm đường cứu nước",
-      "eventName": "Hành trình vạn dặm khảo sát thực tiễn",
+      "eventMeta": "Nguyễn Sinh Cung lại theo gia đình vào sống ở Huế.",
+      "eventName": "Nguyễn Sinh Cung lại theo gia đình vào sống ở Huế.",
       "description": [
-        "Ngày 5/6/1911, Người rời cảng Nhà Rồng trên con tàu Amiral Latouche-Tréville, bắt đầu hành trình khảo sát các nước tư bản phương Tây.",
-        "Tại Mỹ và Anh, Người vừa lao động vừa quan sát cuộc sống của giai cấp công nhân và nhân dân các nước thuộc địa, rút ra bài học về quyền tự do, bình đẳng.",
-        "Người nhận thấy rằng ở đâu bọn đế quốc cũng tàn bạo, ở đâu người nghèo cũng bị áp bức, từ đó hình thành tình cảm giai cấp sâu sắc."
+        "Từ lúc sinh ra đến 5 tuổi, Nguyễn Sinh Cung sống trong sự chăm sóc đầy tình thương yêu của gia đình, đặc biệt là ông bà ngoại. Cuối năm 1895, ông Nguyễn Sinh Sắc, bà Hoàng Thị Loan và hai con trai Nguyễn Sinh Khiêm, Nguyễn Sinh Cung (Chủ tịch Hồ Chí Minh) lên đường vào Huế.Vào Huế, gia đình Chủ tịch Hồ Chí Minh thuê được một gian nhà nhỏ ở đường Đông Ba trong Thành Nội (nay là 112 - Mai Thúc Loan). Tại ngôi nhà này, ông Nguyễn Sinh Sắc ngày ngày đi nghe giảng sách, thức khuya dậy sớm chuyên tâm học hành, bà Hoàng Thị Loan quán xuyến việc gia đình, quay tơ dệt vải, chăm sóc con cái giúp chồng yên tâm đèn sách. Hai anh em Khiêm, Cung được cha, mẹ hướng dẫn, dạy bảo làm việc nhà, quen với cuộc sống lao động. Nếp sống sinh hoạt gia đình giản dị, thanh bạch, chan hoà tình nhân ái, yêu thương."
       ],
       "mediaUrl": [
-        "/images/ben-nha-rong.jpg",
-        "/images/london-work.jpg",
-        "/images/imperialism-study.jpg"
+        "https://thanhuyhue.vn//imgs/Thu_muc_he_thong/_Nam_2024/hoang-thang-05/1s_99.jpg",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-2.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-3.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-4.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-5.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-6.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-9.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-16.jpg",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-12.JPG",
+        "https://baoquankhu4.com.vn/upload/18269/fck/files/Gia%20dinh%20bac(1).png"
       ],
       "sourceMedia": [
-        "Tư liệu lịch sử",
-        "Ảnh lưu trữ Pháp",
-        "Bảo tàng HCM"
+        "Nguồn: Thành ủy Huế",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Báo quân khu 4"
       ],
       "references": [
-        "Hành trình 30 năm cứu nước"
+        "https://thanhuyhue.vn/tin-tuc-trong-tinh/chinh-tri-xa-hoi/n…C3%B4ng%20Nguy%E1%BB%85n,112%20%2D%20Mai%20Th%C3%BAc%20Loan).",
+        "https://bthcm.hue.gov.vn/H%E1%BB%97-tr%E1%BB%A3-kh%C3%A1ch-…hi-Minh-memorial-house-on-Mai-Thuc-Loan-street-Hue-city.html",
+        "https://baoquangninh.vn/than-the-va-su-nghiep-cua-chu-tich-ho-chi-minh-2268680.html"
       ],
       "templateType": "story_scroll"
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 3,
-      "phase": 2,
-      "year": 1920,
-      "location": "Tours, Pháp",
+      "phase": 1,
+      "year": 1901,
+      "location": "Làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An",
       "coordinates": [
-        47.3941,
-        0.6848
+        18.676754,
+        105.568941
       ],
-      "eventMeta": "Bước ngoặt tư tưởng",
-      "eventName": "Đại hội Tours - Tin theo con đường Quốc tế III",
-      "description": "Tại Đại hội Đảng Xã hội Pháp ở Tours, Nguyễn Ái Quốc bỏ phiếu tán thành gia nhập Quốc tế Cộng sản. Đây là dấu mốc quan trọng khi Người chuyển từ chủ nghĩa yêu nước sang chủ nghĩa cộng sản, tìm thấy con đường giải phóng dân tộc gắn liền với giải phóng giai cấp.",
+      "eventMeta": "Mẹ mất tại Huế, Bác trở về Nghệ An. Sau đó đổi tên thành Nguyễn Tất Thành.",
+      "eventName": "Mẹ mất tại Huế, Bác trở về Nghệ An. Sau đó đổi tên thành Nguyễn Tất Thành.",
+      "description": "Ngày 10/02/1901 (22 tháng Chạp năm Canh Tý) bà Hoàng Thị Loan qua đời trong gian nhà Thành nội, tại Huế. Mộ của bà được đặt tại triền phía tây núi Bân (núi Tam Tầng) Sau khi mẫu thân qua đời, Nguyễn Sinh Cung lại theo cha trở về Nghệ An, rồi lấy tên Nguyễn Tất Thành, tích cực học chữ Hán và còn theo cha đi một số nơi, học thêm nhiều điều.",
       "mediaUrl": [
-        "/images/dai-hoi-tours-1.jpg",
-        "/images/nhan-vat-lich-su.jpg",
-        "/images/ba-con-nguoi.jpg",
-        "/images/document-1920.jpg"
+        "https://www.evn.com.vn/userfile/VH/User/huyent_tcdl/images/2021/5/BacHovacauchuyentuhoctap185.jpg",
+        "https://file.qdnd.vn/data/images/0/2020/05/05/vietcuong/c3.jpg?dpi=150&quality=100&w=575",
+        "https://scontent.iocvnpt.com/resources/portal//Images/NDA/a…uan/MoBaHoangThiLoan/mo%20ba%20hy%202_636886071901064645.jpg"
       ],
       "sourceMedia": [
-        "Lưu trữ Quốc gia Pháp",
-        "Nguồn ảnh Quốc tế"
+        "Nguồn: Tập đoàn Điện lực Việt Nam (EVN)",
+        "Nguồn: Báo Quân đội nhân dân",
+        "Nguồn: Cổng TTĐT Du lịch Nam Đàn (Nghệ An)"
       ],
-      "quoteSource": "Luận cương của Lênin về vấn đề dân tộc và thuộc địa",
+      "references": "https://baoquangninh.vn/than-the-va-su-nghiep-cua-chu-tich-ho-chi-minh-2268680.html",
       "templateType": "grid"
+    },
+    {
+      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
+      "id": 5,
+      "phase": 1,
+      "year": 1909,
+      "location": "Bình Định",
+      "coordinates": [
+        13.945784,
+        108.7218201
+      ],
+      "eventMeta": "Nguyễn Tất Thành theo cha vào Bình Định",
+      "eventName": "Nguyễn Tất Thành theo cha vào Bình Định",
+      "description": "Khi cụ Nguyễn Sinh Sắc từ Huế vào Bình Định nhận công tác có đưa hai con trai là Nguyễn Sinh Khiêm (Nguyễn Tất Đạt) và Nguyễn Sinh Cung (Nguyễn Tất Thành) theo cùng. Trong khi ông Đạt theo giúp việc cho cha thì ông Thành được cụ Sắc gởi lại nhà người bạn thân là cụ Phạm Ngọc Thọ (thân sinh bác sĩ Phạm Ngọc Thạch), lúc ấy đang là giáo viên của Trường Pháp - Việt Quy Nhơn, tại TP Quy Nhơn để trau dồi tiếng Pháp. Ở Tây Sơn, Nguyễn Tất Thành đôi lần lên Đồng Phó thăm cha. Tại An Nhơn, lúc cụ Nguyễn Sinh Huy và Nguyễn Tất Đạt (anh trai Nguyễn Tất Thành) ở trường thi (từ ngày 19-5 đến 18-6-1909), thì Nguyễn Tất Thành trú ngụ Trường Đốc (hay Ký túc đình, nay là trụ sở Công an An Nhơn), còn Dịch đình (hay Dịch xả, nhà văn hóa thị xã) là khi Nguyễn Tất Thành lên thăm cha bị giam giữ và tiễn cha, và anh trai trở lại Huế",
+      "mediaUrl": [
+        "https://static.tuoitre.vn/tto/i/s626/2017/05/18/1-1495072836.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: Báo tuổi trẻ"
+      ],
+      "references": "https://nhandan.vn/nguyen-tat-thanh-o-binh-dinh-post241852.html",
+      "templateType": "normal"
     }
   ]
 }

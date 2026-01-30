@@ -23,7 +23,7 @@ export default {
     globeGlowColor: '#6ab7ff',
     globeGlowPower: 6,
     globeGlowRadiusScale: 0.25,
-    pointLightIntensity: 4,
+    pointLightIntensity: 1,
     pointLightPositionRadiusScales: [-1, 1.5, -2.5],
     minCameraDistance: 1.5,
     maxCameraDistance: 5,
