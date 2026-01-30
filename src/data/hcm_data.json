@@ -88,7 +88,7 @@
       "templateType": "grid"
     },
     {
-      "id": 16,
+      "id": 4,
       "phase": 3,
       "year": "1920",
       "location": "Tours, Pháp",
@@ -111,7 +111,7 @@
       "templateType": "grid"
     },
     {
-      "id": 20,
+      "id": 5,
       "phase": 3,
       "year": "3-2-1930",
       "location": "Hương Cảng, Trung Quốc",
@@ -134,8 +134,7 @@
       "templateType": "normal"
     },
     {
-      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 25,
+      "id": 6,
       "phase": 5,
       "year": 1941,
       "location": "Hang Cốc Bó, Pác Bó, Cao Bằng",
