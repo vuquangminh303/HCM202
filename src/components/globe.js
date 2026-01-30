@@ -22,34 +22,31 @@ function random(scaleFactor) {
     : -scaleFactor * Math.random();
 }
 
+// Pre-create materials to avoid recreating them repeatedly
+const markerMaterials = {
+  1: new THREE.MeshBasicMaterial({ color: new THREE.Color('#FFD700'), side: THREE.DoubleSide }), // Gold - for single events
+  2: new THREE.MeshBasicMaterial({ color: new THREE.Color('#FF4500'), side: THREE.DoubleSide }), // Orange-red - for 2 events
+  3: new THREE.MeshBasicMaterial({ color: new THREE.Color('#DC143C'), side: THREE.DoubleSide }), // Crimson - for 3 events
+  4: new THREE.MeshBasicMaterial({ color: new THREE.Color('#9932CC'), side: THREE.DoubleSide }), // Dark Orchid - for 4 events
+  5: new THREE.MeshBasicMaterial({ color: new THREE.Color('#FF1493'), side: THREE.DoubleSide }), // Deep Pink - for 5+ events
+};
+
 function markerRenderer(marker) {
   // Use the eventsCount property from the marker
   const eventsAtLocation = marker.eventsCount || 1;
 
-  // Calculate size based on number of events at this location - increased overall size
-  const baseSize = 1.0; // Increased from 0.5 to 1.0
-  const size = Math.min(baseSize + (eventsAtLocation * 0.6), 4.0); // Increased multiplier and max size
+  // Calculate size based on number of events at this location - significantly increased overall size
+  const baseSize = 2.0; // Doubled from 1.0 to make markers more visible
+  const size = Math.min(baseSize + (eventsAtLocation * 1.0), 6.0); // Increased multiplier and max size for better visibility
 
-  // Define contrasting colors based on event count
-  let color;
-  if (eventsAtLocation === 1) {
-    color = new THREE.Color('#FFD700'); // Gold - for single events
-  } else if (eventsAtLocation === 2) {
-    color = new THREE.Color('#FF4500'); // Orange-red - for 2 events
-  } else if (eventsAtLocation === 3) {
-    color = new THREE.Color('#DC143C'); // Crimson - for 3 events
-  } else if (eventsAtLocation === 4) {
-    color = new THREE.Color('#9932CC'); // Dark Orchid - for 4 events
-  } else {
-    color = new THREE.Color('#FF1493'); // Deep Pink - for 5+ events
-  }
+  // Determine the event count category for material selection
+  const eventCategory = eventsAtLocation > 4 ? 5 : eventsAtLocation;
+
+  // Get the appropriate material based on event count
+  const material = markerMaterials[eventCategory];
 
   // Create a solid sphere marker
   const geometry = new THREE.SphereGeometry(size, 16, 16);
-  const material = new THREE.MeshBasicMaterial({
-    color: color,
-    side: THREE.DoubleSide,
-  });
 
   const sphere = new THREE.Mesh(geometry, material);
 
@@ -80,12 +77,7 @@ export default function Globe() {
     hasGlobeTextureLoaded,
   ]);
 
-  // Store markers globally so the markerRenderer can access them
-  useEffect(() => {
-    if (markers && markers.length > 0) {
-      window.allMarkers = markers;
-    }
-  }, [markers]);
+  // Removed global marker storage as it's not needed for the current implementation
 
   const { globeBackgroundTexture, globeCloudsTexture, globeTexture } = config;
 

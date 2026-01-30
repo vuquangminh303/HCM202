@@ -5,11 +5,14 @@ import Button from './button';
 import Fade from './fade';
 
 export function getRandomMarker({ focusedMarker, markers }) {
-  if (!markers || !Array.isArray(markers)) return null;
+  if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
 
   const filteredMarkers = markers.filter((marker) => {
-    return marker?.id !== focusedMarker?.id;
+    return marker?.id && focusedMarker?.id && marker.id !== focusedMarker.id;
   });
+
+  if (filteredMarkers.length === 0) return null;
+
   return filteredMarkers[Math.floor(Math.random() * filteredMarkers.length)];
 }
 
