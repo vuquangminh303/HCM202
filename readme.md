@@ -27,6 +27,26 @@ To update the historical events data, simply modify the `src/data/hcm_data.json`
 
 You should now be able to test your changes locally with the `npm start` command!
 
+## Docker Deployment
+
+To build and run the application using Docker:
+
+```sh
+# Build and run with docker-compose
+docker-compose up -d
+
+# Or build the image manually
+docker build -t hcm-thought-globe .
+docker run -d -p 3000:80 hcm-thought-globe
+```
+
+The application will be accessible at http://localhost:3000
+
+To stop the container:
+```sh
+docker-compose down
+```
+
 ## Data Structure
 
 The application uses a static JSON data structure with the following fields:

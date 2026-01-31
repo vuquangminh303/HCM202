@@ -6,7 +6,7 @@
       "__comment": "TEMPLATE GRID: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
       "id": 1,
       "phase": 1,
-      "year": "19-5-1890",  
+      "year": "19-5-1890",
       "location": "Làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An",
       "coordinates": [
         18.676754,
@@ -20,7 +20,6 @@
         "https://files-vnportal.camau.gov.vn/gov-cmu/5176/KTVHXH/nguoi_cha_cua_bac.jpg",
         "https://bna.1cdn.vn/2024/05/31/than_mau_bac_11.jpg",
         "https://ik.imagekit.io/tvlk/blog/2023/06/lang-sen-que-bac-acc-1.png"
-
       ],
       "sourceMedia": [
         "Nguồn: Báo Quân đội nhân dân",
@@ -50,14 +49,14 @@
       ],
       "mediaUrl": [
         "https://thanhuyhue.vn//imgs/Thu_muc_he_thong/_Nam_2024/hoang-thang-05/1s_99.jpg",
-        "public/image/nha-bac-hue-2.jpg",
-        "public/image/nha-bac-hue-3.jpg",
-        "public/image/nha-bac-hue-4.jpg",
-        "public/image/nha-bac-hue-5.jpg",
-        "public/image/nha-bac-hue-6.jpg",
-        "public/image/nha-bac-hue-9.jpg",
-        "public/image/nha-bac-hue-16.jpg",
-        "public/image/nha-bac-hue-12.jpg",
+        "/image/nha-bac-hue-2.jpg",
+        "/image/nha-bac-hue-3.jpg",
+        "/image/nha-bac-hue-4.jpg",
+        "/image/nha-bac-hue-5.jpg",
+        "/image/nha-bac-hue-6.jpg",
+        "/image/nha-bac-hue-9.jpg",
+        "/image/nha-bac-hue-16.jpg",
+        "/image/nha-bac-hue-12.jpg",
         "https://baoquankhu4.com.vn/upload/18269/fck/files/Gia%20dinh%20bac(1).png"
       ],
       "sourceMedia": [
@@ -138,15 +137,15 @@
       "year": 1909,
       "location": "Bình Định",
       "coordinates": [
-        14.168030303505759, 108.9098835567614
-
+        14.168030303505759,
+        108.9098835567614
       ],
       "eventMeta": "Nguyễn Tất Thành theo cha vào Bình Định",
       "eventName": "Nguyễn Tất Thành theo cha vào Bình Định",
       "description": "Khi cụ Nguyễn Sinh Sắc từ Huế vào Bình Định nhận công tác có đưa hai con trai là Nguyễn Sinh Khiêm (Nguyễn Tất Đạt) và Nguyễn Sinh Cung (Nguyễn Tất Thành) theo cùng. Trong khi ông Đạt theo giúp việc cho cha thì ông Thành được cụ Sắc gởi lại nhà người bạn thân là cụ Phạm Ngọc Thọ (thân sinh bác sĩ Phạm Ngọc Thạch), lúc ấy đang là giáo viên của Trường Pháp - Việt Quy Nhơn, tại TP Quy Nhơn để trau dồi tiếng Pháp. Ở Tây Sơn, Nguyễn Tất Thành đôi lần lên Đồng Phó thăm cha. Tại An Nhơn, lúc cụ Nguyễn Sinh Huy và Nguyễn Tất Đạt (anh trai Nguyễn Tất Thành) ở trường thi (từ ngày 19-5 đến 18-6-1909), thì Nguyễn Tất Thành trú ngụ Trường Đốc (hay Ký túc đình, nay là trụ sở Công an An Nhơn), còn Dịch đình (hay Dịch xả, nhà văn hóa thị xã) là khi Nguyễn Tất Thành lên thăm cha bị giam giữ và tiễn cha, và anh trai trở lại Huế",
       "mediaUrl": [
         "https://static.tuoitre.vn/tto/i/s626/2017/05/18/1-1495072836.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Báo tuổi trẻ"
       ],
@@ -157,7 +156,7 @@
       "__comment": "TEMPLATE GRID: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
       "id": 6,
       "phase": 1,
-      "year": 1910,  
+      "year": 1910,
       "location": "Phan Thiết",
       "coordinates": [
         10.9285006,
@@ -171,7 +170,6 @@
         "https://lalago.vn/wp-content/uploads/2025/05/Truong-Duc-Thanh-4.jpg",
         "https://media.baobinhphuoc.com.vn/upload/news/5_2024/1ae346e19458306f9a50196cb28cf06b.jpg",
         "https://media.baobinhphuoc.com.vn/upload/news/5_2024/63c68e383ceb671cc152f4989b59067d.jpg"
-
       ],
       "sourceMedia": [
         "Nguồn: Báo Dân trí",
@@ -188,11 +186,11 @@
       "__comment": "TEMPLATE GRID: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
       "id": 7,
       "phase": 1,
-      "year": "5-6-1911",  
+      "year": "5-6-1911",
       "location": "Bến Cảng Nhà Rồng",
       "coordinates": [
-        10.768182197498252, 106.70696539887865
-
+        10.768182197498252,
+        106.70696539887865
       ],
       "eventMeta": "Bác Hồ ra đi tìm đường cứu nước",
       "eventName": "Bác Hồ ra đi tìm đường cứu nước",
@@ -226,8 +224,8 @@
       "eventName": "Đến Marseille (mốc khởi đầu tiếp cận chính quốc)",
       "description": "- Sau khi rời Việt Nam, tàu đi tuyến châu Âu và điểm đến thường được nêu là Marseille (Pháp). Việc đặt chân tới Pháp giúp Người trực tiếp quan sát xã hội “chính quốc” và so sánh với thuộc địa. Đây là giai đoạn Người vừa lao động vừa học hỏi để tích lũy hiểu biết thực tiễn.",
       "mediaUrl": [
-        	"https://truyenhinhnghean.vn/file/4028eaa46735a26101673a4df345003c/4028eaa467f477c80167f48e23810ac6/112019/cangmacxay1_2019111117145.jpg"
-     ],
+        "https://truyenhinhnghean.vn/file/4028eaa46735a26101673a4df345003c/4028eaa467f477c80167f48e23810ac6/112019/cangmacxay1_2019111117145.jpg"
+      ],
       "sourceMedia": [
         "Nguồn: Truyền Hình Nghệ An"
       ],
@@ -249,7 +247,7 @@
       "description": "Người đi qua nhiều cảng biển tại Pháp trong chặng đầu bôn ba. Môi trường lao động và giao thương quốc tế giúp Người hiểu thêm về công nhân, thủy thủ, và quan hệ thuộc địa–chính quốc. Những quan sát này góp phần hình thành tư duy tìm đường cứu nước theo hướng mới.",
       "mediaUrl": [
         "https://www.fortunapost.com/18432/carte-postale-ancienne-76-le-havre-grand-quai-et-musee-1911.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: fortunapost"
       ],
@@ -271,7 +269,7 @@
       "description": "- Người quan sát xã hội tư bản công nghiệp và đời sống người lao động nhập cư. Những trải nghiệm giúp mở rộng tầm nhìn về phong trào xã hội và vấn đề bất công. Ngày 15 tháng 12 năm 1912, từ New York, ông viết thư cho Khâm sứ Trung Kỳ nhờ tìm địa chỉ cha mình và muốn xin cho người cha một công việc. Thư này ông ký tên là Paul Tất Thành.",
       "mediaUrl": [
         "https://www.history101.nyc/system/carrierwave/evo/235/watermark_1024_1.1913-RETOUCHED-42nd-Street-and-5th-Avenue_1--Easter-day-5185x3637.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: history101"
       ],
@@ -292,8 +290,8 @@
       "eventName": "Lao động, tự học và quan sát xã hội tại Mỹ",
       "description": "Với vai trò là người phụ trách lò bánh, Bác Hồ khi ấy có tên là Văn Ba, đã cùng với các thợ bánh ở đây làm nên những loại bánh mỳ danh tiếng. Công thức của các loại bánh này đến nay hầu như không có gì thay đổi. Tại đây, Bác đã tìm hiểu về lịch sử, văn hóa và giá trị độc lập tự do của Mỹ.",
       "mediaUrl": [
-      	"https://vstatic.vietnam.vn/vietnam/resource/IMAGE/2025/1/20/6df86f82e6354143b37146bd4008f63c"
-     ],
+        "https://vstatic.vietnam.vn/vietnam/resource/IMAGE/2025/1/20/6df86f82e6354143b37146bd4008f63c"
+      ],
       "sourceMedia": [
         "Nguồn: VIETNAM.VN"
       ],
@@ -315,7 +313,7 @@
       "description": "Tại London, trung tâm của đế quốc lớn nhất thế giới thời bấy giờ là nước Anh, Người đã khám phá và nắm bắt chủ nghĩa Marx như một lời kêu gọi giải phóng và hành động sáng tạo.Thời gian Người ở London là một bước đệm trên con đường tìm hiểu thế giới, để Người có thể mang về những điều tìm hiểu được, có lợi cho đồng bào của mình, góp phần quan trọng hình thành nên tư tưởng Hồ Chí Minh, một tài sản vô giá trong công cuộc giải phóng dân tộc khỏi nô lệ áp bức và là kim chỉ nam của nhân dân Việt Nam trên con đường đi tới tự do, dân chủ, xã hội công bằng, văn minh. Tại Anh, Người đã phải làm rất nhiều việc nặng nhọc như cào tuyết trong trường học, điều khiển hệ thống nước nóng rồi phụ bếp trong khách sạn nhỏ Drayton Court, rửa bát đĩa trong khách sạn danh tiếng Carlton ở London.",
       "mediaUrl": [
         "https://cdnmedia.baotintuc.vn/2015/05/07/22/38/Khach-san-Drayton-Court-Noi-Bac-Ho-tung-lam-viec.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Báo tin tức Thông Tấn Xã Việt Nam"
       ],
@@ -337,7 +335,7 @@
       "description": "Cuối năm 1917, Người rời Anh trở lại Pháp.Mục tiêu là tiếp tục hoạt động cho phong trào Việt kiều và phong trào công nhân Pháp.Đây là giai đoạn chuyển dần từ “quan sát–trải nghiệm” sang “hoạt động chính trị” rõ nét hơn.",
       "mediaUrl": [
         "https://img.webtech360.com/imagesupdate1/image-webtech360-com-2418269.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: WEBTECH360"
       ],
@@ -359,7 +357,7 @@
       "description": "Ngày 18/6/1919, thay mặt những người Việt Nam yêu nước tại Pháp, Nguyễn Ái Quốc gửi tới Hội nghị hòa bình Versailles bản “Yêu sách của nhân dân An Nam”. Bản yêu sách nêu các quyền tự do, dân chủ tối thiểu cho người Việt Nam/Đông Dương. Sự kiện gắn với việc tên “Nguyễn Ái Quốc” xuất hiện công khai và tạo tiếng vang trong dư luận.",
       "mediaUrl": [
         "https://file3.qdnd.vn/data/images/0/2022/06/15/trungthanh_tv/ban%20yeu%20sach%208%20diem.jpg?dpi=150&quality=100&w=870"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Quân Đội Nhân Dân"
       ],
@@ -381,7 +379,7 @@
       "description": "Ngày 16 và 17/7/1920, báo L’Humanité đăng toàn văn “Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vấn đề thuộc địa” của Lênin. Nguyễn Ái Quốc đọc và nghiên cứu, coi đây là “con đường giải phóng” cho các dân tộc thuộc địa. Đây thường được xem là bước ngoặt lớn về tư tưởng trong hành trình tìm đường cứu nước.",
       "mediaUrl": [
         "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/1/14/778525/Luancuong_Lenin.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Lao Động"
       ],
@@ -395,8 +393,8 @@
       "year": 1920,
       "location": "Tours, Pháp",
       "coordinates": [
-        47.396477303655125, 
-	0.6815146998481438
+        47.396477303655125,
+        0.6815146998481438
       ],
       "eventMeta": "Đại hội Tours, sáng lập Đảng Cộng sản Pháp.",
       "eventName": "Đại hội Tours, sáng lập Đảng Cộng sản Pháp.",
@@ -409,11 +407,11 @@
         "Nguồn: Quân Khu Bốn"
       ],
       "references": [
-	"https://baovanhoa.vn/doi-song/nguyen-ai-quoc-du-dai-hoi-tours-1920-192332.html",
-	"https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
-	"https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html",
-	"https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338"
-],
+        "https://baovanhoa.vn/doi-song/nguyen-ai-quoc-du-dai-hoi-tours-1920-192332.html",
+        "https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
+        "https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html",
+        "https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338"
+      ],
       "templateType": "grid"
     },
     {
@@ -423,8 +421,8 @@
       "year": "1923-1924",
       "location": "Moskva (Moscow) – Liên Xô",
       "coordinates": [
-        55.759325461913626, 
-	37.63929582115238
+        55.759325461913626,
+        37.63929582115238
       ],
       "eventMeta": "Học tập tại Quốc tế Cộng sản.",
       "eventName": "Học tập tại Quốc tế Cộng sản.",
@@ -437,11 +435,11 @@
         "Nguồn: Báo Quân Khu Bốn"
       ],
       "references": [
-	"https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338",
-	"https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
-	"https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc-va-cac-to-chuc-chinh-tri-tren-hanh-trinh-tim-duong-cuu-nuoc-1911-1930-3116",
-	"https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html"
-],
+        "https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338",
+        "https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
+        "https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc-va-cac-to-chuc-chinh-tri-tren-hanh-trinh-tim-duong-cuu-nuoc-1911-1930-3116",
+        "https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html"
+      ],
       "templateType": "grid"
     },
     {
@@ -451,8 +449,8 @@
       "year": 1924,
       "location": "Quảng Châu (Guangzhou) – Trung Quốc",
       "coordinates": [
-        23.128590814502367, 
-	113.2794836620152
+        23.128590814502367,
+        113.2794836620152
       ],
       "eventMeta": "Thành lập Hội Việt Nam Cách mạng Thanh niên.",
       "eventName": "Thành lập Hội Việt Nam Cách mạng Thanh niên.",
@@ -464,11 +462,11 @@
         "Nguồn: Báo Quân Khu Bốn"
       ],
       "references": [
-	"https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338",
-	"https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
-	"https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc-va-cac-to-chuc-chinh-tri-tren-hanh-trinh-tim-duong-cuu-nuoc-1911-1930-3116",
-	"https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html"
-],
+        "https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338",
+        "https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
+        "https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc-va-cac-to-chuc-chinh-tri-tren-hanh-trinh-tim-duong-cuu-nuoc-1911-1930-3116",
+        "https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html"
+      ],
       "templateType": "grid"
     },
     {
@@ -478,8 +476,8 @@
       "year": 1928,
       "location": "Thái Lan",
       "coordinates": [
-        15.349768786397398, 
-100.82787251021628
+        15.349768786397398,
+        100.82787251021628
       ],
       "eventMeta": "Xây dựng cơ sở cách mạng Việt kiều.",
       "eventName": "Xây dựng cơ sở cách mạng Việt kiều.",
@@ -491,12 +489,12 @@
         "Nguồn: Cổng thông tin điện lực Tỉnh Lai Châu"
       ],
       "references": [
-	"https://kinhtedothi.vn/nguyen-ai-quoc-su-hanh-da-tren-dat-xiem-bai-1-tang-hinh-giua-dai-ngan-nhan-sinh-384114.html",
-	"https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
-	"https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc-va-cac-to-chuc-chinh-tri-tren-hanh-trinh-tim-duong-cuu-nuoc-1911-1930-3116",
-	"https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html",
-	"https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338"
-],
+        "https://kinhtedothi.vn/nguyen-ai-quoc-su-hanh-da-tren-dat-xiem-bai-1-tang-hinh-giua-dai-ngan-nhan-sinh-384114.html",
+        "https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
+        "https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc-va-cac-to-chuc-chinh-tri-tren-hanh-trinh-tim-duong-cuu-nuoc-1911-1930-3116",
+        "https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html",
+        "https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338"
+      ],
       "templateType": "normal"
     },
     {
@@ -506,8 +504,8 @@
       "year": "3-2-1930",
       "location": "Hương Cảng, Trung Quốc",
       "coordinates": [
-        22.319918870162745, 
-	114.17214742558036
+        22.319918870162745,
+        114.17214742558036
       ],
       "eventMeta": "Hội nghị hợp nhất ba tổ chức: Đông Dương Cộng sản Đảng, An Nam Cộng sản Đảng, và Đông Dương Cộng sản Liên đoàn. Thành lập Đảng Cộng sản Việt Nam.",
       "eventName": "Hội nghị hợp nhất ba tổ chức: Đông Dương Cộng sản Đảng, An Nam Cộng sản Đảng, và Đông Dương Cộng sản Liên đoàn. Thành lập Đảng Cộng sản Việt Nam.",
@@ -519,11 +517,11 @@
         "Nguồn: Báo Quân Khu Bốn"
       ],
       "references": [
-	"https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338",
-	"https://en.nhandan.vn/founding-of-the-communist-party-of-viet-nam-vietnamese-revolutions-great-turning-point-post154388.htm",
-	"https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
-	"https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html"
-],
+        "https://quochoi.vn/tintuc/pages/tin-hoat-dong-cua-quoc-hoi.aspx?ItemID=56338",
+        "https://en.nhandan.vn/founding-of-the-communist-party-of-viet-nam-vietnamese-revolutions-great-turning-point-post154388.htm",
+        "https://baoquankhu4.com.vn/chinh-tri/chu-tich-ho-chi-minh-va-hanh-trinh-30-nam-tim-duong-cuu-nuoc-giai-phong-dan-toc.html",
+        "https://baochinhphu.vn/boi-canh-lich-su-tac-dong-den-hanh-trinh-cuu-nuoc-cua-ho-chi-minh-10278389.html"
+      ],
       "templateType": "normal"
     },
     {
@@ -533,14 +531,16 @@
       "year": 1931,
       "location": "Nhà tù Victoria, Hồng Kông",
       "coordinates": [
-           22.281145471558144, 114.15382295125755
-
+        22.281145471558144,
+        114.15382295125755
       ],
       "eventMeta": "Hồ Chí Minh bị chính quyền Anh bắt giam tại Hồng Kông",
       "eventName": "Hồ Chí Minh bị chính quyền Anh bắt giam tại Hồng Kông",
       "description": "Bị chính quyền Anh bắt giữ, giam tại nhà tù Victoria, đối mặt nguy cơ dẫn độ về Đông Dương. Giữ vững lập trường cách mạng, không dao động trước áp lực, khẳng định ý chí kiên cường và niềm tin cách mạng. Liên hệ với Quốc tế Cộng sản và luật sư Loseby để được bảo vệ pháp lý. Tháng 1933 được trả tự do, thể hiện sự vượt qua thử thách sinh tử và củng cố uy tín lãnh đạo.",
-      "mediaUrl": ["https://baotanglichsu.vn/DataFiles/Uploaded/image/DATA%20HUONG/TIN%20NAM%202014/TIN%20THANG%206/Nguyen%20Ai%20Quoc%20bi%20bat%20o%20Hong%20Kong/2.jpg",
-      "https://baotanglichsu.vn/DataFiles/Uploaded/image/DATA%20HUONG/TIN%20NAM%202014/TIN%20THANG%206/Nguyen%20Ai%20Quoc%20bi%20bat%20o%20Hong%20Kong/1.jpg"],
+      "mediaUrl": [
+        "https://baotanglichsu.vn/DataFiles/Uploaded/image/DATA%20HUONG/TIN%20NAM%202014/TIN%20THANG%206/Nguyen%20Ai%20Quoc%20bi%20bat%20o%20Hong%20Kong/2.jpg",
+        "https://baotanglichsu.vn/DataFiles/Uploaded/image/DATA%20HUONG/TIN%20NAM%202014/TIN%20THANG%206/Nguyen%20Ai%20Quoc%20bi%20bat%20o%20Hong%20Kong/1.jpg"
+      ],
       "sourceMedia": "Nguồn: Bảo tàng Lịch sử Quốc gia",
       "references": [
         "https://www.hcmcpv.org.vn/tin-tuc/nhung-cau-chuyen-ve-vu-an-nguyen-ai-quoc-o-hongkong-1491910581"
@@ -554,12 +554,15 @@
       "year": 1933,
       "location": "Thượng Hải, Trung Quốc",
       "coordinates": [
-        31.233323139091944, 121.48356550600504
+        31.233323139091944,
+        121.48356550600504
       ],
       "eventMeta": "Hồ Chí Minh tìm cách liên lạc với Quốc tế Cộng sản.",
       "eventName": "Hồ Chí Minh tìm cách liên lạc với Quốc tế Cộng sản.",
       "description": "Sau khi thoát khỏi nhà tù vào năm 1933 nhờ sự giúp đỡ của luật sư Loseby, Người bí mật đến Thượng Hải và nhờ sự hỗ trợ của bà Tống Khánh Linh để bắt liên lạc lại với tổ chức trước khi trở lại Liên Xô vào năm 1934 để tiếp tục học tập và nghiên cứu",
-      "mediaUrl":["public/image/bac-ho-voi-ban-quoc-te-1.jpg"],
+      "mediaUrl": [
+        "/image/bac-ho-voi-ban-quoc-te-1.jpg"
+      ],
       "sourceMedia": "Nguồn: Bộ tư lệnh lăng",
       "references": [
         "https://ditichhochiminhphuchutich.gov.vn/chu-tich-ho-chi-minh-voi-cac-chinh-khach-trung-quoc-2349"
@@ -573,7 +576,8 @@
       "year": 1934,
       "location": "Moskva, Liên Xô",
       "coordinates": [
-        55.76580686672883, 37.651520398832616
+        55.76580686672883,
+        37.651520398832616
       ],
       "eventMeta": "Người sang Liên Xô để học tập tại Trường Quốc tế Lênin và làm nghiên cứu sinh tại Viện Nghiên cứu các vấn đề dân tộc và thuộc địa.",
       "eventName": "Người sang Liên Xô để học tập tại Trường Quốc tế Lênin và làm nghiên cứu sinh tại Viện Nghiên cứu các vấn đề dân tộc và thuộc địa.",
@@ -581,7 +585,8 @@
       "mediaUrl": "http://vietnamese.cri.cn/mmsource/images/2016/06/22/013a8c92b73645ae9be7469aaf3efbdb.jpg",
       "sourceMedia": "Nguồn: Đảng bộ thành phố Hồ Chí Minh",
       "references": [
-        "https://ditichhochiminhphuchutich.gov.vn/chu-tich-ho-chi-minh-va-nhung-chuyen-tham-lien-xo-3281"],
+        "https://ditichhochiminhphuchutich.gov.vn/chu-tich-ho-chi-minh-va-nhung-chuyen-tham-lien-xo-3281"
+      ],
       "templateType": "normal"
     },
     {
@@ -591,7 +596,8 @@
       "year": 1938,
       "location": "Diên An (Trung Quốc)",
       "coordinates": [
-        36.5737015779124, 109.58713604239753
+        36.5737015779124,
+        109.58713604239753
       ],
       "eventMeta": "Người từ Liên Xô trở lại Trung Quốc. Tại đây, Người làm việc tại cơ quan Bát lộ quân, tìm cách liên lạc với tổ chức Đảng trong nước.",
       "eventName": "Người từ Liên Xô trở lại Trung Quốc. Tại đây, Người làm việc tại cơ quan Bát lộ quân, tìm cách liên lạc với tổ chức Đảng trong nước.",
@@ -599,10 +605,10 @@
       "mediaUrl": "http://vietnamese.cri.cn/mmsource/images/2016/06/22/013a8c92b73645ae9be7469aaf3efbdb.jpg",
       "sourceMedia": "Nguồn: Báo Cri Online",
       "references": [
-        "https://stbook.vn/read_book/CP111BK120250512095627/1137#page/1"],
+        "https://stbook.vn/read_book/CP111BK120250512095627/1137#page/1"
+      ],
       "templateType": "normal"
     },
-    
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
       "id": 25,
@@ -610,16 +616,17 @@
       "year": 1938,
       "location": "Quế Lâm (Quảng Tây), Trung Quốc",
       "coordinates": [
-        25.370218058190865, 110.69188576569377
+        25.370218058190865,
+        110.69188576569377
       ],
       "eventMeta": "Người đi từ Diên An qua Tây An đến Quế Lâm. Với danh nghĩa Thiếu tá Hồ Quang, Người làm việc tại văn phòng Bát lộ quân để xây dựng các mối quan hệ và nắm bắt tình hình Đông Dương.",
       "eventName": "Người đi từ Diên An qua Tây An đến Quế Lâm. Với danh nghĩa Thiếu tá Hồ Quang, Người làm việc tại văn phòng Bát lộ quân để xây dựng các mối quan hệ và nắm bắt tình hình Đông Dương.",
       "description": "Người lấy bí danh là Hồ Quang, mặc quân phục Bát lộ quân, làm việc tại cơ quan truyền thông và văn phòng liên lạc. Sử dụng vị thế hợp pháp trong hàng ngũ quân đội Trung Quốc để di chuyển qua các tỉnh phía Nam mà không bị mật thám Pháp nghi ngờ. Người viết nhiều bài báo cho tờ Cứu vong nhật báo để phân tích tình hình quốc tế, đồng thời bí mật thu thập tin tức về phong trào cách mạng tại Đông Dương qua các đầu mối giao thông liên lạc.",
-
       "mediaUrl": "https://baotanghochiminh.vn/pic/PhotoAlbum/317_636866983178264562_HasThumb.jpg",
       "sourceMedia": "Nguồn: Bảo tàng Hồ Chí Minh",
       "references": [
-        "https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc--ho-quang-o-van-phong-bat-lo-quan-que-lam--trung-quoc-159"],
+        "https://ditichhochiminhphuchutich.gov.vn/nguyen-ai-quoc--ho-quang-o-van-phong-bat-lo-quan-que-lam--trung-quoc-159"
+      ],
       "templateType": "normal"
     },
     {
@@ -629,14 +636,15 @@
       "year": 1939,
       "location": "Quý Dương, Trung Quốc",
       "coordinates": [
-        26.64974209336207, 106.63329731919247
+        26.64974209336207,
+        106.63329731919247
       ],
       "eventMeta": "Hồ Chí Minh hoạt động tại Văn phòng Bát lộ quân ở Quý Dương, Trung Quốc.",
       "eventName": "Hồ Chí Minh hoạt động tại Văn phòng Bát lộ quân ở Quý Dương, Trung Quốc.",
       "description": "Tại đây, Người thể hiện tinh thần làm việc bền bỉ khi thường xuyên đóng cửa phòng để đánh máy tài liệu và dành thời gian dạy ngoại ngữ cho các đồng chí tại văn phòng. Trong điều kiện sinh hoạt gian khổ, Người còn thể hiện phẩm chất tương thân tương ái khi tự bỏ tiền túi mua thêm thức ăn để chia sẻ cùng mọi người. ",
-
-            "references": [
-        "https://baotanghochiminh.vn/nguyen-ai-quoc-den-quy-duong-thu-phu-tinh-quy-chau-trung-quoc.htm"],
+      "references": [
+        "https://baotanghochiminh.vn/nguyen-ai-quoc-den-quy-duong-thu-phu-tinh-quy-chau-trung-quoc.htm"
+      ],
       "templateType": "normal"
     },
     {
@@ -646,7 +654,8 @@
       "year": 1940,
       "location": "Côn Minh (Vân Nam), Trung Quốc",
       "coordinates": [
-        24.873122589606098, 102.83647432274974
+        24.873122589606098,
+        102.83647432274974
       ],
       "eventMeta": "Người đến Côn Minh, trực tiếp liên lạc được với Ban Hải ngoại của Đảng ta (gồm các đồng chí Phạm Văn Đồng, Võ Nguyên Giáp...). ",
       "eventName": "Người đến Côn Minh, trực tiếp liên lạc được với Ban Hải ngoại của Đảng ta (gồm các đồng chí Phạm Văn Đồng, Võ Nguyên Giáp...). ",
@@ -654,7 +663,8 @@
       "mediaUrl": "https://vov2.vov.vn/sites/default/files/styles/large_watermark/public/2025-06/khu-di-tich-bac-ho-con-minh-giuong-ngu.jpg",
       "sourceMedia": "Nguồn: VOV",
       "references": [
-        "https://nhandan.vn/theo-dau-chan-bac-ho-tai-van-nam-trung-quoc-post891559.html"],
+        "https://nhandan.vn/theo-dau-chan-bac-ho-tai-van-nam-trung-quoc-post891559.html"
+      ],
       "templateType": "normal"
     },
     {
@@ -664,7 +674,8 @@
       "year": 1941,
       "location": "Tĩnh Tây, Trung Quốc",
       "coordinates": [
-        23.131143701215468, 106.41566339625773
+        23.131143701215468,
+        106.41566339625773
       ],
       "eventMeta": "Hồ Chí Minh mở lớp huấn luyện cán bộ",
       "eventName": "Hồ Chí Minh mở lớp huấn luyện cán bộ",
@@ -672,7 +683,8 @@
       "mediaUrl": "https://baotanghochiminh.vn/pic/PhotoAlbum/317_636866983188815165_HasThumb.jpg",
       "sourceMedia": "Nguồn: Bảo tàng Hồ Chí Minh",
       "references": [
-        "https://stbook.vn/read_book/CP111BK120250510195546/1121#page/1"],
+        "https://stbook.vn/read_book/CP111BK120250510195546/1121#page/1"
+      ],
       "templateType": "normal"
     },
     {
@@ -687,10 +699,14 @@
       ],
       "eventMeta": "Hồ Chí Minh trở về nước trực tiếp lãnh đạo cách mạng",
       "eventName": "Hồ Chí Minh trở về nước trực tiếp lãnh đạo cách mạng",
-      "description": ["Đầu năm 1941, trước bối cảnh chiến tranh thế giới có những biến chuyển mau lẹ, Người nhận định thời cơ cách mạng đang đến gần. Với tầm nhìn chiến lược, Người quyết đoán: “Đây là thời cơ thuận lợi cho cách mạng Việt Nam. Ta phải tìm mọi cách về nước để tranh thủ nắm thời cơ. Chậm trễ lúc này là có tội với cách mạng”. Ngày 28/01/1941, Người vượt mốc 108 về đến Pác Bó, xã Trường Hà, huyện Hà Quảng, tỉnh Cao Bằng, bắt đầu giai đoạn trực tiếp lãnh đạo cách mạng Việt Nam.","- Người triệu tập và chủ trì Hội nghị Trung ương Đảng lần thứ tám (tháng 5/1941), hoàn chỉnh chủ trương đặt nhiệm vụ giải phóng dân tộc lên hàng đầu, quyết định thành lập Mặt trận Việt Nam độc lập đồng minh (Việt Minh)"],
+      "description": [
+        "Đầu năm 1941, trước bối cảnh chiến tranh thế giới có những biến chuyển mau lẹ, Người nhận định thời cơ cách mạng đang đến gần. Với tầm nhìn chiến lược, Người quyết đoán: “Đây là thời cơ thuận lợi cho cách mạng Việt Nam. Ta phải tìm mọi cách về nước để tranh thủ nắm thời cơ. Chậm trễ lúc này là có tội với cách mạng”. Ngày 28/01/1941, Người vượt mốc 108 về đến Pác Bó, xã Trường Hà, huyện Hà Quảng, tỉnh Cao Bằng, bắt đầu giai đoạn trực tiếp lãnh đạo cách mạng Việt Nam.",
+        "- Người triệu tập và chủ trì Hội nghị Trung ương Đảng lần thứ tám (tháng 5/1941), hoàn chỉnh chủ trương đặt nhiệm vụ giải phóng dân tộc lên hàng đầu, quyết định thành lập Mặt trận Việt Nam độc lập đồng minh (Việt Minh)"
+      ],
       "mediaUrl": [
-        "https://cdn.tienphong.vn/images/9a487ae1d52bfdde956286b960587e60de5680591072de6ecdb33c80ad59613f95655dcf12fb03e3f89bdae286664aed4f95fdf750e3f4ae56a42743c62af2a4e12be7a8081a09cf4bd009aa94b4d1b105529fffbaa1d8f83383208cf8d23248/z7442473698268-1849294f8cf71b66289612efe95e510e.jpg","https://baotanglichsu.vn/DataFiles/Uploaded/image/data%20Hung/thang%205%20n%C4%83m%202014/19%20thang%205%20thanh%20lap%20viet%20minh/1.jpg"
-     ],
+        "https://cdn.tienphong.vn/images/9a487ae1d52bfdde956286b960587e60de5680591072de6ecdb33c80ad59613f95655dcf12fb03e3f89bdae286664aed4f95fdf750e3f4ae56a42743c62af2a4e12be7a8081a09cf4bd009aa94b4d1b105529fffbaa1d8f83383208cf8d23248/z7442473698268-1849294f8cf71b66289612efe95e510e.jpg",
+        "https://baotanglichsu.vn/DataFiles/Uploaded/image/data%20Hung/thang%205%20n%C4%83m%202014/19%20thang%205%20thanh%20lap%20viet%20minh/1.jpg"
+      ],
       "sourceMedia": [
         "Nguồn: Báo Tiền Phong",
         "Nguồn: Bảo tàng Lịch sử Quốc gia"
@@ -710,10 +726,12 @@
       ],
       "eventMeta": "Hồ Chí Minh đọc bảng Tuyên ngôn Độc lập, khai sinh nước Việt Nam Dân chủ Cộng hòa",
       "eventName": "Hồ Chí Minh đọc bảng Tuyên ngôn Độc lập, khai sinh nước Việt Nam Dân chủ Cộng hòa",
-      "description": ["Cách mạng tháng Tám thành công, ngày 2/9/1945, tại Quảng trường Ba Đình - Hà Nội, Chủ tịch Hồ Chí Minh thay mặt Chính phủ Lâm thời đọc bản Tuyên ngôn độc lập, khai sinh nước Việt Nam Dân chủ Cộng hòa, nhà nước dân chủ nhân dân đầu tiên ở Đông Nam Á, đánh dấu bước ngoặt lịch sử vĩ đại, mở ra kỷ nguyên mới cho lịch sử dân tộc Việt Nam"],
+      "description": [
+        "Cách mạng tháng Tám thành công, ngày 2/9/1945, tại Quảng trường Ba Đình - Hà Nội, Chủ tịch Hồ Chí Minh thay mặt Chính phủ Lâm thời đọc bản Tuyên ngôn độc lập, khai sinh nước Việt Nam Dân chủ Cộng hòa, nhà nước dân chủ nhân dân đầu tiên ở Đông Nam Á, đánh dấu bước ngoặt lịch sử vĩ đại, mở ra kỷ nguyên mới cho lịch sử dân tộc Việt Nam"
+      ],
       "mediaUrl": [
         "https://v-cdn.vietnamnetjsc.vn/media/ts/2021/09/01/18/14/18657bd5-6c33-417f-b9b2-52536782fd52/playlist.m3u8"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Báo Vietnamnet"
       ],
@@ -732,10 +750,12 @@
       ],
       "eventMeta": "Hồ Chí Minh ra lời kêu gọi toàn quốc kháng chiến",
       "eventName": "Hồ Chí Minh ra lời kêu gọi toàn quốc kháng chiến",
-      "description": ["Ngày 18-19/12/1946, tại làng lụa Vạn Phúc, Hà Đông, Chủ tịch Hồ Chí Minh đã chủ trì cuộc họp Thường vụ Trung ương Đảng mở rộng, quyết định phát động cuộc kháng chiến trên phạm vi toàn quốc, ra \"Lời kêu gọi toàn quốc kháng chiến\""],
+      "description": [
+        "Ngày 18-19/12/1946, tại làng lụa Vạn Phúc, Hà Đông, Chủ tịch Hồ Chí Minh đã chủ trì cuộc họp Thường vụ Trung ương Đảng mở rộng, quyết định phát động cuộc kháng chiến trên phạm vi toàn quốc, ra \"Lời kêu gọi toàn quốc kháng chiến\""
+      ],
       "mediaUrl": [
         "https://th.bing.com/th/id/R.bed2fc22370c0828f9e2892ad9183a39?rik=S3QbKifWm7ljwg&riu=http%3a%2f%2fimgs.vietnamnet.vn%2fImages%2f2016%2f12%2f15%2f18%2f20161215175655-img-2018.jpg&ehk=xOiCCBRDL%2fgzCc28Fp8YboL0gEGMc%2fPQeJxKajnImRU%3d&risl=&pid=ImgRaw&r=0"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Báo Vietnamnet"
       ],
@@ -754,11 +774,12 @@
       ],
       "eventMeta": "Lãnh đạo cuộc kháng chiến chống Pháp đến thắng lợi với chiến dịch Điện Biên Phủ năm 1954",
       "eventName": "Lãnh đạo cuộc kháng chiến chống Pháp đến thắng lợi với chiến dịch Điện Biên Phủ năm 1954",
-      "description": ["Chủ trương kế hoạch Đông - Xuân 1953 - 1954 của Đảng, Chủ tịch Hồ Chí Minh về một cuộc tiến công chiến lược và trận quyết chiến chiến lược Điện Biên Phủ. Trận thắng Điện Biên Phủ đã quyết định đi đến họp Hội nghị Giơnevơ và kí Hiệp định về chấm dứt chiến tranh, lập lại hoà bình ở Đông Dương."],
-      
-    "mediaUrl": [
+      "description": [
+        "Chủ trương kế hoạch Đông - Xuân 1953 - 1954 của Đảng, Chủ tịch Hồ Chí Minh về một cuộc tiến công chiến lược và trận quyết chiến chiến lược Điện Biên Phủ. Trận thắng Điện Biên Phủ đã quyết định đi đến họp Hội nghị Giơnevơ và kí Hiệp định về chấm dứt chiến tranh, lập lại hoà bình ở Đông Dương."
+      ],
+      "mediaUrl": [
         "http://thanhuy.bacninh.gov.vn/public/files/editor-upload/images/tin-tuc/anh.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Thanh ủy Bắc Ninh"
       ],
@@ -777,11 +798,12 @@
       ],
       "eventMeta": "Lãnh đạo xây dựng miền Bắc XHCN & đấu tranh thống nhất nước nhà",
       "eventName": "Lãnh đạo xây dựng miền Bắc XHCN & đấu tranh thống nhất nước nhà",
-      "description": ["Tại Đại hội đại biểu toàn quốc lần thứ III Đảng Lao động Việt Nam, tháng 9 nǎm 1960 Chủ tịch Hồ Chí Minh chỉ rõ: Đại hội lần này là Đại hội xây dựng chủ nghĩa xã hội ở miền Bắc và đấu tranh hoà bình thống nhất nước nhà"],
-      
-    "mediaUrl": [
+      "description": [
+        "Tại Đại hội đại biểu toàn quốc lần thứ III Đảng Lao động Việt Nam, tháng 9 nǎm 1960 Chủ tịch Hồ Chí Minh chỉ rõ: Đại hội lần này là Đại hội xây dựng chủ nghĩa xã hội ở miền Bắc và đấu tranh hoà bình thống nhất nước nhà"
+      ],
+      "mediaUrl": [
         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Ho_Chi_Minh%27s_Stilt_House%2C_Hanoi_%282%29_%2824622695398%29.jpg/500px-Ho_Chi_Minh%27s_Stilt_House%2C_Hanoi_%282%29_%2824622695398%29.jpg"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Wikipedia"
       ],
@@ -800,13 +822,14 @@
       ],
       "eventMeta": "Chủ tịch Hồ Chí Minh qua đời",
       "eventName": "Chủ tịch Hồ Chí Minh qua đời",
-      "description": ["9 giờ 47 phút ngày 2/9/1969, Bác Hồ kính yêu đã đi xa mãi mãi. Trái tim của Người đã ngừng đập nhưng hình ảnh, lời dạy của Người vẫn còn mãi trong trái tim của nhân dân ta và bạn bè quốc tế."],
-      
-    "mediaUrl": [
+      "description": [
+        "9 giờ 47 phút ngày 2/9/1969, Bác Hồ kính yêu đã đi xa mãi mãi. Trái tim của Người đã ngừng đập nhưng hình ảnh, lời dạy của Người vẫn còn mãi trong trái tim của nhân dân ta và bạn bè quốc tế."
+      ],
+      "mediaUrl": [
         "https://file3.qdnd.vn/data/images/0/2023/09/02/thutrang_la/bachomat01.jpg?dpi=150&quality=100&w=870",
         "https://file3.qdnd.vn/data/images/0/2023/09/02/thutrang_la/bacho%2003%201.jpg?dpi=150&quality=100&w=870",
         "https://file3.qdnd.vn/data/images/0/2023/09/02/thutrang_la/bacho04.jpg?dpi=150&quality=100&w=870"
-     ],
+      ],
       "sourceMedia": [
         "Nguồn: Báo Quân đội Nhân dân"
       ],
@@ -815,4 +838,3 @@
     }
   ]
 }
-
