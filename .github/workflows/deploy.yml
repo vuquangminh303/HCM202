@@ -16,6 +16,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -e
-            cd /root/creative_product_HCM202
+            cd /opt/creative_product_HCM202
             git pull
             docker compose up -d --build
