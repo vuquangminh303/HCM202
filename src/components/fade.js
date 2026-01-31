@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 export default function Fade({
   animationDuration = 800,
@@ -20,7 +20,7 @@ export default function Fade({
     }
   }
 
-  const animationKeyFrame = show ? "fade-in" : "fade-out";
+  const animationKeyFrame = show ? 'fade-in' : 'fade-out';
 
   if (!shouldRender) {
     return null;

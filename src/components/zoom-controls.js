@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import "./zoom-controls.scss";
+import React, { useCallback } from 'react';
+import './zoom-controls.scss';
 
 export default function ZoomControls({
   onZoomIn,

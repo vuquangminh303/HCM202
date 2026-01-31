@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import ReactGlobe, { tween } from "react-globe";
-import * as THREE from "three";
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import ReactGlobe, { tween } from 'react-globe';
+import * as THREE from 'three';
 
-import { useStateValue } from "../state";
-import Fade from "./fade";
+import { useStateValue } from '../state';
+import Fade from './fade';
 
-import "tippy.js/dist/tippy.css";
-import "tippy.js/animations/scale.css";
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/scale.css';
 
 // Limit marker colors to red and green only
 const MARKER_COLORS = [
-  "#ff6b6b", // Red
-  "#2ecc71", // Green
+  '#ff6b6b', // Red
+  '#2ecc71', // Green
 ];
 
-const MARKER_COMPANION_COLOR = "#ffffff";
+const MARKER_COMPANION_COLOR = '#ffffff';
 
 function random(scaleFactor) {
   return Math.random() > 0.5
@@ -25,23 +25,23 @@ function random(scaleFactor) {
 // Pre-create materials to avoid recreating them repeatedly
 const markerMaterials = {
   1: new THREE.MeshBasicMaterial({
-    color: new THREE.Color("#FFD700"),
+    color: new THREE.Color('#FFD700'),
     side: THREE.DoubleSide,
   }), // Gold - for single events
   2: new THREE.MeshBasicMaterial({
-    color: new THREE.Color("#FF4500"),
+    color: new THREE.Color('#FF4500'),
     side: THREE.DoubleSide,
   }), // Orange-red - for 2 events
   3: new THREE.MeshBasicMaterial({
-    color: new THREE.Color("#DC143C"),
+    color: new THREE.Color('#DC143C'),
     side: THREE.DoubleSide,
   }), // Crimson - for 3 events
   4: new THREE.MeshBasicMaterial({
-    color: new THREE.Color("#9932CC"),
+    color: new THREE.Color('#9932CC'),
     side: THREE.DoubleSide,
   }), // Dark Orchid - for 4 events
   5: new THREE.MeshBasicMaterial({
-    color: new THREE.Color("#FF1493"),
+    color: new THREE.Color('#FF1493'),
     side: THREE.DoubleSide,
   }), // Deep Pink - for 5+ events
 };
@@ -85,7 +85,7 @@ export default function Globe() {
       hasGlobeCloudsTextureLoaded &&
       hasGlobeTextureLoaded
     ) {
-      dispatch({ type: "LOADED" });
+      dispatch({ type: 'LOADED' });
     }
   }, [
     dispatch,
@@ -108,8 +108,8 @@ export default function Globe() {
     markerTooltipRenderer: (marker) => {
       // Return plain text without HTML tags
       const eventName =
-        marker.eventName || marker.eventMeta || "Historical Event";
-      const year = marker.year || "";
+        marker.eventName || marker.eventMeta || 'Historical Event';
+      const year = marker.year || '';
       return `${eventName} (${year})`;
     },
     markerRenderer,
@@ -120,12 +120,12 @@ export default function Globe() {
   const handleTextureError = () => {
     setTextureLoadError(true);
     // Still dispatch loaded to allow the app to continue functioning
-    dispatch({ type: "LOADED" });
+    dispatch({ type: 'LOADED' });
   };
 
   return (
     <>
-      <div className={hasLoaded ? undefined : "hidden"}>
+      <div className={hasLoaded ? undefined : 'hidden'}>
         <ReactGlobe
           ref={globeEl}
           globeBackgroundTexture={globeBackgroundTexture}
@@ -138,7 +138,7 @@ export default function Globe() {
           options={options}
           onClickMarker={(marker) => {
             // Dispatch focus action to show details panel
-            dispatch({ type: "FOCUS", payload: marker });
+            dispatch({ type: 'FOCUS', payload: marker });
           }}
           onGlobeTextureLoaded={() => setHasGlobeTextureLoaded(true)}
           onGlobeBackgroundTextureLoaded={() =>
@@ -159,13 +159,13 @@ export default function Globe() {
         <div
           className="error-message"
           style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            color: "white",
-            fontSize: "18px",
-            textAlign: "center",
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontSize: '18px',
+            textAlign: 'center',
             zIndex: 10000,
           }}
         >

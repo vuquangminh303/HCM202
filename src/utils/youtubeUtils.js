@@ -1,6 +1,6 @@
 // Helper function to extract YouTube video ID from various URL formats
 export function extractYouTubeVideoId(url) {
-  if (!url || typeof url !== "string") {
+  if (!url || typeof url !== 'string') {
     return null;
   }
 
@@ -23,7 +23,7 @@ export function extractYouTubeVideoId(url) {
 
 // Helper function to check if a URL is a YouTube URL
 export function isYouTubeUrl(url) {
-  if (!url || typeof url !== "string") {
+  if (!url || typeof url !== 'string') {
     return false;
   }
 

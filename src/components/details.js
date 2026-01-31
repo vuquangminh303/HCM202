@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { useStateValue } from "../state";
-import Button from "./button";
-import Fade from "./fade";
-import { extractYouTubeVideoId, isYouTubeUrl } from "../utils/youtubeUtils";
+import { useStateValue } from '../state';
+import Button from './button';
+import Fade from './fade';
+import { extractYouTubeVideoId, isYouTubeUrl } from '../utils/youtubeUtils';
 
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
@@ -30,7 +30,7 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
           width="100%"
           height="auto"
           src={`https://www.youtube.com/embed/${videoId}`}
-          title={`${eventName || "YouTube Video"} - ${currentIndex + 1}`}
+          title={`${eventName || 'YouTube Video'} - ${currentIndex + 1}`}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -41,10 +41,10 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
 
   // Check if mediaUrl is a video file
   if (
-    typeof mediaUrl === "string" &&
-    (mediaUrl.endsWith(".mp4") ||
-      mediaUrl.endsWith(".mov") ||
-      mediaUrl.endsWith(".avi"))
+    typeof mediaUrl === 'string' &&
+    (mediaUrl.endsWith('.mp4') ||
+      mediaUrl.endsWith('.mov') ||
+      mediaUrl.endsWith('.avi'))
   ) {
     return (
       <video controls src={mediaUrl} className="event-media" onError={onError}>
@@ -57,7 +57,7 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
   return (
     <img
       src={mediaUrl}
-      alt={`${eventName || "Historical media"} - Item ${currentIndex + 1}`}
+      alt={`${eventName || 'Historical media'} - Item ${currentIndex + 1}`}
       className="event-media"
       onError={onError}
     />
@@ -81,12 +81,12 @@ export default function Details() {
         <div className="header">
           <Button
             label="Back to globe"
-            onClick={() => dispatch({ type: "FOCUS" })}
+            onClick={() => dispatch({ type: 'FOCUS' })}
           />
         </div>
         <div className="detail-content">
           {/* Title from eventName */}
-          <h2 className="event-title">{eventName || "Historical Event"}</h2>
+          <h2 className="event-title">{eventName || 'Historical Event'}</h2>
 
           {/* Media (image/video) from mediaUrl - story_scroll template */}
           {mediaArray.length > 0 && (
@@ -111,21 +111,21 @@ export default function Details() {
                       eventName={eventName}
                       currentIndex={currentIndex}
                       onError={(e) => {
-                        e.target.style.display = "none";
+                        e.target.style.display = 'none';
                       }}
                     />
 
                     {/* Source media caption */}
                     {sourceMedia && (
                       <div className="media-caption">
-                        {typeof sourceMedia === "string"
+                        {typeof sourceMedia === 'string'
                           ? sourceMedia
                           : Array.isArray(sourceMedia)
                           ? Array.isArray(sourceMedia) &&
                             sourceMedia[currentIndex]
                             ? sourceMedia[currentIndex]
-                            : sourceMedia[0] || "Source"
-                          : "Source"}
+                            : sourceMedia[0] || 'Source'
+                          : 'Source'}
                       </div>
                     )}
                   </div>
@@ -149,7 +149,7 @@ export default function Details() {
                     <div
                       key={idx}
                       className={`story-tab ${
-                        currentIndex === idx ? "active" : ""
+                        currentIndex === idx ? 'active' : ''
                       }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
@@ -167,7 +167,7 @@ export default function Details() {
               <p>
                 {descArray[currentIndex] ||
                   descArray[0] ||
-                  "No description available."}
+                  'No description available.'}
               </p>
             )}
           </div>
@@ -189,7 +189,7 @@ export default function Details() {
                       <a
                         key={index}
                         href={
-                          reference.startsWith("http")
+                          reference.startsWith('http')
                             ? reference
                             : `https://${reference}`
                         }
@@ -247,7 +247,7 @@ export default function Details() {
                             sourceMedia: nextEvent.sourceMedia,
                             templateType: nextEvent.templateType,
                           };
-                          dispatch({ type: "FOCUS", payload: tempMarker });
+                          dispatch({ type: 'FOCUS', payload: tempMarker });
                         }
                       }
                     }}
@@ -275,12 +275,12 @@ export default function Details() {
         <div className="header">
           <Button
             label="Back to globe"
-            onClick={() => dispatch({ type: "FOCUS" })}
+            onClick={() => dispatch({ type: 'FOCUS' })}
           />
         </div>
         <div className="detail-content">
           {/* Title from eventName */}
-          <h2 className="event-title">{eventName || "Historical Event"}</h2>
+          <h2 className="event-title">{eventName || 'Historical Event'}</h2>
 
           {/* Media (image/video) from mediaUrl - grid template with navigation */}
           {mediaArray.length > 0 && (
@@ -305,21 +305,21 @@ export default function Details() {
                       eventName={eventName}
                       currentIndex={currentIndex}
                       onError={(e) => {
-                        e.target.style.display = "none";
+                        e.target.style.display = 'none';
                       }}
                     />
 
                     {/* Source media caption */}
                     {sourceMedia && (
                       <div className="media-caption">
-                        {typeof sourceMedia === "string"
+                        {typeof sourceMedia === 'string'
                           ? sourceMedia
                           : Array.isArray(sourceMedia)
                           ? Array.isArray(sourceMedia) &&
                             sourceMedia[currentIndex]
                             ? sourceMedia[currentIndex]
-                            : sourceMedia[0] || "Source"
-                          : "Source"}
+                            : sourceMedia[0] || 'Source'
+                          : 'Source'}
                       </div>
                     )}
                   </div>
@@ -343,7 +343,7 @@ export default function Details() {
                     <div
                       key={idx}
                       className={`grid-tab ${
-                        currentIndex === idx ? "active" : ""
+                        currentIndex === idx ? 'active' : ''
                       }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
@@ -358,7 +358,7 @@ export default function Details() {
           {/* Detailed description */}
           <div className="event-description">
             {description &&
-              (typeof description === "string" ? (
+              (typeof description === 'string' ? (
                 <p>{description}</p>
               ) : Array.isArray(description) ? (
                 // If description is an array (for other templates), show the first item
@@ -385,7 +385,7 @@ export default function Details() {
                       <a
                         key={index}
                         href={
-                          reference.startsWith("http")
+                          reference.startsWith('http')
                             ? reference
                             : `https://${reference}`
                         }
@@ -443,7 +443,7 @@ export default function Details() {
                             sourceMedia: nextEvent.sourceMedia,
                             templateType: nextEvent.templateType,
                           };
-                          dispatch({ type: "FOCUS", payload: tempMarker });
+                          dispatch({ type: 'FOCUS', payload: tempMarker });
                         }
                       }
                     }}
@@ -478,12 +478,12 @@ export default function Details() {
           <div className="header">
             <Button
               label="Back to globe"
-              onClick={() => dispatch({ type: "FOCUS" })}
+              onClick={() => dispatch({ type: 'FOCUS' })}
             />
           </div>
           <div className="content">
             <h2>
-              Các sự kiện tại:{" "}
+              Các sự kiện tại:{' '}
               {eventsAtLocation[0]?.location || focusedMarker.city}
             </h2>
             <div className="multiple-events-list">
@@ -507,7 +507,7 @@ export default function Details() {
                       templateType: event.templateType,
                       value: focusedMarker.value,
                     };
-                    dispatch({ type: "FOCUS", payload: tempMarker });
+                    dispatch({ type: 'FOCUS', payload: tempMarker });
                   }}
                 >
                   <h3>
@@ -521,9 +521,9 @@ export default function Details() {
       );
     } else {
       // Handle different template types
-      const templateType = focusedMarker.templateType || "normal";
+      const templateType = focusedMarker.templateType || 'normal';
 
-      if (templateType === "story_scroll") {
+      if (templateType === 'story_scroll') {
         // Render story scroll template with shared state
         return (
           <Fade className="details" show={!!focusedMarker}>
@@ -533,7 +533,7 @@ export default function Details() {
             />
           </Fade>
         );
-      } else if (templateType === "grid") {
+      } else if (templateType === 'grid') {
         // Render grid template with shared state
         return (
           <Fade className="details" show={!!focusedMarker}>
@@ -550,12 +550,12 @@ export default function Details() {
             <div className="header">
               <Button
                 label="Back to globe"
-                onClick={() => dispatch({ type: "FOCUS" })}
+                onClick={() => dispatch({ type: 'FOCUS' })}
               />
             </div>
             <div className="detail-content">
               {/* Title from eventName */}
-              <h2 className="event-title">{eventName || "Historical Event"}</h2>
+              <h2 className="event-title">{eventName || 'Historical Event'}</h2>
 
               {/* Media (image/video) from mediaUrl - normal template */}
               {mediaUrl && (
@@ -567,17 +567,17 @@ export default function Details() {
                       eventName={eventName}
                       currentIndex={0}
                       onError={(e) => {
-                        e.target.style.display = "none";
+                        e.target.style.display = 'none';
                       }}
                     />
-                  ) : typeof mediaUrl === "string" ? (
+                  ) : typeof mediaUrl === 'string' ? (
                     // If mediaUrl is a single string
                     <MediaDisplay
                       mediaUrl={mediaUrl}
                       eventName={eventName}
                       currentIndex={0}
                       onError={(e) => {
-                        e.target.style.display = "none";
+                        e.target.style.display = 'none';
                       }}
                     />
                   ) : null}
@@ -585,11 +585,11 @@ export default function Details() {
                   {/* Source media caption */}
                   {sourceMedia && (
                     <div className="media-caption">
-                      {typeof sourceMedia === "string"
+                      {typeof sourceMedia === 'string'
                         ? sourceMedia
                         : Array.isArray(sourceMedia)
-                        ? sourceMedia[0] || "Source"
-                        : "Source"}
+                        ? sourceMedia[0] || 'Source'
+                        : 'Source'}
                     </div>
                   )}
                 </div>
@@ -598,7 +598,7 @@ export default function Details() {
               {/* Detailed description */}
               <div className="event-description">
                 {description &&
-                  (typeof description === "string" ? (
+                  (typeof description === 'string' ? (
                     <p>{description}</p>
                   ) : Array.isArray(description) ? (
                     // If description is an array (for other templates), show the first item
@@ -625,7 +625,7 @@ export default function Details() {
                           <a
                             key={index}
                             href={
-                              reference.startsWith("http")
+                              reference.startsWith('http')
                                 ? reference
                                 : `https://${reference}`
                             }
@@ -683,7 +683,7 @@ export default function Details() {
                                 sourceMedia: nextEvent.sourceMedia,
                                 templateType: nextEvent.templateType,
                               };
-                              dispatch({ type: "FOCUS", payload: tempMarker });
+                              dispatch({ type: 'FOCUS', payload: tempMarker });
                             }
                           }
                         }}

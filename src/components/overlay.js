@@ -1,11 +1,11 @@
-import moment from "moment";
-import React, { useState } from "react";
+import moment from 'moment';
+import React, { useState } from 'react';
 
-import { useStateValue } from "../state";
-import About from "./about";
-import Description from "./description";
-import Fade from "./fade";
-import Link from "./link";
+import { useStateValue } from '../state';
+import About from './about';
+import Description from './description';
+import Fade from './fade';
+import Link from './link';
 
 export default function Overlay() {
   const [{ focusedMarker, lastUpdated, markers, start }, dispatch] =
@@ -36,14 +36,14 @@ export default function Overlay() {
           TOP 5 SEARCHING CITIES
           {markers.slice(0, 5).map((marker) => (
             <Link key={marker.city}>
-              <h2 onClick={() => dispatch({ type: "FOCUS", payload: marker })}>
+              <h2 onClick={() => dispatch({ type: 'FOCUS', payload: marker })}>
                 {marker.city} ({marker.value})
               </h2>
             </Link>
           ))}
         </div>
         <div className="footer">
-          Updated on {moment(lastUpdated).format("MMM D, YYYY")}
+          Updated on {moment(lastUpdated).format('MMM D, YYYY')}
         </div>
       </Fade>
     </>
