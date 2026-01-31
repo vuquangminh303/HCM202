@@ -222,6 +222,11 @@ body {
         margin-bottom: $spacing / 2;
         object-fit: contain;
         max-height: 25vh;
+
+        // Specific styles for iframes (YouTube videos)
+        &.youtube-video {
+          max-height: 400px; // Set a reasonable max height for YouTube videos
+        }
       }
 
       .media-caption {

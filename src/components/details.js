@@ -3,6 +3,7 @@ import React from "react";
 import { useStateValue } from "../state";
 import Button from "./button";
 import Fade from "./fade";
+import { extractYouTubeVideoId, isYouTubeUrl } from "../utils/youtubeUtils";
 
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
@@ -14,6 +15,53 @@ export function getRandomMarker({ focusedMarker, markers }) {
   if (filteredMarkers.length === 0) return null;
 
   return filteredMarkers[Math.floor(Math.random() * filteredMarkers.length)];
+}
+
+// MediaDisplay component to handle both images and YouTube videos
+function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
+  // Check if mediaUrl is a YouTube URL
+  if (isYouTubeUrl(mediaUrl)) {
+    const videoId = extractYouTubeVideoId(mediaUrl);
+
+    if (videoId) {
+      return (
+        <iframe
+          className="event-media youtube-video"
+          width="100%"
+          height="auto"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={`${eventName || "YouTube Video"} - ${currentIndex + 1}`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      );
+    }
+  }
+
+  // Check if mediaUrl is a video file
+  if (
+    typeof mediaUrl === "string" &&
+    (mediaUrl.endsWith(".mp4") ||
+      mediaUrl.endsWith(".mov") ||
+      mediaUrl.endsWith(".avi"))
+  ) {
+    return (
+      <video controls src={mediaUrl} className="event-media" onError={onError}>
+        Your browser does not support the video tag.
+      </video>
+    );
+  }
+
+  // Default to image
+  return (
+    <img
+      src={mediaUrl}
+      alt={`${eventName || "Historical media"} - Item ${currentIndex + 1}`}
+      className="event-media"
+      onError={onError}
+    />
+  );
 }
 
 export default function Details() {
@@ -58,28 +106,14 @@ export default function Details() {
                   </button>
 
                   <div className="media-display">
-                    {mediaArray[currentIndex]?.endsWith(".mp4") ||
-                    mediaArray[currentIndex]?.endsWith(".mov") ||
-                    mediaArray[currentIndex]?.endsWith(".avi") ? (
-                      <video
-                        controls
-                        src={mediaArray[currentIndex]}
-                        className="event-media"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={mediaArray[currentIndex]}
-                        alt={`${eventName || "Historical media"} - Item ${
-                          currentIndex + 1
-                        }`}
-                        className="event-media"
-                      />
-                    )}
+                    <MediaDisplay
+                      mediaUrl={mediaArray[currentIndex]}
+                      eventName={eventName}
+                      currentIndex={currentIndex}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
 
                     {/* Source media caption */}
                     {sourceMedia && (
@@ -266,28 +300,14 @@ export default function Details() {
                   </button>
 
                   <div className="media-display">
-                    {mediaArray[currentIndex]?.endsWith(".mp4") ||
-                    mediaArray[currentIndex]?.endsWith(".mov") ||
-                    mediaArray[currentIndex]?.endsWith(".avi") ? (
-                      <video
-                        controls
-                        src={mediaArray[currentIndex]}
-                        className="event-media"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={mediaArray[currentIndex]}
-                        alt={`${eventName || "Historical media"} - Item ${
-                          currentIndex + 1
-                        }`}
-                        className="event-media"
-                      />
-                    )}
+                    <MediaDisplay
+                      mediaUrl={mediaArray[currentIndex]}
+                      eventName={eventName}
+                      currentIndex={currentIndex}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
 
                     {/* Source media caption */}
                     {sourceMedia && (
@@ -542,33 +562,24 @@ export default function Details() {
                 <div className="media-container">
                   {Array.isArray(mediaUrl) ? (
                     // If mediaUrl is an array (fallback for normal template), show the first item
-                    <img
-                      src={mediaUrl[0]}
-                      alt={eventName || "Historical media"}
-                      className="event-media"
+                    <MediaDisplay
+                      mediaUrl={mediaUrl[0]}
+                      eventName={eventName}
+                      currentIndex={0}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
                     />
                   ) : typeof mediaUrl === "string" ? (
                     // If mediaUrl is a single string
-                    mediaUrl.endsWith(".mp4") ||
-                    mediaUrl.endsWith(".mov") ||
-                    mediaUrl.endsWith(".avi") ? (
-                      <video
-                        controls
-                        src={mediaUrl}
-                        className="event-media"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={mediaUrl}
-                        alt={eventName || "Historical media"}
-                        className="event-media"
-                      />
-                    )
+                    <MediaDisplay
+                      mediaUrl={mediaUrl}
+                      eventName={eventName}
+                      currentIndex={0}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
                   ) : null}
 
                   {/* Source media caption */}
