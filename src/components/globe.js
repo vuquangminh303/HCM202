@@ -46,13 +46,54 @@ const markerMaterials = {
   }), // Deep Pink - for 5+ events
 };
 
-function markerRenderer(marker) {
-  // Use the eventsCount property from the marker
+function createPinMarker() {
+  // Create a cone geometry for the pin shape
+  const radiusTop = 0.01;
+  const radiusBottom = 0.3;
+  const height = 1.0;
+  const radialSegments = 8;
+
+  const geometry = new THREE.ConeGeometry(radiusTop, height, radialSegments);
+
+  // Rotate the cone to point upwards
+  geometry.rotateX(Math.PI); // Rotate 180 degrees around X-axis
+
+  // Position the cone so that the tip is at the marker location
+  geometry.translate(0, height / 2, 0);
+
+  const material = new THREE.MeshBasicMaterial({
+    color: new THREE.Color('#FF0000'), // Red color for the focused marker
+    side: THREE.DoubleSide
+  });
+
+  const pin = new THREE.Mesh(geometry, material);
+
+  // Add a small sphere at the tip of the pin
+  const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+  const sphereMaterial = new THREE.MeshBasicMaterial({
+    color: new THREE.Color('#FF0000'),
+    side: THREE.DoubleSide
+  });
+  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+  // Position the sphere at the bottom of the cone (the tip position)
+  sphere.position.y = -height / 2;
+
+  // Create a group to hold both the cone and sphere
+  const pinGroup = new THREE.Group();
+  pinGroup.add(pin);
+  pinGroup.add(sphere);
+
+  return pinGroup;
+}
+
+function createSphereMarker(marker) {
+  // Use the eventsCount property from the marker for non-focused markers
   const eventsAtLocation = marker.eventsCount || 1;
 
-  // Calculate size based on number of events at this location - significantly increased overall size
-  const baseSize = 2.0; // Doubled from 1.0 to make markers more visible
-  const size = Math.min(baseSize + eventsAtLocation * 1.0, 6.0); // Increased multiplier and max size for better visibility
+  // Calculate size based on number of events at this location - reduced overall size to prevent overlap
+  const baseSize = 0.8; // Reduced from 2.0 to prevent markers from being too large
+  const size = Math.min(baseSize + eventsAtLocation * 0.4, 2.5); // Reduced multiplier and max size to prevent clustering
 
   // Determine the event count category for material selection
   const eventCategory = eventsAtLocation > 4 ? 5 : eventsAtLocation;
@@ -66,6 +107,17 @@ function markerRenderer(marker) {
   const sphere = new THREE.Mesh(geometry, material);
 
   return sphere;
+}
+
+function markerRenderer(marker, focusedMarker) {
+  // Check if this marker is the focused one
+  const isFocused = focusedMarker && marker.id === focusedMarker.id;
+
+  if (isFocused) {
+    return createPinMarker();
+  } else {
+    return createSphereMarker(marker);
+  }
 }
 
 export default function Globe() {
@@ -105,6 +157,7 @@ export default function Globe() {
     enableGlobeGlow: !isFocusing,
     enableCameraRotate: start && !isFocusing,
     enableCameraZoom: start && !isFocusing, // Disable zoom when detail page is open
+    markerAltitude: (marker) => 0.1, // Place markers very close to the globe surface
     markerTooltipRenderer: (marker) => {
       // Return plain text without HTML tags
       const eventName =
@@ -112,7 +165,7 @@ export default function Globe() {
       const year = marker.year || '';
       return `${eventName} (${year})`;
     },
-    markerRenderer,
+    markerRenderer: (marker) => markerRenderer(marker, focusedMarker),
     markerLabel: (marker) => marker.city, // Show location name next to markers
   };
 

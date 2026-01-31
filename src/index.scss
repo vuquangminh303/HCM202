@@ -170,7 +170,7 @@ body {
   width: 35%; // Take up right portion of screen
   overflow-y: auto; // Single vertical scrollbar for the entire detail page
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); // Subtle shadow on left edge
-  z-index: 1000; // Ensure detail panel is above other elements
+  z-index: 1001; // Ensure detail panel is above other elements
   pointer-events: auto; // Ensure it captures mouse events
 
   // Override global body color for text elements in details panel

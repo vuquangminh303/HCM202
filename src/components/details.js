@@ -80,7 +80,7 @@ export default function Details() {
       <>
         <div className="header">
           <Button
-            label="Back to globe"
+            label="Quay về quả địa cầu"
             onClick={() => dispatch({ type: 'FOCUS' })}
           />
         </div>
@@ -121,11 +121,11 @@ export default function Details() {
                         {typeof sourceMedia === 'string'
                           ? sourceMedia
                           : Array.isArray(sourceMedia)
-                          ? Array.isArray(sourceMedia) &&
-                            sourceMedia[currentIndex]
-                            ? sourceMedia[currentIndex]
-                            : sourceMedia[0] || 'Source'
-                          : 'Source'}
+                            ? Array.isArray(sourceMedia) &&
+                              sourceMedia[currentIndex]
+                              ? sourceMedia[currentIndex]
+                              : sourceMedia[0] || 'Source'
+                            : 'Source'}
                       </div>
                     )}
                   </div>
@@ -148,9 +148,8 @@ export default function Details() {
                   {mediaArray.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`story-tab ${
-                        currentIndex === idx ? 'active' : ''
-                      }`}
+                      className={`story-tab ${currentIndex === idx ? 'active' : ''
+                        }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
                       {idx + 1}
@@ -274,7 +273,7 @@ export default function Details() {
       <>
         <div className="header">
           <Button
-            label="Back to globe"
+            label="Quay về quả địa cầu"
             onClick={() => dispatch({ type: 'FOCUS' })}
           />
         </div>
@@ -315,11 +314,11 @@ export default function Details() {
                         {typeof sourceMedia === 'string'
                           ? sourceMedia
                           : Array.isArray(sourceMedia)
-                          ? Array.isArray(sourceMedia) &&
-                            sourceMedia[currentIndex]
-                            ? sourceMedia[currentIndex]
-                            : sourceMedia[0] || 'Source'
-                          : 'Source'}
+                            ? Array.isArray(sourceMedia) &&
+                              sourceMedia[currentIndex]
+                              ? sourceMedia[currentIndex]
+                              : sourceMedia[0] || 'Source'
+                            : 'Source'}
                       </div>
                     )}
                   </div>
@@ -342,9 +341,8 @@ export default function Details() {
                   {mediaArray.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`grid-tab ${
-                        currentIndex === idx ? 'active' : ''
-                      }`}
+                      className={`grid-tab ${currentIndex === idx ? 'active' : ''
+                        }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
                       {idx + 1}
@@ -477,7 +475,7 @@ export default function Details() {
         <>
           <div className="header">
             <Button
-              label="Back to globe"
+              label="Quay về quả địa cầu"
               onClick={() => dispatch({ type: 'FOCUS' })}
             />
           </div>
@@ -549,7 +547,7 @@ export default function Details() {
           <>
             <div className="header">
               <Button
-                label="Back to globe"
+                label="Quay về quả địa cầu"
                 onClick={() => dispatch({ type: 'FOCUS' })}
               />
             </div>
@@ -588,8 +586,8 @@ export default function Details() {
                       {typeof sourceMedia === 'string'
                         ? sourceMedia
                         : Array.isArray(sourceMedia)
-                        ? sourceMedia[0] || 'Source'
-                        : 'Source'}
+                          ? sourceMedia[0] || 'Source'
+                          : 'Source'}
                     </div>
                   )}
                 </div>
@@ -702,8 +700,25 @@ export default function Details() {
   }
 
   return (
-    <Fade className="details" show={!!focusedMarker}>
-      {content}
-    </Fade>
+    <>
+      {focusedMarker && (
+        <div
+          className="details-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 999,
+            pointerEvents: 'auto' // This ensures the overlay blocks interaction
+          }}
+          onClick={() => dispatch({ type: 'FOCUS' })} // Close when clicking on overlay
+        />
+      )}
+      <Fade className="details" show={!!focusedMarker}>
+        {content}
+      </Fade>
+    </>
   );
 }
