@@ -23,7 +23,7 @@
     "history"
   ],
   "scripts": {
-    "build": "npm run clean && react-scripts build",
+    "build": "react-scripts build",
     "clean": "rimraf build",
     "lint": "eslint --fix .",
     "start": "react-scripts start"
