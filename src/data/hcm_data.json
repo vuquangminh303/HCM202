@@ -303,15 +303,14 @@
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 12,
       "phase": 2,
-      "year": "5-1913",
-      "location": "Le Harve, Pháp",
+      "year": "5-1914",
+      "location": "London (Anh)",
       "coordinates": [
-        49.495456050077934,
-        0.1007725717219458
+        51.50502529335678, -0.12632781669614476
       ],
       "eventMeta": "Rời cảng La Havre sang Anh",
       "eventName": "Rời cảng La Havre sang Anh",
-      "description": "- Tại London, trung tâm của đế quốc lớn nhất thế giới thời bấy giờ là nước Anh, Người đã khám phá và nắm bắt chủ nghĩa Marx như một lời kêu gọi giải phóng và hành động sáng tạo.Thời gian Người ở London là một bước đệm trên con đường tìm hiểu thế giới, để Người có thể mang về những điều tìm hiểu được, có lợi cho đồng bào của mình, góp phần quan trọng hình thành nên tư tưởng Hồ Chí Minh, một tài sản vô giá trong công cuộc giải phóng dân tộc khỏi nô lệ áp bức và là kim chỉ nam của nhân dân Việt Nam trên con đường đi tới tự do, dân chủ, xã hội công bằng, văn minh. Tại Anh, Người đã phải làm rất nhiều việc nặng nhọc như cào tuyết trong trường học, điều khiển hệ thống nước nóng rồi phụ bếp trong khách sạn nhỏ Drayton Court, rửa bát đĩa trong khách sạn danh tiếng Carlton ở London.",
+      "description": "- 5-1913 Người rời cảng La Harve và đến London lúc 5-1941. Tại London, trung tâm của đế quốc lớn nhất thế giới thời bấy giờ là nước Anh, Người đã khám phá và nắm bắt chủ nghĩa Marx như một lời kêu gọi giải phóng và hành động sáng tạo.Thời gian Người ở London là một bước đệm trên con đường tìm hiểu thế giới, để Người có thể mang về những điều tìm hiểu được, có lợi cho đồng bào của mình, góp phần quan trọng hình thành nên tư tưởng Hồ Chí Minh, một tài sản vô giá trong công cuộc giải phóng dân tộc khỏi nô lệ áp bức và là kim chỉ nam của nhân dân Việt Nam trên con đường đi tới tự do, dân chủ, xã hội công bằng, văn minh. Tại Anh, Người đã phải làm rất nhiều việc nặng nhọc như cào tuyết trong trường học, điều khiển hệ thống nước nóng rồi phụ bếp trong khách sạn nhỏ Drayton Court, rửa bát đĩa trong khách sạn danh tiếng Carlton ở London.",
       "mediaUrl": [
         "https://cdnmedia.baotintuc.vn/2015/05/07/22/38/Khach-san-Drayton-Court-Noi-Bac-Ho-tung-lam-viec.jpg"
       ],
@@ -321,6 +320,7 @@
       "references": "https://www.qdnd.vn/ky-niem-110-nam-ngay-bac-ho-ra-di-tim-duong-cuu-nuoc/hanh-trinh-lich-su/theo-dau-chan-chu-tich-ho-chi-minh-tai-thu-do-xu-so-suong-mu-660920",
       "templateType": "normal"
     },
+  
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 13,
@@ -418,7 +418,7 @@
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 17,
       "phase": 3,
-      "year": "1923-1924",
+      "year": "1924",
       "location": "Moskva (Moscow) – Liên Xô",
       "coordinates": [
         55.759325461913626,
@@ -446,7 +446,7 @@
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 18,
       "phase": 3,
-      "year": 1924,
+      "year": 1925,
       "location": "Quảng Châu (Guangzhou) – Trung Quốc",
       "coordinates": [
         23.128590814502367,
