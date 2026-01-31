@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { useStateValue } from '../state';
-import Description from './description';
-import Fade from './fade';
+import { useStateValue } from "../state";
+import Description from "./description";
+import Fade from "./fade";
 
 export default function Intro() {
   const [{ hasLoaded, start }, dispatch] = useStateValue();
@@ -10,7 +10,7 @@ export default function Intro() {
   // Auto-start the application when loaded
   useEffect(() => {
     if (hasLoaded && !start) {
-      dispatch({ type: 'START' });
+      dispatch({ type: "START" });
     }
   }, [hasLoaded, start, dispatch]);
 

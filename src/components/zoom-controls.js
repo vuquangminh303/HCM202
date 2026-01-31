@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import './zoom-controls.scss';
+import React, { useCallback } from "react";
+import "./zoom-controls.scss";
 
 export default function ZoomControls({
   onZoomIn,
@@ -14,7 +14,7 @@ export default function ZoomControls({
         onZoomIn();
       }
     },
-    [onZoomIn, disabled],
+    [onZoomIn, disabled]
   );
 
   const handleZoomOut = useCallback(
@@ -25,7 +25,7 @@ export default function ZoomControls({
         onZoomOut();
       }
     },
-    [onZoomOut, disabled],
+    [onZoomOut, disabled]
   );
 
   return (
@@ -34,14 +34,16 @@ export default function ZoomControls({
         className="zoom-button zoom-in"
         onClick={handleZoomIn}
         disabled={disabled}
-        aria-label="Zoom in">
+        aria-label="Zoom in"
+      >
         +
       </button>
       <button
         className="zoom-button zoom-out"
         onClick={handleZoomOut}
         disabled={disabled}
-        aria-label="Zoom out">
+        aria-label="Zoom out"
+      >
         -
       </button>
     </div>

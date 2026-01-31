@@ -75,6 +75,7 @@ export default function Globe() {
   const [hasGlobeCloudsTextureLoaded, setHasGlobeCloudsTextureLoaded] =
     useState(false);
   const [hasGlobeTextureLoaded, setHasGlobeTextureLoaded] = useState(false);
+  const [textureLoadError, setTextureLoadError] = useState(false);
   const [{ config, focusedMarker, hasLoaded, markers, start }, dispatch] =
     useStateValue();
 
@@ -106,12 +107,20 @@ export default function Globe() {
     enableCameraZoom: start && !isFocusing, // Disable zoom when detail page is open
     markerTooltipRenderer: (marker) => {
       // Return plain text without HTML tags
-      const eventName = marker.eventName || marker.eventMeta || "Historical Event";
+      const eventName =
+        marker.eventName || marker.eventMeta || "Historical Event";
       const year = marker.year || "";
       return `${eventName} (${year})`;
     },
     markerRenderer,
     markerLabel: (marker) => marker.city, // Show location name next to markers
+  };
+
+  // Handle texture loading errors gracefully
+  const handleTextureError = () => {
+    setTextureLoadError(true);
+    // Still dispatch loaded to allow the app to continue functioning
+    dispatch({ type: "LOADED" });
   };
 
   return (
@@ -138,9 +147,34 @@ export default function Globe() {
           onGlobeCloudsTextureLoaded={() =>
             setHasGlobeCloudsTextureLoaded(true)
           }
+          onGlobeTextureError={handleTextureError}
+          onGlobeBackgroundTextureError={handleTextureError}
+          onGlobeCloudsTextureError={handleTextureError}
         />
       </div>
-      <Fade animationDuration={3000} className="cover" show={!hasLoaded} />
+      {!hasLoaded && !textureLoadError && (
+        <Fade animationDuration={3000} className="cover" show={!hasLoaded} />
+      )}
+      {textureLoadError && (
+        <div
+          className="error-message"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "white",
+            fontSize: "18px",
+            textAlign: "center",
+            zIndex: 10000,
+          }}
+        >
+          <p>
+            Loading globe textures failed. Showing application with limited
+            functionality.
+          </p>
+        </div>
+      )}
     </>
   );
 }

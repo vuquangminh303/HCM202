@@ -59,8 +59,8 @@ export default function Details() {
 
                   <div className="media-display">
                     {mediaArray[currentIndex]?.endsWith(".mp4") ||
-                      mediaArray[currentIndex]?.endsWith(".mov") ||
-                      mediaArray[currentIndex]?.endsWith(".avi") ? (
+                    mediaArray[currentIndex]?.endsWith(".mov") ||
+                    mediaArray[currentIndex]?.endsWith(".avi") ? (
                       <video
                         controls
                         src={mediaArray[currentIndex]}
@@ -74,8 +74,9 @@ export default function Details() {
                     ) : (
                       <img
                         src={mediaArray[currentIndex]}
-                        alt={`${eventName || "Historical media"} - Item ${currentIndex + 1
-                          }`}
+                        alt={`${eventName || "Historical media"} - Item ${
+                          currentIndex + 1
+                        }`}
                         className="event-media"
                       />
                     )}
@@ -86,11 +87,11 @@ export default function Details() {
                         {typeof sourceMedia === "string"
                           ? sourceMedia
                           : Array.isArray(sourceMedia)
-                            ? Array.isArray(sourceMedia) &&
-                              sourceMedia[currentIndex]
-                              ? sourceMedia[currentIndex]
-                              : sourceMedia[0] || "Source"
-                            : "Source"}
+                          ? Array.isArray(sourceMedia) &&
+                            sourceMedia[currentIndex]
+                            ? sourceMedia[currentIndex]
+                            : sourceMedia[0] || "Source"
+                          : "Source"}
                       </div>
                     )}
                   </div>
@@ -113,8 +114,9 @@ export default function Details() {
                   {mediaArray.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`story-tab ${currentIndex === idx ? "active" : ""
-                        }`}
+                      className={`story-tab ${
+                        currentIndex === idx ? "active" : ""
+                      }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
                       {idx + 1}
@@ -265,8 +267,8 @@ export default function Details() {
 
                   <div className="media-display">
                     {mediaArray[currentIndex]?.endsWith(".mp4") ||
-                      mediaArray[currentIndex]?.endsWith(".mov") ||
-                      mediaArray[currentIndex]?.endsWith(".avi") ? (
+                    mediaArray[currentIndex]?.endsWith(".mov") ||
+                    mediaArray[currentIndex]?.endsWith(".avi") ? (
                       <video
                         controls
                         src={mediaArray[currentIndex]}
@@ -280,8 +282,9 @@ export default function Details() {
                     ) : (
                       <img
                         src={mediaArray[currentIndex]}
-                        alt={`${eventName || "Historical media"} - Item ${currentIndex + 1
-                          }`}
+                        alt={`${eventName || "Historical media"} - Item ${
+                          currentIndex + 1
+                        }`}
                         className="event-media"
                       />
                     )}
@@ -292,11 +295,11 @@ export default function Details() {
                         {typeof sourceMedia === "string"
                           ? sourceMedia
                           : Array.isArray(sourceMedia)
-                            ? Array.isArray(sourceMedia) &&
-                              sourceMedia[currentIndex]
-                              ? sourceMedia[currentIndex]
-                              : sourceMedia[0] || "Source"
-                            : "Source"}
+                          ? Array.isArray(sourceMedia) &&
+                            sourceMedia[currentIndex]
+                            ? sourceMedia[currentIndex]
+                            : sourceMedia[0] || "Source"
+                          : "Source"}
                       </div>
                     )}
                   </div>
@@ -319,8 +322,9 @@ export default function Details() {
                   {mediaArray.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`grid-tab ${currentIndex === idx ? "active" : ""
-                        }`}
+                      className={`grid-tab ${
+                        currentIndex === idx ? "active" : ""
+                      }`}
                       onClick={() => setCurrentIndex(idx)}
                     >
                       {idx + 1}
@@ -546,8 +550,8 @@ export default function Details() {
                   ) : typeof mediaUrl === "string" ? (
                     // If mediaUrl is a single string
                     mediaUrl.endsWith(".mp4") ||
-                      mediaUrl.endsWith(".mov") ||
-                      mediaUrl.endsWith(".avi") ? (
+                    mediaUrl.endsWith(".mov") ||
+                    mediaUrl.endsWith(".avi") ? (
                       <video
                         controls
                         src={mediaUrl}
@@ -573,8 +577,8 @@ export default function Details() {
                       {typeof sourceMedia === "string"
                         ? sourceMedia
                         : Array.isArray(sourceMedia)
-                          ? sourceMedia[0] || "Source"
-                          : "Source"}
+                        ? sourceMedia[0] || "Source"
+                        : "Source"}
                     </div>
                   )}
                 </div>
