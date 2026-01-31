@@ -107,7 +107,8 @@ export default function Globe() {
     enableCameraZoom: start && !isFocusing, // Disable zoom when detail page is open
     markerTooltipRenderer: (marker) => {
       // Return plain text without HTML tags
-      const eventName = marker.eventName || marker.eventMeta || "Historical Event";
+      const eventName =
+        marker.eventName || marker.eventMeta || "Historical Event";
       const year = marker.year || "";
       return `${eventName} (${year})`;
     },
@@ -155,17 +156,23 @@ export default function Globe() {
         <Fade animationDuration={3000} className="cover" show={!hasLoaded} />
       )}
       {textureLoadError && (
-        <div className="error-message" style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          color: 'white',
-          fontSize: '18px',
-          textAlign: 'center',
-          zIndex: 10000
-        }}>
-          <p>Loading globe textures failed. Showing application with limited functionality.</p>
+        <div
+          className="error-message"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "white",
+            fontSize: "18px",
+            textAlign: "center",
+            zIndex: 10000,
+          }}
+        >
+          <p>
+            Loading globe textures failed. Showing application with limited
+            functionality.
+          </p>
         </div>
       )}
     </>

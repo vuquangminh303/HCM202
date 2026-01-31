@@ -23,10 +23,10 @@
     "history"
   ],
   "scripts": {
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "start": "npm run format && react-scripts start",
     "build": "react-scripts build",
-    "clean": "rimraf build",
-    "lint": "eslint --fix .",
-    "start": "react-scripts start"
+    "lint": "eslint --fix ."
   },
   "dependencies": {
     "@types/react": "^16.9.45",

@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from "react";
 
-import config from './config';
-import hcmData from './data/hcm_data.json';
+import config from "./config";
+import hcmData from "./data/hcm_data.json";
 
 const { lastUpdated, events } = hcmData;
 
@@ -37,7 +37,7 @@ const transformedMarkers = Object.entries(locationMap).map(
       eventsCount: eventsAtLocation.length,
       eventsAtLocation: eventsAtLocation, // Store all events at this location
     };
-  },
+  }
 );
 
 export const initialState = {
@@ -53,22 +53,22 @@ export const initialState = {
 export function reducer(state, action) {
   const { payload, type } = action;
   switch (type) {
-    case 'LOADED':
+    case "LOADED":
       return {
         ...state,
         hasLoaded: true,
       };
-    case 'START':
+    case "START":
       return {
         ...state,
         start: true,
       };
-    case 'FOCUS':
+    case "FOCUS":
       return {
         ...state,
         focusedMarker: payload,
       };
-    case 'UNFOCUS':
+    case "UNFOCUS":
       return {
         ...state,
         focusedMarker: null,

@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import App from './components/app';
-import { StateProvider, initialState, reducer } from './state';
+import App from "./components/app";
+import { StateProvider, initialState, reducer } from "./state";
 
-import './index.scss';
+import "./index.scss";
 
 function Root() {
   return (
@@ -14,4 +14,4 @@ function Root() {
   );
 }
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById("root"));
