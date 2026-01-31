@@ -3,82 +3,161 @@
   "keyword": "Hành trình Cách mạng của Chủ tịch Hồ Chí Minh",
   "events": [
     {
-      "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
       "id": 1,
       "phase": 1,
-      "year": 1890,
-      "location": "Kim Liên, Nam Đàn, Nghệ An",
+      "year": "19-5-1890",
+      "location": "tỉnh Nghệ An, Việt Nam",
       "coordinates": [
-        18.8833,
-        105.5833
+        18.676754,
+        105.568941
       ],
-      "eventMeta": "Cơ sở hình thành tư tưởng",
-      "eventName": "Sinh ra tại quê hương Nghệ An",
-      "description": "Nguyễn Sinh Cung sinh ra trong một gia đình nhà nho yêu nước, tại vùng đất giàu truyền thống cách mạng. Đây là nhân tố khách quan quan trọng thuộc truyền thống văn hóa dân tộc góp phần hình thành tư tưởng yêu nước sớm ở Người.",
-      "mediaUrl": "/images/kimlien.jpg",
-      "sourceMedia": "Bảo tàng Hồ Chí Minh",
-      "references": [
-        "Giáo trình Tư tưởng Hồ Chí Minh"
-      ],
-      "templateType": "normal"
-    },
-    {
-      "__comment": "TEMPLATE STORY_SCROLL: Dùng cho hành trình dài. 'description' và 'mediaUrl' phải là mảng (Array) có số phần tử bằng nhau để khớp cặp ảnh-chữ khi cuộn.",
-      "id": 2,
-      "phase": 2,
-      "year": "1911 - 1917",
-      "location": "Hành trình xuyên đại dương",
-      "coordinates": [
-        10.8231,
-        106.6297
-      ],
-      "eventMeta": "Tìm đường cứu nước",
-      "eventName": "Hành trình vạn dặm khảo sát thực tiễn",
-      "description": [
-        "Ngày 5/6/1911, Người rời cảng Nhà Rồng trên con tàu Amiral Latouche-Tréville, bắt đầu hành trình khảo sát các nước tư bản phương Tây.",
-        "Tại Mỹ và Anh, Người vừa lao động vừa quan sát cuộc sống của giai cấp công nhân và nhân dân các nước thuộc địa, rút ra bài học về quyền tự do, bình đẳng.",
-        "Người nhận thấy rằng ở đâu bọn đế quốc cũng tàn bạo, ở đâu người nghèo cũng bị áp bức, từ đó hình thành tình cảm giai cấp sâu sắc."
-      ],
+      "eventMeta": "Ngày chủ tịch Hồ Chí Minh ra đời",
+      "eventName": "Ngày chủ tịch Hồ Chí Minh ra đời",
+      "description": "Chủ tịch Hồ Chí Minh (lúc nhỏ tên là Nguyễn Sinh Cung) sinh ngày 19-5-1890 trong một gia đình nhà nho yêu nước, tại làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An. Thân phụ là Nguyễn Sinh Sắc, thân mẫu là Hoàng Thị Loan.",
       "mediaUrl": [
-        "/images/ben-nha-rong.jpg",
-        "/images/london-work.jpg",
-        "/images/imperialism-study.jpg"
+        "https://file.qdnd.vn/data/images/0/2019/08/31/tuanson/2.jpg?dpi=150&quality=100&w=575",
+        "https://files-vnportal.camau.gov.vn/gov-cmu/5176/KTVHXH/nguoi_cha_cua_bac.jpg",
+        "https://bna.1cdn.vn/2024/05/31/than_mau_bac_11.jpg",
+        "https://ik.imagekit.io/tvlk/blog/2023/06/lang-sen-que-bac-acc-1.png"
       ],
       "sourceMedia": [
-        "Tư liệu lịch sử",
-        "Ảnh lưu trữ Pháp",
-        "Bảo tàng HCM"
+        "Nguồn: Báo Quân đội nhân dân",
+        "Nguồn: Cổng TTĐT xã Lý Văn Lâm (Cà Mau)",
+        "Nguồn: Báo Nghệ An",
+        "Nguồn: Traveloka"
       ],
       "references": [
-        "Hành trình 30 năm cứu nước"
+        "https://baoquangninh.vn/than-the-va-su-nghiep-cua-chu-tich-ho-chi-minh-2268680.html"
+      ],
+      "templateType": "grid"
+    },
+    {
+      "id": 2,
+      "phase": 1,
+      "year": "1895",
+      "location": "112 Mai Thúc Loan, Thành Nội, Huế",
+      "coordinates": [
+        16.4755189,
+        107.5805452
+      ],
+      "eventMeta": "Nguyễn Sinh Cung theo gia đình vào Huế",
+      "eventName": "Nguyễn Sinh Cung theo gia đình vào Huế",
+      "description": [
+        "Cuối năm 1895, gia đình ông Nguyễn Sinh Sắc vào Huế sinh sống. Tại đây, Nguyễn Sinh Cung được nuôi dưỡng trong nếp sống giản dị, thanh bạch, chan hòa yêu thương. Cha chăm lo học hành, mẹ tần tảo quán xuyến gia đình, hai anh em sớm quen lao động."
+      ],
+      "mediaUrl": [
+        "https://thanhuyhue.vn/imgs/Thu_muc_he_thong/_Nam_2024/hoang-thang-05/1s_99.jpg",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-2.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-3.JPG",
+        "https://btllang.bqp.vn/images/Thang_6_-_2014/26-6-2014/nha-bac-hue-4.JPG",
+        "https://baoquankhu4.com.vn/upload/18269/fck/files/Gia%20dinh%20bac(1).png"
+      ],
+      "sourceMedia": [
+        "Nguồn: Thành ủy Huế",
+        "Nguồn: Bộ Tư Lệnh Lăng",
+        "Nguồn: Báo Quân khu 4"
+      ],
+      "references": [
+        "https://baoquangninh.vn/than-the-va-su-nghiep-cua-chu-tich-ho-chi-minh-2268680.html"
       ],
       "templateType": "story_scroll"
     },
     {
-      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 3,
-      "phase": 2,
-      "year": 1920,
-      "location": "Tours, Pháp",
+      "phase": 1,
+      "year": "1901",
+      "location": "Kim Liên, Nam Đàn, Nghệ An",
       "coordinates": [
-        47.3941,
-        0.6848
+        18.676754,
+        105.568941
       ],
-      "eventMeta": "Bước ngoặt tư tưởng",
-      "eventName": "Đại hội Tours - Tin theo con đường Quốc tế III",
-      "description": "Tại Đại hội Đảng Xã hội Pháp ở Tours, Nguyễn Ái Quốc bỏ phiếu tán thành gia nhập Quốc tế Cộng sản. Đây là dấu mốc quan trọng khi Người chuyển từ chủ nghĩa yêu nước sang chủ nghĩa cộng sản, tìm thấy con đường giải phóng dân tộc gắn liền với giải phóng giai cấp.",
+      "eventMeta": "Mẹ mất, đổi tên thành Nguyễn Tất Thành",
+      "eventName": "Mẹ mất, trở về Nghệ An, đổi tên thành Nguyễn Tất Thành",
+      "description": "Sau khi thân mẫu Hoàng Thị Loan qua đời tại Huế, Nguyễn Sinh Cung theo cha trở về Nghệ An và đổi tên thành Nguyễn Tất Thành. Ông tiếp tục học chữ Hán, theo cha đi nhiều nơi, mở rộng hiểu biết và hun đúc ý chí.",
       "mediaUrl": [
-        "/images/dai-hoi-tours-1.jpg",
-        "/images/nhan-vat-lich-su.jpg",
-        "/images/ba-con-nguoi.jpg",
-        "/images/document-1920.jpg"
+        "https://www.evn.com.vn/userfile/VH/User/huyent_tcdl/images/2021/5/BacHovacauchuyentuhoctap185.jpg",
+        "https://file.qdnd.vn/data/images/0/2020/05/05/vietcuong/c3.jpg?dpi=150&quality=100&w=575"
       ],
       "sourceMedia": [
-        "Lưu trữ Quốc gia Pháp",
-        "Nguồn ảnh Quốc tế"
+        "Nguồn: EVN",
+        "Nguồn: Báo Quân đội nhân dân"
       ],
-      "quoteSource": "Luận cương của Lênin về vấn đề dân tộc và thuộc địa",
+      "references": [
+        "https://baoquangninh.vn/than-the-va-su-nghiep-cua-chu-tich-ho-chi-minh-2268680.html"
+      ],
       "templateType": "grid"
+    },
+    {
+      "id": 4,
+      "phase": 3,
+      "year": "1920",
+      "location": "Tours, Pháp",
+      "coordinates": [
+        47.3964773,
+        0.6815147
+      ],
+      "eventMeta": "Đại hội Tours – Bước ngoặt tư tưởng",
+      "eventName": "Tham dự Đại hội Tours, sáng lập Đảng Cộng sản Pháp",
+      "description": "Nguyễn Ái Quốc bỏ phiếu tán thành Quốc tế III, trở thành người cộng sản Việt Nam đầu tiên. Đây là bước ngoặt quyết định, xác lập con đường cách mạng vô sản để giải phóng dân tộc.",
+      "mediaUrl": [
+        "https://baoquankhu4.com.vn/upload/18269/20230605/grabb00b1khoi_1.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: Báo Quân Khu Bốn"
+      ],
+      "references": [
+        "https://baovanhoa.vn/doi-song/nguyen-ai-quoc-du-dai-hoi-tours-1920-192332.html"
+      ],
+      "templateType": "grid"
+    },
+    {
+      "id": 5,
+      "phase": 3,
+      "year": "3-2-1930",
+      "location": "Hương Cảng, Trung Quốc",
+      "coordinates": [
+        22.3199189,
+        114.1721474
+      ],
+      "eventMeta": "Thành lập Đảng Cộng sản Việt Nam",
+      "eventName": "Hội nghị hợp nhất – Thành lập Đảng Cộng sản Việt Nam",
+      "description": "Nguyễn Ái Quốc chủ trì hợp nhất ba tổ chức cộng sản, thành lập Đảng Cộng sản Việt Nam. Soạn thảo các văn kiện nền tảng, xác lập đường lối cách mạng giải phóng dân tộc đúng đắn.",
+      "mediaUrl": [
+        "https://baoquankhu4.com.vn/upload/18269/20230605/grab178bchoinghithanhlapdcsvn.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: Báo Quân Khu Bốn"
+      ],
+      "references": [
+        "https://en.nhandan.vn/founding-of-the-communist-party-of-viet-nam-vietnamese-revolutions-great-turning-point-post154388.htm"
+      ],
+      "templateType": "normal"
+    },
+    {
+      "id": 6,
+      "phase": 5,
+      "year": 1941,
+      "location": "Hang Cốc Bó, Pác Bó, Cao Bằng",
+      "coordinates": [
+        22.977577,
+        106.050313
+      ],
+      "eventMeta": "Hồ Chí Minh trở về nước trực tiếp lãnh đạo cách mạng",
+      "eventName": "Hồ Chí Minh trở về nước trực tiếp lãnh đạo cách mạng",
+      "description": [
+        "Đầu năm 1941, trước bối cảnh chiến tranh thế giới có những biến chuyển mau lẹ, Người nhận định thời cơ cách mạng đang đến gần. Với tầm nhìn chiến lược, Người quyết đoán: “Đây là thời cơ thuận lợi cho cách mạng Việt Nam. Ta phải tìm mọi cách về nước để tranh thủ nắm thời cơ. Chậm trễ lúc này là có tội với cách mạng”. Ngày 28/01/1941, Người vượt mốc 108 về đến Pác Bó, xã Trường Hà, huyện Hà Quảng, tỉnh Cao Bằng, bắt đầu giai đoạn trực tiếp lãnh đạo cách mạng Việt Nam.",
+        "- Người triệu tập và chủ trì Hội nghị Trung ương Đảng lần thứ tám (tháng 5/1941), hoàn chỉnh chủ trương đặt nhiệm vụ giải phóng dân tộc lên hàng đầu, quyết định thành lập Mặt trận Việt Nam độc lập đồng minh (Việt Minh)"
+      ],
+      "mediaUrl": [
+        "https://cdn.tienphong.vn/images/9a487ae1d52bfdde956286b9605…f8d23248/z7442473698268-1849294f8cf71b66289612efe95e510e.jpg",
+        "https://baotanglichsu.vn/DataFiles/Uploaded/image/data%20Hu…%83m%202014/19%20thang%205%20thanh%20lap%20viet%20minh/1.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: Báo Tiền Phong",
+        "Nguồn: Bảo tàng Lịch sử Quốc gia"
+      ],
+      "references": "https://thanhtra.tayninh.gov.vn/thong-tin-tuyen-truyen/ky-n…tiep-lanh-dao-cach-mang-viet-nam-y-nghia-lich-su-va--1042312",
+      "templateType": "story_scroll"
     }
   ]
 }

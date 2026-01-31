@@ -16,7 +16,7 @@ export default function Intro() {
 
   return (
     <Fade className="intro" show={!start}>
-      <h1>Hành Trình Tư Tưởng Hồ Chí Minh</h1>
+      <h1>Quá trình hình thành tư tưởng Hồ Chí Minh</h1>
       <p>
         <Description />
       </p>
