@@ -97,6 +97,7 @@ const TimelineBar = () => {
       sourceMedia: e.sourceMedia,
       quoteSource: e.quoteSource,
       templateType: e.templateType,
+      references: e.references, // Add references field
       value: e.phase || 1,
     }));
 

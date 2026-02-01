@@ -66,22 +66,233 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
 
 export default function Details() {
   const [{ focusedMarker, markers, events }, dispatch] = useStateValue();
-  const randomMarker = getRandomMarker({ focusedMarker, markers });
+
+  // Add error checking for events and markers
+  const validatedEvents = events && Array.isArray(events) ? events : [];
+  const validatedMarkers = markers && Array.isArray(markers) ? markers : [];
+
+  const randomMarker = getRandomMarker({ focusedMarker, markers: validatedMarkers });
   const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
+
+  // Track viewed events whenever focusedMarker changes (detail page opens)
+  React.useEffect(() => {
+    if (focusedMarker && focusedMarker.id && focusedMarker.phase) {
+      const currentPhase = focusedMarker.phase;
+
+      // Get existing viewed events for this phase
+      const viewedEvents =
+        JSON.parse(
+          localStorage.getItem(`viewedEvents_phase_${currentPhase}`)
+        ) || [];
+
+      // Add this event to viewed list if not already there
+      if (!viewedEvents.includes(focusedMarker.id)) {
+        localStorage.setItem(
+          `viewedEvents_phase_${currentPhase}`,
+          JSON.stringify([...viewedEvents, focusedMarker.id])
+        );
+      }
+    }
+  }, [focusedMarker?.id, focusedMarker?.phase]);
 
   // Reset dropdown state when focused marker changes
   React.useEffect(() => {
     setIsReferencesOpen(false);
   }, [focusedMarker?.id]);
 
-  // Component to handle story scroll template with shared state
-  const StoryScrollContent = ({ focusedMarker, dispatch }) => {
-    const { eventName, mediaUrl, sourceMedia, description, references } =
-      focusedMarker;
+  // Common component to handle media display and navigation
+  const MediaDisplaySection = ({ focusedMarker, dispatch, templateType = 'normal' }) => {
+    const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
-    const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
+
+    // Determine which description array to use based on template type
+    const useSynchronizedDescription = templateType === 'story_scroll';
+    const displayDescription = useSynchronizedDescription ? descArray : [description];
+
+    // Navigation buttons based on template type
+    const navButtonsClass = templateType === 'grid' ? 'grid-nav-buttons' : 'story-nav-buttons';
+    const tabsClass = templateType === 'grid' ? 'grid-tabs' : 'story-tabs';
+    const tabClass = templateType === 'grid' ? 'grid-tab' : 'story-tab';
+
+    // Calculate thumbnail carousel offset
+    const calculateThumbnailOffset = (currentIdx, totalItems, type) => {
+      // Thumbnail size + gap
+      const thumbnailSize = type === 'grid' ? 45 : 40; // width of thumbnail
+      const gap = 6; // $spacing / 2 = 12px / 2 = 6px
+      const itemWidth = thumbnailSize + gap;
+
+      // Container width (approximate visible area)
+      // Assuming detail panel width is 35% of viewport, roughly 400-500px
+      const containerWidth = 400; // Approximate container width
+      const visibleItems = Math.floor(containerWidth / itemWidth);
+
+      // Calculate offset to center current thumbnail
+      // If we have fewer items than visible, don't offset
+      if (totalItems <= visibleItems) {
+        return 0;
+      }
+
+      // Calculate the position to center the current item
+      const centerPosition = Math.floor(visibleItems / 2);
+      let offset = 0;
+
+      if (currentIdx < centerPosition) {
+        // Near the start, don't offset
+        offset = 0;
+      } else if (currentIdx >= totalItems - centerPosition) {
+        // Near the end, offset to show last items
+        offset = -(totalItems - visibleItems) * itemWidth;
+      } else {
+        // In the middle, center the current item
+        offset = -(currentIdx - centerPosition) * itemWidth;
+      }
+
+      return offset;
+    };
+
+    return (
+      <>
+        {/* Media (image/video) from mediaUrl - template with navigation */}
+        {mediaArray.length > 0 && (
+          <div className="media-container">
+            <div className={`${templateType}-container`}>
+              <div className={navButtonsClass}>
+                <button
+                  className="nav-btn prev-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex((prev) =>
+                      prev > 0 ? prev - 1 : mediaArray.length - 1
+                    );
+                  }}
+                >
+                  &#8249;
+                </button>
+
+                <div className="media-display">
+                  <MediaDisplay
+                    mediaUrl={mediaArray[currentIndex]}
+                    eventName={eventName}
+                    currentIndex={currentIndex}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+
+                  {/* Source media caption */}
+                  {sourceMedia && (
+                    <div className="media-caption">
+                      {typeof sourceMedia === 'string'
+                        ? sourceMedia
+                        : Array.isArray(sourceMedia)
+                          ? Array.isArray(sourceMedia) &&
+                            sourceMedia[currentIndex]
+                            ? sourceMedia[currentIndex]
+                            : sourceMedia[0] || 'Source'
+                          : 'Source'}
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  className="nav-btn next-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex((prev) =>
+                      prev < mediaArray.length - 1 ? prev + 1 : 0
+                    );
+                  }}
+                >
+                  &#8250;
+                </button>
+              </div>
+
+              {/* Template-specific tabs with thumbnails */}
+              <div className={tabsClass}>
+                <div
+                  className={`${tabsClass}-track`}
+                  style={{
+                    transform: `translateX(${calculateThumbnailOffset(currentIndex, mediaArray.length, templateType)}px)`
+                  }}
+                >
+                  {mediaArray.map((mediaUrl, idx) => {
+                    // Generate thumbnail based on media type
+                    let thumbnailElement;
+
+                    if (isYouTubeUrl(mediaUrl)) {
+                      const videoId = extractYouTubeVideoId(mediaUrl);
+                      if (videoId) {
+                        const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                        thumbnailElement = (
+                          <img
+                            src={thumbnailUrl}
+                            alt={`Thumbnail ${idx + 1}`}
+                            className="thumbnail-image"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        );
+                      }
+                    } else if (
+                      typeof mediaUrl === 'string' &&
+                      (mediaUrl.endsWith('.mp4') ||
+                        mediaUrl.endsWith('.mov') ||
+                        mediaUrl.endsWith('.avi'))
+                    ) {
+                      // For video files, use a generic video icon as thumbnail
+                      thumbnailElement = (
+                        <div className="thumbnail-video-icon">▶</div>
+                      );
+                    } else {
+                      // For images, use the image as thumbnail
+                      thumbnailElement = (
+                        <img
+                          src={mediaUrl}
+                          alt={`Thumbnail ${idx + 1}`}
+                          className="thumbnail-image"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={idx}
+                        className={`${tabClass} ${currentIndex === idx ? 'active' : ''
+                          }`}
+                        onClick={() => setCurrentIndex(idx)}
+                      >
+                        {thumbnailElement || <span>{idx + 1}</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Detailed description - synchronized with media for story_scroll, static for others */}
+        <div className="event-description">
+          {displayDescription.length > 0 && (
+            <p>
+              {displayDescription[currentIndex] ||
+                displayDescription[0] ||
+                'No description available.'}
+            </p>
+          )}
+        </div>
+      </>
+    );
+  };
+
+  // Component to handle story scroll template with shared state
+  const StoryScrollContent = ({ focusedMarker, dispatch, isReferencesOpen, setIsReferencesOpen }) => {
 
     return (
       <>
@@ -93,98 +304,16 @@ export default function Details() {
         </div>
         <div className="detail-content">
           {/* Title from eventName */}
-          <h2 className="event-title">{eventName || 'Historical Event'}</h2>
+          <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
 
-          {/* Media (image/video) from mediaUrl - story_scroll template */}
-          {mediaArray.length > 0 && (
-            <div className="media-container">
-              <div className="story-scroll-container">
-                <div className="story-nav-buttons">
-                  <button
-                    className="nav-btn prev-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev > 0 ? prev - 1 : mediaArray.length - 1
-                      );
-                    }}
-                  >
-                    &#8249;
-                  </button>
-
-                  <div className="media-display">
-                    <MediaDisplay
-                      mediaUrl={mediaArray[currentIndex]}
-                      eventName={eventName}
-                      currentIndex={currentIndex}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-
-                    {/* Source media caption */}
-                    {sourceMedia && (
-                      <div className="media-caption">
-                        {typeof sourceMedia === 'string'
-                          ? sourceMedia
-                          : Array.isArray(sourceMedia)
-                            ? Array.isArray(sourceMedia) &&
-                              sourceMedia[currentIndex]
-                              ? sourceMedia[currentIndex]
-                              : sourceMedia[0] || 'Source'
-                            : 'Source'}
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    className="nav-btn next-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev < mediaArray.length - 1 ? prev + 1 : 0
-                      );
-                    }}
-                  >
-                    &#8250;
-                  </button>
-                </div>
-
-                {/* Story scroll tabs */}
-                <div className="story-tabs">
-                  {mediaArray.map((_, idx) => (
-                    <div
-                      key={idx}
-                      className={`story-tab ${currentIndex === idx ? 'active' : ''
-                        }`}
-                      onClick={() => setCurrentIndex(idx)}
-                    >
-                      {idx + 1}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Detailed description for story_scroll - synchronized with media */}
-          <div className="event-description">
-            {descArray.length > 0 && (
-              <p>
-                {descArray[currentIndex] ||
-                  descArray[0] ||
-                  'No description available.'}
-              </p>
-            )}
-          </div>
-
-          {/* Original references section removed - using dropdown instead */}
+          {/* Media section with story_scroll template */}
+          <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType="story_scroll" />
 
           {/* Container for both next button and references dropdown */}
           <div className="navigation-container">
             {/* References Dropdown */}
-            {((Array.isArray(references) && references.length > 0) ||
-              (typeof references === 'string' && references.trim() !== '')) && (
+            {((Array.isArray(focusedMarker.references) && focusedMarker.references.length > 0) ||
+              (typeof focusedMarker.references === 'string' && focusedMarker.references.trim() !== '')) && (
                 <div className="references-dropdown">
                   <button
                     className="references-dropdown-button"
@@ -196,8 +325,8 @@ export default function Details() {
                     References {isReferencesOpen ? '▼' : '▲'}
                   </button>
                   <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
-                    {Array.isArray(references) ?
-                      references.map((reference, index) => (
+                    {Array.isArray(focusedMarker.references) ?
+                      focusedMarker.references.map((reference, index) => (
                         <a
                           key={index}
                           href={
@@ -214,15 +343,15 @@ export default function Details() {
                       )) :
                       <a
                         href={
-                          references.startsWith('http')
-                            ? references
-                            : `https://${references}`
+                          focusedMarker.references.startsWith('http')
+                            ? focusedMarker.references
+                            : `https://${focusedMarker.references}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="reference-link-item"
                       >
-                        {references}
+                        {focusedMarker.references}
                       </a>
                     }
                   </div>
@@ -231,8 +360,21 @@ export default function Details() {
 
             {/* Back and Next Event Buttons - navigate by ID */}
             {(() => {
+              // Helper function to find marker for an event
+              const findMarkerForEvent = (eventId) => {
+                if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
+
+                return validatedMarkers.find((m) => {
+                  if (m.id === eventId) return true;
+                  if (m.eventsAtLocation) {
+                    return m.eventsAtLocation.some((e) => e.id === eventId);
+                  }
+                  return false;
+                });
+              };
+
               // Sort all events by ID
-              const sortedEvents = [...events].sort((a, b) => a.id - b.id);
+              const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
 
               const currentIndex = sortedEvents.findIndex(
                 (event) => event.id === focusedMarker.id
@@ -250,16 +392,7 @@ export default function Details() {
                         const prevEvent = sortedEvents[currentIndex - 1];
 
                         if (prevEvent) {
-                          // Find the marker for this event
-                          const prevMarker = markers.find((m) => {
-                            if (m.id === prevEvent.id) return true;
-                            if (m.eventsAtLocation) {
-                              return m.eventsAtLocation.some(
-                                (e) => e.id === prevEvent.id
-                              );
-                            }
-                            return false;
-                          });
+                          const prevMarker = findMarkerForEvent(prevEvent.id);
 
                           if (prevMarker) {
                             // Create marker with event data
@@ -292,16 +425,7 @@ export default function Details() {
                         const nextEvent = sortedEvents[currentIndex + 1];
 
                         if (nextEvent) {
-                          // Find the marker for this event
-                          const nextMarker = markers.find((m) => {
-                            if (m.id === nextEvent.id) return true;
-                            if (m.eventsAtLocation) {
-                              return m.eventsAtLocation.some(
-                                (e) => e.id === nextEvent.id
-                              );
-                            }
-                            return false;
-                          });
+                          const nextMarker = findMarkerForEvent(nextEvent.id);
 
                           if (nextMarker) {
                             // Create marker with event data
@@ -336,12 +460,7 @@ export default function Details() {
   };
 
   // Component to handle grid template with shared state
-  const GridTemplateContent = ({ focusedMarker, dispatch }) => {
-    const { eventName, mediaUrl, sourceMedia, description, references } =
-      focusedMarker;
-    const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
-    const [currentIndex, setCurrentIndex] = React.useState(0);
-    const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
+  const GridTemplateContent = ({ focusedMarker, dispatch, isReferencesOpen, setIsReferencesOpen }) => {
 
     return (
       <>
@@ -353,100 +472,29 @@ export default function Details() {
         </div>
         <div className="detail-content">
           {/* Title from eventName */}
-          <h2 className="event-title">{eventName || 'Historical Event'}</h2>
+          <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
 
-          {/* Media (image/video) from mediaUrl - grid template with navigation */}
-          {mediaArray.length > 0 && (
-            <div className="media-container">
-              <div className="grid-media-container">
-                <div className="grid-nav-buttons">
-                  <button
-                    className="nav-btn prev-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev > 0 ? prev - 1 : mediaArray.length - 1
-                      );
-                    }}
-                  >
-                    &#8249;
-                  </button>
-
-                  <div className="media-display">
-                    <MediaDisplay
-                      mediaUrl={mediaArray[currentIndex]}
-                      eventName={eventName}
-                      currentIndex={currentIndex}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-
-                    {/* Source media caption */}
-                    {sourceMedia && (
-                      <div className="media-caption">
-                        {typeof sourceMedia === 'string'
-                          ? sourceMedia
-                          : Array.isArray(sourceMedia)
-                            ? Array.isArray(sourceMedia) &&
-                              sourceMedia[currentIndex]
-                              ? sourceMedia[currentIndex]
-                              : sourceMedia[0] || 'Source'
-                            : 'Source'}
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    className="nav-btn next-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev < mediaArray.length - 1 ? prev + 1 : 0
-                      );
-                    }}
-                  >
-                    &#8250;
-                  </button>
-                </div>
-
-                {/* Grid tabs */}
-                <div className="grid-tabs">
-                  {mediaArray.map((_, idx) => (
-                    <div
-                      key={idx}
-                      className={`grid-tab ${currentIndex === idx ? 'active' : ''
-                        }`}
-                      onClick={() => setCurrentIndex(idx)}
-                    >
-                      {idx + 1}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Media section with grid template */}
+          <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType="grid" />
 
           {/* Detailed description */}
           <div className="event-description">
-            {description &&
-              (typeof description === 'string' ? (
-                <p>{description}</p>
-              ) : Array.isArray(description) ? (
+            {focusedMarker.description &&
+              (typeof focusedMarker.description === 'string' ? (
+                <p>{focusedMarker.description}</p>
+              ) : Array.isArray(focusedMarker.description) ? (
                 // If description is an array (for other templates), show the first item
-                <p>{description[0]}</p>
+                <p>{focusedMarker.description[0]}</p>
               ) : (
                 <p>No description available.</p>
               ))}
           </div>
 
-          {/* Original references section removed - using dropdown instead */}
-
           {/* Container for both next button and references dropdown */}
           <div className="navigation-container">
             {/* References Dropdown */}
-            {((Array.isArray(references) && references.length > 0) ||
-              (typeof references === 'string' && references.trim() !== '')) && (
+            {((Array.isArray(focusedMarker.references) && focusedMarker.references.length > 0) ||
+              (typeof focusedMarker.references === 'string' && focusedMarker.references.trim() !== '')) && (
                 <div className="references-dropdown">
                   <button
                     className="references-dropdown-button"
@@ -458,8 +506,8 @@ export default function Details() {
                     References {isReferencesOpen ? '▼' : '▲'}
                   </button>
                   <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
-                    {Array.isArray(references) ?
-                      references.map((reference, index) => (
+                    {Array.isArray(focusedMarker.references) ?
+                      focusedMarker.references.map((reference, index) => (
                         <a
                           key={index}
                           href={
@@ -476,15 +524,15 @@ export default function Details() {
                       )) :
                       <a
                         href={
-                          references.startsWith('http')
-                            ? references
-                            : `https://${references}`
+                          focusedMarker.references.startsWith('http')
+                            ? focusedMarker.references
+                            : `https://${focusedMarker.references}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="reference-link-item"
                       >
-                        {references}
+                        {focusedMarker.references}
                       </a>
                     }
                   </div>
@@ -493,8 +541,21 @@ export default function Details() {
 
             {/* Back and Next Event Buttons - navigate by ID */}
             {(() => {
+              // Helper function to find marker for an event
+              const findMarkerForEvent = (eventId) => {
+                if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
+
+                return validatedMarkers.find((m) => {
+                  if (m.id === eventId) return true;
+                  if (m.eventsAtLocation) {
+                    return m.eventsAtLocation.some((e) => e.id === eventId);
+                  }
+                  return false;
+                });
+              };
+
               // Sort all events by ID
-              const sortedEvents = [...events].sort((a, b) => a.id - b.id);
+              const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
 
               const currentIndex = sortedEvents.findIndex(
                 (event) => event.id === focusedMarker.id
@@ -512,16 +573,7 @@ export default function Details() {
                         const prevEvent = sortedEvents[currentIndex - 1];
 
                         if (prevEvent) {
-                          // Find the marker for this event
-                          const prevMarker = markers.find((m) => {
-                            if (m.id === prevEvent.id) return true;
-                            if (m.eventsAtLocation) {
-                              return m.eventsAtLocation.some(
-                                (e) => e.id === prevEvent.id
-                              );
-                            }
-                            return false;
-                          });
+                          const prevMarker = findMarkerForEvent(prevEvent.id);
 
                           if (prevMarker) {
                             // Create marker with event data
@@ -554,16 +606,7 @@ export default function Details() {
                         const nextEvent = sortedEvents[currentIndex + 1];
 
                         if (nextEvent) {
-                          // Find the marker for this event
-                          const nextMarker = markers.find((m) => {
-                            if (m.id === nextEvent.id) return true;
-                            if (m.eventsAtLocation) {
-                              return m.eventsAtLocation.some(
-                                (e) => e.id === nextEvent.id
-                              );
-                            }
-                            return false;
-                          });
+                          const nextMarker = findMarkerForEvent(nextEvent.id);
 
                           if (nextMarker) {
                             // Create marker with event data
@@ -669,6 +712,8 @@ export default function Details() {
             <StoryScrollContent
               focusedMarker={focusedMarker}
               dispatch={dispatch}
+              isReferencesOpen={isReferencesOpen}
+              setIsReferencesOpen={setIsReferencesOpen}
             />
           </Fade>
         );
@@ -679,6 +724,8 @@ export default function Details() {
             <GridTemplateContent
               focusedMarker={focusedMarker}
               dispatch={dispatch}
+              isReferencesOpen={isReferencesOpen}
+              setIsReferencesOpen={setIsReferencesOpen}
             />
           </Fade>
         );
@@ -800,8 +847,21 @@ export default function Details() {
 
                 {/* Back and Next Event Buttons - navigate by ID */}
                 {(() => {
+                  // Helper function to find marker for an event
+                  const findMarkerForEvent = (eventId) => {
+                    if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
+
+                    return validatedMarkers.find((m) => {
+                      if (m.id === eventId) return true;
+                      if (m.eventsAtLocation) {
+                        return m.eventsAtLocation.some((e) => e.id === eventId);
+                      }
+                      return false;
+                    });
+                  };
+
                   // Sort all events by ID
-                  const sortedEvents = [...events].sort((a, b) => a.id - b.id);
+                  const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
 
                   const currentIndex = sortedEvents.findIndex(
                     (event) => event.id === focusedMarker.id
@@ -819,16 +879,7 @@ export default function Details() {
                             const prevEvent = sortedEvents[currentIndex - 1];
 
                             if (prevEvent) {
-                              // Find the marker for this event
-                              const prevMarker = markers.find((m) => {
-                                if (m.id === prevEvent.id) return true;
-                                if (m.eventsAtLocation) {
-                                  return m.eventsAtLocation.some(
-                                    (e) => e.id === prevEvent.id
-                                  );
-                                }
-                                return false;
-                              });
+                              const prevMarker = findMarkerForEvent(prevEvent.id);
 
                               if (prevMarker) {
                                 // Create marker with event data
@@ -861,16 +912,7 @@ export default function Details() {
                             const nextEvent = sortedEvents[currentIndex + 1];
 
                             if (nextEvent) {
-                              // Find the marker for this event
-                              const nextMarker = markers.find((m) => {
-                                if (m.id === nextEvent.id) return true;
-                                if (m.eventsAtLocation) {
-                                  return m.eventsAtLocation.some(
-                                    (e) => e.id === nextEvent.id
-                                  );
-                                }
-                                return false;
-                              });
+                              const nextMarker = findMarkerForEvent(nextEvent.id);
 
                               if (nextMarker) {
                                 // Create marker with event data
