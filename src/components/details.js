@@ -67,6 +67,12 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
 export default function Details() {
   const [{ focusedMarker, markers, events }, dispatch] = useStateValue();
   const randomMarker = getRandomMarker({ focusedMarker, markers });
+  const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
+
+  // Reset dropdown state when focused marker changes
+  React.useEffect(() => {
+    setIsReferencesOpen(false);
+  }, [focusedMarker?.id]);
 
   // Component to handle story scroll template with shared state
   const StoryScrollContent = ({ focusedMarker, dispatch }) => {
@@ -75,6 +81,7 @@ export default function Details() {
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
 
     return (
       <>
@@ -176,85 +183,151 @@ export default function Details() {
           {/* Container for both next button and references dropdown */}
           <div className="navigation-container">
             {/* References Dropdown */}
-            {references &&
-              Array.isArray(references) &&
-              references.length > 0 && (
+            {((Array.isArray(references) && references.length > 0) ||
+              (typeof references === 'string' && references.trim() !== '')) && (
                 <div className="references-dropdown">
-                  <button className="references-dropdown-button">
-                    References ▼
+                  <button
+                    className="references-dropdown-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsReferencesOpen(!isReferencesOpen);
+                    }}
+                  >
+                    References {isReferencesOpen ? '▼' : '▲'}
                   </button>
-                  <div className="references-dropdown-content">
-                    {references.map((reference, index) => (
+                  <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
+                    {Array.isArray(references) ?
+                      references.map((reference, index) => (
+                        <a
+                          key={index}
+                          href={
+                            reference.startsWith('http')
+                              ? reference
+                              : `https://${reference}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="reference-link-item"
+                        >
+                          {reference}
+                        </a>
+                      )) :
                       <a
-                        key={index}
                         href={
-                          reference.startsWith('http')
-                            ? reference
-                            : `https://${reference}`
+                          references.startsWith('http')
+                            ? references
+                            : `https://${references}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="reference-link-item"
                       >
-                        {reference}
+                        {references}
                       </a>
-                    ))}
+                    }
                   </div>
                 </div>
               )}
 
-            {/* Next Event Button - navigate by ID order */}
+            {/* Back and Next Event Buttons - navigate by ID */}
             {(() => {
               // Sort all events by ID
               const sortedEvents = [...events].sort((a, b) => a.id - b.id);
+
               const currentIndex = sortedEvents.findIndex(
                 (event) => event.id === focusedMarker.id
               );
-              const hasNextEvent =
-                currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
-              return hasNextEvent ? (
-                <div className="next-event-button-container">
-                  <button
-                    className="next-event-button"
-                    onClick={() => {
-                      const nextEvent = sortedEvents[currentIndex + 1];
+              const hasPrevEvent = currentIndex > 0;
+              const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
-                      if (nextEvent) {
-                        // Find the marker for this event
-                        const nextMarker = markers.find((m) => {
-                          if (m.id === nextEvent.id) return true;
-                          if (m.eventsAtLocation) {
-                            return m.eventsAtLocation.some(
-                              (e) => e.id === nextEvent.id
-                            );
+              return (
+                <div className="event-navigation-buttons">
+                  {hasPrevEvent && (
+                    <button
+                      className="prev-event-button"
+                      onClick={() => {
+                        const prevEvent = sortedEvents[currentIndex - 1];
+
+                        if (prevEvent) {
+                          // Find the marker for this event
+                          const prevMarker = markers.find((m) => {
+                            if (m.id === prevEvent.id) return true;
+                            if (m.eventsAtLocation) {
+                              return m.eventsAtLocation.some(
+                                (e) => e.id === prevEvent.id
+                              );
+                            }
+                            return false;
+                          });
+
+                          if (prevMarker) {
+                            // Create marker with event data
+                            const tempMarker = {
+                              ...prevMarker,
+                              id: prevEvent.id,
+                              phase: prevEvent.phase,
+                              year: prevEvent.year,
+                              city: prevEvent.location,
+                              eventName: prevEvent.eventName,
+                              description: prevEvent.description,
+                              mediaUrl: prevEvent.mediaUrl,
+                              sourceMedia: prevEvent.sourceMedia,
+                              templateType: prevEvent.templateType,
+                              references: prevEvent.references,
+                            };
+                            dispatch({ type: 'FOCUS', payload: tempMarker });
                           }
-                          return false;
-                        });
-
-                        if (nextMarker) {
-                          // Create marker with event data
-                          const tempMarker = {
-                            ...nextMarker,
-                            id: nextEvent.id,
-                            phase: nextEvent.phase,
-                            year: nextEvent.year,
-                            city: nextEvent.location,
-                            eventName: nextEvent.eventName,
-                            description: nextEvent.description,
-                            mediaUrl: nextEvent.mediaUrl,
-                            sourceMedia: nextEvent.sourceMedia,
-                            templateType: nextEvent.templateType,
-                          };
-                          dispatch({ type: 'FOCUS', payload: tempMarker });
                         }
-                      }
-                    }}
-                  >
-                    Next Event →
-                  </button>
+                      }}
+                    >
+                      ← Previous Event
+                    </button>
+                  )}
+
+                  {hasNextEvent && (
+                    <button
+                      className="next-event-button"
+                      onClick={() => {
+                        const nextEvent = sortedEvents[currentIndex + 1];
+
+                        if (nextEvent) {
+                          // Find the marker for this event
+                          const nextMarker = markers.find((m) => {
+                            if (m.id === nextEvent.id) return true;
+                            if (m.eventsAtLocation) {
+                              return m.eventsAtLocation.some(
+                                (e) => e.id === nextEvent.id
+                              );
+                            }
+                            return false;
+                          });
+
+                          if (nextMarker) {
+                            // Create marker with event data
+                            const tempMarker = {
+                              ...nextMarker,
+                              id: nextEvent.id,
+                              phase: nextEvent.phase,
+                              year: nextEvent.year,
+                              city: nextEvent.location,
+                              eventName: nextEvent.eventName,
+                              description: nextEvent.description,
+                              mediaUrl: nextEvent.mediaUrl,
+                              sourceMedia: nextEvent.sourceMedia,
+                              templateType: nextEvent.templateType,
+                              references: nextEvent.references,
+                            };
+                            dispatch({ type: 'FOCUS', payload: tempMarker });
+                          }
+                        }
+                      }}
+                    >
+                      Next Event →
+                    </button>
+                  )}
                 </div>
-              ) : null;
+              );
             })()}
           </div>
         </div>
@@ -268,6 +341,7 @@ export default function Details() {
       focusedMarker;
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
 
     return (
       <>
@@ -371,85 +445,151 @@ export default function Details() {
           {/* Container for both next button and references dropdown */}
           <div className="navigation-container">
             {/* References Dropdown */}
-            {references &&
-              Array.isArray(references) &&
-              references.length > 0 && (
+            {((Array.isArray(references) && references.length > 0) ||
+              (typeof references === 'string' && references.trim() !== '')) && (
                 <div className="references-dropdown">
-                  <button className="references-dropdown-button">
-                    References ▼
+                  <button
+                    className="references-dropdown-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsReferencesOpen(!isReferencesOpen);
+                    }}
+                  >
+                    References {isReferencesOpen ? '▼' : '▲'}
                   </button>
-                  <div className="references-dropdown-content">
-                    {references.map((reference, index) => (
+                  <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
+                    {Array.isArray(references) ?
+                      references.map((reference, index) => (
+                        <a
+                          key={index}
+                          href={
+                            reference.startsWith('http')
+                              ? reference
+                              : `https://${reference}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="reference-link-item"
+                        >
+                          {reference}
+                        </a>
+                      )) :
                       <a
-                        key={index}
                         href={
-                          reference.startsWith('http')
-                            ? reference
-                            : `https://${reference}`
+                          references.startsWith('http')
+                            ? references
+                            : `https://${references}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="reference-link-item"
                       >
-                        {reference}
+                        {references}
                       </a>
-                    ))}
+                    }
                   </div>
                 </div>
               )}
 
-            {/* Next Event Button - navigate by ID order */}
+            {/* Back and Next Event Buttons - navigate by ID */}
             {(() => {
               // Sort all events by ID
               const sortedEvents = [...events].sort((a, b) => a.id - b.id);
+
               const currentIndex = sortedEvents.findIndex(
                 (event) => event.id === focusedMarker.id
               );
-              const hasNextEvent =
-                currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
-              return hasNextEvent ? (
-                <div className="next-event-button-container">
-                  <button
-                    className="next-event-button"
-                    onClick={() => {
-                      const nextEvent = sortedEvents[currentIndex + 1];
+              const hasPrevEvent = currentIndex > 0;
+              const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
-                      if (nextEvent) {
-                        // Find the marker for this event
-                        const nextMarker = markers.find((m) => {
-                          if (m.id === nextEvent.id) return true;
-                          if (m.eventsAtLocation) {
-                            return m.eventsAtLocation.some(
-                              (e) => e.id === nextEvent.id
-                            );
+              return (
+                <div className="event-navigation-buttons">
+                  {hasPrevEvent && (
+                    <button
+                      className="prev-event-button"
+                      onClick={() => {
+                        const prevEvent = sortedEvents[currentIndex - 1];
+
+                        if (prevEvent) {
+                          // Find the marker for this event
+                          const prevMarker = markers.find((m) => {
+                            if (m.id === prevEvent.id) return true;
+                            if (m.eventsAtLocation) {
+                              return m.eventsAtLocation.some(
+                                (e) => e.id === prevEvent.id
+                              );
+                            }
+                            return false;
+                          });
+
+                          if (prevMarker) {
+                            // Create marker with event data
+                            const tempMarker = {
+                              ...prevMarker,
+                              id: prevEvent.id,
+                              phase: prevEvent.phase,
+                              year: prevEvent.year,
+                              city: prevEvent.location,
+                              eventName: prevEvent.eventName,
+                              description: prevEvent.description,
+                              mediaUrl: prevEvent.mediaUrl,
+                              sourceMedia: prevEvent.sourceMedia,
+                              templateType: prevEvent.templateType,
+                              references: prevEvent.references,
+                            };
+                            dispatch({ type: 'FOCUS', payload: tempMarker });
                           }
-                          return false;
-                        });
-
-                        if (nextMarker) {
-                          // Create marker with event data
-                          const tempMarker = {
-                            ...nextMarker,
-                            id: nextEvent.id,
-                            phase: nextEvent.phase,
-                            year: nextEvent.year,
-                            city: nextEvent.location,
-                            eventName: nextEvent.eventName,
-                            description: nextEvent.description,
-                            mediaUrl: nextEvent.mediaUrl,
-                            sourceMedia: nextEvent.sourceMedia,
-                            templateType: nextEvent.templateType,
-                          };
-                          dispatch({ type: 'FOCUS', payload: tempMarker });
                         }
-                      }
-                    }}
-                  >
-                    Next Event →
-                  </button>
+                      }}
+                    >
+                      ← Previous Event
+                    </button>
+                  )}
+
+                  {hasNextEvent && (
+                    <button
+                      className="next-event-button"
+                      onClick={() => {
+                        const nextEvent = sortedEvents[currentIndex + 1];
+
+                        if (nextEvent) {
+                          // Find the marker for this event
+                          const nextMarker = markers.find((m) => {
+                            if (m.id === nextEvent.id) return true;
+                            if (m.eventsAtLocation) {
+                              return m.eventsAtLocation.some(
+                                (e) => e.id === nextEvent.id
+                              );
+                            }
+                            return false;
+                          });
+
+                          if (nextMarker) {
+                            // Create marker with event data
+                            const tempMarker = {
+                              ...nextMarker,
+                              id: nextEvent.id,
+                              phase: nextEvent.phase,
+                              year: nextEvent.year,
+                              city: nextEvent.location,
+                              eventName: nextEvent.eventName,
+                              description: nextEvent.description,
+                              mediaUrl: nextEvent.mediaUrl,
+                              sourceMedia: nextEvent.sourceMedia,
+                              templateType: nextEvent.templateType,
+                              references: nextEvent.references,
+                            };
+                            dispatch({ type: 'FOCUS', payload: tempMarker });
+                          }
+                        }
+                      }}
+                    >
+                      Next Event →
+                    </button>
+                  )}
                 </div>
-              ) : null;
+              );
             })()}
           </div>
         </div>
@@ -503,6 +643,7 @@ export default function Details() {
                       sourceMedia: event.sourceMedia,
                       quoteSource: event.quoteSource,
                       templateType: event.templateType,
+                      references: event.references,
                       value: focusedMarker.value,
                     };
                     dispatch({ type: 'FOCUS', payload: tempMarker });
@@ -611,85 +752,151 @@ export default function Details() {
               {/* Container for both next button and references dropdown */}
               <div className="navigation-container">
                 {/* References Dropdown */}
-                {references &&
-                  Array.isArray(references) &&
-                  references.length > 0 && (
+                {((Array.isArray(references) && references.length > 0) ||
+                  (typeof references === 'string' && references.trim() !== '')) && (
                     <div className="references-dropdown">
-                      <button className="references-dropdown-button">
-                        References ▼
+                      <button
+                        className="references-dropdown-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsReferencesOpen(!isReferencesOpen);
+                        }}
+                      >
+                        References {isReferencesOpen ? '▼' : '▲'}
                       </button>
-                      <div className="references-dropdown-content">
-                        {references.map((reference, index) => (
+                      <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
+                        {Array.isArray(references) ?
+                          references.map((reference, index) => (
+                            <a
+                              key={index}
+                              href={
+                                reference.startsWith('http')
+                                  ? reference
+                                  : `https://${reference}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="reference-link-item"
+                            >
+                              {reference}
+                            </a>
+                          )) :
                           <a
-                            key={index}
                             href={
-                              reference.startsWith('http')
-                                ? reference
-                                : `https://${reference}`
+                              references.startsWith('http')
+                                ? references
+                                : `https://${references}`
                             }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="reference-link-item"
                           >
-                            {reference}
+                            {references}
                           </a>
-                        ))}
+                        }
                       </div>
                     </div>
                   )}
 
-                {/* Next Event Button - navigate by ID order */}
+                {/* Back and Next Event Buttons - navigate by ID */}
                 {(() => {
                   // Sort all events by ID
                   const sortedEvents = [...events].sort((a, b) => a.id - b.id);
+
                   const currentIndex = sortedEvents.findIndex(
                     (event) => event.id === focusedMarker.id
                   );
-                  const hasNextEvent =
-                    currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
-                  return hasNextEvent ? (
-                    <div className="next-event-button-container">
-                      <button
-                        className="next-event-button"
-                        onClick={() => {
-                          const nextEvent = sortedEvents[currentIndex + 1];
+                  const hasPrevEvent = currentIndex > 0;
+                  const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
-                          if (nextEvent) {
-                            // Find the marker for this event
-                            const nextMarker = markers.find((m) => {
-                              if (m.id === nextEvent.id) return true;
-                              if (m.eventsAtLocation) {
-                                return m.eventsAtLocation.some(
-                                  (e) => e.id === nextEvent.id
-                                );
+                  return (
+                    <div className="event-navigation-buttons">
+                      {hasPrevEvent && (
+                        <button
+                          className="prev-event-button"
+                          onClick={() => {
+                            const prevEvent = sortedEvents[currentIndex - 1];
+
+                            if (prevEvent) {
+                              // Find the marker for this event
+                              const prevMarker = markers.find((m) => {
+                                if (m.id === prevEvent.id) return true;
+                                if (m.eventsAtLocation) {
+                                  return m.eventsAtLocation.some(
+                                    (e) => e.id === prevEvent.id
+                                  );
+                                }
+                                return false;
+                              });
+
+                              if (prevMarker) {
+                                // Create marker with event data
+                                const tempMarker = {
+                                  ...prevMarker,
+                                  id: prevEvent.id,
+                                  phase: prevEvent.phase,
+                                  year: prevEvent.year,
+                                  city: prevEvent.location,
+                                  eventName: prevEvent.eventName,
+                                  description: prevEvent.description,
+                                  mediaUrl: prevEvent.mediaUrl,
+                                  sourceMedia: prevEvent.sourceMedia,
+                                  templateType: prevEvent.templateType,
+                                  references: prevEvent.references,
+                                };
+                                dispatch({ type: 'FOCUS', payload: tempMarker });
                               }
-                              return false;
-                            });
-
-                            if (nextMarker) {
-                              // Create marker with event data
-                              const tempMarker = {
-                                ...nextMarker,
-                                id: nextEvent.id,
-                                phase: nextEvent.phase,
-                                year: nextEvent.year,
-                                city: nextEvent.location,
-                                eventName: nextEvent.eventName,
-                                description: nextEvent.description,
-                                mediaUrl: nextEvent.mediaUrl,
-                                sourceMedia: nextEvent.sourceMedia,
-                                templateType: nextEvent.templateType,
-                              };
-                              dispatch({ type: 'FOCUS', payload: tempMarker });
                             }
-                          }
-                        }}
-                      >
-                        Next Event →
-                      </button>
+                          }}
+                        >
+                          ← Previous Event
+                        </button>
+                      )}
+
+                      {hasNextEvent && (
+                        <button
+                          className="next-event-button"
+                          onClick={() => {
+                            const nextEvent = sortedEvents[currentIndex + 1];
+
+                            if (nextEvent) {
+                              // Find the marker for this event
+                              const nextMarker = markers.find((m) => {
+                                if (m.id === nextEvent.id) return true;
+                                if (m.eventsAtLocation) {
+                                  return m.eventsAtLocation.some(
+                                    (e) => e.id === nextEvent.id
+                                  );
+                                }
+                                return false;
+                              });
+
+                              if (nextMarker) {
+                                // Create marker with event data
+                                const tempMarker = {
+                                  ...nextMarker,
+                                  id: nextEvent.id,
+                                  phase: nextEvent.phase,
+                                  year: nextEvent.year,
+                                  city: nextEvent.location,
+                                  eventName: nextEvent.eventName,
+                                  description: nextEvent.description,
+                                  mediaUrl: nextEvent.mediaUrl,
+                                  sourceMedia: nextEvent.sourceMedia,
+                                  templateType: nextEvent.templateType,
+                                  references: nextEvent.references,
+                                };
+                                dispatch({ type: 'FOCUS', payload: tempMarker });
+                              }
+                            }
+                          }}
+                        >
+                          Next Event →
+                        </button>
+                      )}
                     </div>
-                  ) : null;
+                  );
                 })()}
               </div>
             </div>

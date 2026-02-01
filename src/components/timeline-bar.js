@@ -68,11 +68,11 @@ const TimelineBar = () => {
 
   // Define phase labels
   const phaseLabels = {
-    1: 'Khởi đầu (1890-1911)',
-    2: 'Tìm đường cứu nước (1911-1925)',
-    3: 'Thành lập Việt Minh (1925-1945)',
-    4: 'Tuyên ngôn Độc lập (1945-1969)',
-    5: 'Di sản và tưởng niệm (1969-nay)',
+    1: 'Thời thơ ấu và thanh niên (Trước 1911)',
+    2: 'Khảo sát thực tiễn và tìm thấy con đường cứu nước (1911-1920)',
+    3: 'Hoạt động lý luận và chuẩn bị thành lập Đảng (1920-1930)',
+    4: 'Kiên trì con đường đã chọn, vượt qua thử thách (1930-1941)',
+    5: 'Trực tiếp lãnh đạo Cách mạng giành độc lập và kháng chiến (1941-1969)',
   };
 
   // Dynamically determine the number of phases based on available data
@@ -109,7 +109,7 @@ const TimelineBar = () => {
   return (
     <div className="timeline-bar">
       <div className="timeline-toggle" onClick={() => setIsOpen(!isOpen)}>
-        <span>5 Giai Đoạn</span>
+        <span>5 Giai Đoạn Chính</span>
         <span className={`arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>
       </div>
 
@@ -133,9 +133,8 @@ const TimelineBar = () => {
             return (
               <div
                 key={phase}
-                className={`phase-section ${
-                  isCurrentPhase ? 'active-phase' : ''
-                }`}
+                className={`phase-section ${isCurrentPhase ? 'active-phase' : ''
+                  }`}
               >
                 <div
                   className={`phase-header ${isLocked ? 'locked' : 'unlocked'}`}

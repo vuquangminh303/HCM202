@@ -1,9 +1,9 @@
 {
-  "short_name": "google-globe-trends",
-  "name": "google-globe-trends",
+  "short_name": "tu-tuong-hcm",
+  "name": "tu-tuong-hcm",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.ico?v=2",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
