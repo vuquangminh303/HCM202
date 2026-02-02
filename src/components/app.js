@@ -32,21 +32,26 @@ export default function App() {
       <TimelineBar />
       <Details />
       <div className="bottom-right-actions">
-        <button
-          type="button"
-          className="button theme-toggle-button"
-          onClick={toggleTheme}
-        >
-          {isFestivalTheme ? 'Mặc định' : 'Mừng Đảng mừng Xuân'}
-        </button>
-        <a
-          href="https://github.com/PhamXuanKhang/creative_product_HCM202"
-          className="button source-code-button"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Mã nguồn
-        </a>
+        <div className="bottom-right-buttons">
+          <button
+            type="button"
+            className="button theme-toggle-button"
+            onClick={toggleTheme}
+          >
+            {isFestivalTheme ? 'Mặc định' : 'Mừng Đảng mừng Xuân'}
+          </button>
+          <a
+            href="https://github.com/PhamXuanKhang/creative_product_HCM202"
+            className="button source-code-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Mã nguồn
+          </a>
+        </div>
+        <div className="bottom-right-copy">
+          © 2026 Reserved by Group 1 - GD1810-AD
+        </div>
       </div>
     </>
   );
