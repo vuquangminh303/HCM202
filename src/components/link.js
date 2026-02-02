@@ -20,7 +20,8 @@ export default function Link({ children, className, link, onClick }) {
       href={hasLink ? links[link] : '#'}
       rel={hasLink ? 'noopener noreferrer' : undefined}
       target={hasLink ? '_blank' : undefined}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       {children}
     </a>
   );

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { useStateValue } from "../state";
-import Link from "./link";
+import { useStateValue } from '../state';
+import Link from './link';
 
 export default function Description() {
   const [{ config }] = useStateValue();

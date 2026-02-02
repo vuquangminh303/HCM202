@@ -33,11 +33,12 @@ const transformedMarkers = Object.entries(locationMap).map(
       sourceMedia: firstEvent.sourceMedia,
       quoteSource: firstEvent.quoteSource,
       templateType: firstEvent.templateType,
+      references: firstEvent.references,
       value: eventsAtLocation.length, // Number of events at this location
       eventsCount: eventsAtLocation.length,
       eventsAtLocation: eventsAtLocation, // Store all events at this location
     };
-  },
+  }
 );
 
 export const initialState = {

@@ -32,7 +32,8 @@ export default function Fade({
       style={{
         animation: `${animationKeyFrame} ${animationDuration}ms ease-in-out`,
       }}
-      onAnimationEnd={onAnimationEnd}>
+      onAnimationEnd={onAnimationEnd}
+    >
       {children}
     </div>
   );

@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 
 import App from './components/app';
 import { StateProvider, initialState, reducer } from './state';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import './index.scss';
 
 function Root() {
   return (
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
-    </StateProvider>
+    <ErrorBoundary>
+      <StateProvider initialState={initialState} reducer={reducer}>
+        <App />
+      </StateProvider>
+    </ErrorBoundary>
   );
 }
 

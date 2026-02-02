@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { useStateValue } from "../state";
-import Button from "./button";
-import Fade from "./fade";
+import { useStateValue } from '../state';
+import Button from './button';
+import Fade from './fade';
+import { extractYouTubeVideoId, isYouTubeUrl } from '../utils/youtubeUtils';
 
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
@@ -16,435 +17,476 @@ export function getRandomMarker({ focusedMarker, markers }) {
   return filteredMarkers[Math.floor(Math.random() * filteredMarkers.length)];
 }
 
-export default function Details() {
-  const [{ focusedMarker, markers, events }, dispatch] = useStateValue();
-  const randomMarker = getRandomMarker({ focusedMarker, markers });
+// MediaDisplay component to handle both images and YouTube videos
+function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
+  // Check if mediaUrl is a YouTube URL
+  if (isYouTubeUrl(mediaUrl)) {
+    const videoId = extractYouTubeVideoId(mediaUrl);
 
-  // Component to handle story scroll template with shared state
-  const StoryScrollContent = ({ focusedMarker, dispatch }) => {
-    const { eventName, mediaUrl, sourceMedia, description, references } =
-      focusedMarker;
+    if (videoId) {
+      return (
+        <iframe
+          className="event-media youtube-video"
+          width="100%"
+          height="auto"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={`${eventName || 'YouTube Video'} - ${currentIndex + 1}`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      );
+    }
+  }
+
+  // Check if mediaUrl is a video file
+  if (
+    typeof mediaUrl === 'string' &&
+    (mediaUrl.endsWith('.mp4') ||
+      mediaUrl.endsWith('.mov') ||
+      mediaUrl.endsWith('.avi'))
+  ) {
+    return (
+      <video controls src={mediaUrl} className="event-media" onError={onError}>
+        Your browser does not support the video tag.
+      </video>
+    );
+  }
+
+  // Default to image
+  return (
+    <img
+      src={mediaUrl}
+      alt={`${eventName || 'Historical media'} - Item ${currentIndex + 1}`}
+      className="event-media"
+      onError={onError}
+    />
+  );
+}
+
+// Định nghĩa ngoài Details để reference ổn định, tránh unmount/remount khi state (isReferencesOpen) đổi → không mất scroll
+function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' }) {
+    const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
 
+    // Normal template: single media only, no carousel
+    if (templateType === 'normal') {
+      const singleMediaUrl = mediaArray[0];
+      if (!singleMediaUrl) return null;
+      return (
+        <div className="media-container">
+          <MediaDisplay
+            mediaUrl={singleMediaUrl}
+            eventName={eventName}
+            currentIndex={0}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+          {sourceMedia && (
+            <div className="media-caption">
+              {typeof sourceMedia === 'string'
+                ? sourceMedia
+                : Array.isArray(sourceMedia) ? sourceMedia[0] || 'Source' : 'Source'}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Determine which description array to use based on template type
+    const useSynchronizedDescription = templateType === 'story_scroll';
+    const displayDescription = useSynchronizedDescription ? descArray : [description];
+
+    // Navigation buttons based on template type
+    const navButtonsClass = templateType === 'grid' ? 'grid-nav-buttons' : 'story-nav-buttons';
+    const tabsClass = templateType === 'grid' ? 'grid-tabs' : 'story-tabs';
+    const tabClass = templateType === 'grid' ? 'grid-tab' : 'story-tab';
+
+    // Calculate thumbnail carousel offset
+    const calculateThumbnailOffset = (currentIdx, totalItems, type) => {
+      // Thumbnail size + gap
+      const thumbnailSize = type === 'grid' ? 45 : 40; // width of thumbnail
+      const gap = 6; // $spacing / 2 = 12px / 2 = 6px
+      const itemWidth = thumbnailSize + gap;
+
+      // Container width (approximate visible area)
+      // Assuming detail panel width is 35% of viewport, roughly 400-500px
+      const containerWidth = 400; // Approximate container width
+      const visibleItems = Math.floor(containerWidth / itemWidth);
+
+      // Calculate offset to center current thumbnail
+      // If we have fewer items than visible, don't offset
+      if (totalItems <= visibleItems) {
+        return 0;
+      }
+
+      // Calculate the position to center the current item
+      const centerPosition = Math.floor(visibleItems / 2);
+      let offset = 0;
+
+      if (currentIdx < centerPosition) {
+        // Near the start, don't offset
+        offset = 0;
+      } else if (currentIdx >= totalItems - centerPosition) {
+        // Near the end, offset to show last items
+        offset = -(totalItems - visibleItems) * itemWidth;
+      } else {
+        // In the middle, center the current item
+        offset = -(currentIdx - centerPosition) * itemWidth;
+      }
+
+      return offset;
+    };
+
     return (
       <>
-        <div className="header">
-          <Button
-            label="Back to globe"
-            onClick={() => dispatch({ type: "FOCUS" })}
-          />
-        </div>
-        <div className="detail-content">
-          {/* Title from eventName */}
-          <h2 className="event-title">{eventName || "Historical Event"}</h2>
+        {/* Media (image/video) from mediaUrl - template with navigation */}
+        {mediaArray.length > 0 && (
+          <div className="media-container">
+            <div className={`${templateType}-container`}>
+              <div className={navButtonsClass}>
+                <button
+                  className="nav-btn prev-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex((prev) =>
+                      prev > 0 ? prev - 1 : mediaArray.length - 1
+                    );
+                  }}
+                >
+                  &#8249;
+                </button>
 
-          {/* Media (image/video) from mediaUrl - story_scroll template */}
-          {mediaArray.length > 0 && (
-            <div className="media-container">
-              <div className="story-scroll-container">
-                <div className="story-nav-buttons">
-                  <button
-                    className="nav-btn prev-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev > 0 ? prev - 1 : mediaArray.length - 1
-                      );
+                <div className="media-display">
+                  <MediaDisplay
+                    mediaUrl={mediaArray[currentIndex]}
+                    eventName={eventName}
+                    currentIndex={currentIndex}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
                     }}
-                  >
-                    &#8249;
-                  </button>
+                  />
 
-                  <div className="media-display">
-                    {mediaArray[currentIndex]?.endsWith(".mp4") ||
-                      mediaArray[currentIndex]?.endsWith(".mov") ||
-                      mediaArray[currentIndex]?.endsWith(".avi") ? (
-                      <video
-                        controls
-                        src={mediaArray[currentIndex]}
-                        className="event-media"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={mediaArray[currentIndex]}
-                        alt={`${eventName || "Historical media"} - Item ${currentIndex + 1
-                          }`}
-                        className="event-media"
-                      />
-                    )}
-
-                    {/* Source media caption */}
-                    {sourceMedia && (
-                      <div className="media-caption">
-                        {typeof sourceMedia === "string"
-                          ? sourceMedia
-                          : Array.isArray(sourceMedia)
-                            ? Array.isArray(sourceMedia) &&
-                              sourceMedia[currentIndex]
-                              ? sourceMedia[currentIndex]
-                              : sourceMedia[0] || "Source"
-                            : "Source"}
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    className="nav-btn next-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev < mediaArray.length - 1 ? prev + 1 : 0
-                      );
-                    }}
-                  >
-                    &#8250;
-                  </button>
+                  {/* Source media caption */}
+                  {sourceMedia && (
+                    <div className="media-caption">
+                      {typeof sourceMedia === 'string'
+                        ? sourceMedia
+                        : Array.isArray(sourceMedia)
+                          ? Array.isArray(sourceMedia) &&
+                            sourceMedia[currentIndex]
+                            ? sourceMedia[currentIndex]
+                            : sourceMedia[0] || 'Source'
+                          : 'Source'}
+                    </div>
+                  )}
                 </div>
 
-                {/* Story scroll tabs */}
-                <div className="story-tabs">
-                  {mediaArray.map((_, idx) => (
-                    <div
-                      key={idx}
-                      className={`story-tab ${currentIndex === idx ? "active" : ""
-                        }`}
-                      onClick={() => setCurrentIndex(idx)}
-                    >
-                      {idx + 1}
-                    </div>
-                  ))}
+                <button
+                  className="nav-btn next-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex((prev) =>
+                      prev < mediaArray.length - 1 ? prev + 1 : 0
+                    );
+                  }}
+                >
+                  &#8250;
+                </button>
+              </div>
+
+              {/* Template-specific tabs with thumbnails */}
+              <div className={tabsClass}>
+                <div
+                  className={`${tabsClass}-track`}
+                  style={{
+                    transform: `translateX(${calculateThumbnailOffset(currentIndex, mediaArray.length, templateType)}px)`
+                  }}
+                >
+                  {mediaArray.map((mediaUrl, idx) => {
+                    // Generate thumbnail based on media type
+                    let thumbnailElement;
+
+                    if (isYouTubeUrl(mediaUrl)) {
+                      const videoId = extractYouTubeVideoId(mediaUrl);
+                      if (videoId) {
+                        const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                        thumbnailElement = (
+                          <img
+                            src={thumbnailUrl}
+                            alt={`Thumbnail ${idx + 1}`}
+                            className="thumbnail-image"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        );
+                      }
+                    } else if (
+                      typeof mediaUrl === 'string' &&
+                      (mediaUrl.endsWith('.mp4') ||
+                        mediaUrl.endsWith('.mov') ||
+                        mediaUrl.endsWith('.avi'))
+                    ) {
+                      // For video files, use a generic video icon as thumbnail
+                      thumbnailElement = (
+                        <div className="thumbnail-video-icon">▶</div>
+                      );
+                    } else {
+                      // For images, use the image as thumbnail
+                      thumbnailElement = (
+                        <img
+                          src={mediaUrl}
+                          alt={`Thumbnail ${idx + 1}`}
+                          className="thumbnail-image"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={idx}
+                        className={`${tabClass} ${currentIndex === idx ? 'active' : ''
+                          }`}
+                        onClick={() => setCurrentIndex(idx)}
+                      >
+                        {thumbnailElement || <span>{idx + 1}</span>}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Detailed description for story_scroll - synchronized with media */}
-          <div className="event-description">
-            {descArray.length > 0 && (
-              <p>
-                {descArray[currentIndex] ||
-                  descArray[0] ||
-                  "No description available."}
-              </p>
+        {/* Detailed description - synchronized with media for story_scroll, static for others */}
+        <div className="event-description">
+          {displayDescription.length > 0 && (
+            <p>
+              {displayDescription[currentIndex] ||
+                displayDescription[0] ||
+                'No description available.'}
+            </p>
+          )}
+        </div>
+      </>
+    );
+}
+
+// Định nghĩa ngoài Details để reference ổn định → mở dropdown Tham khảo không gây unmount → scroll không nhảy lên đầu
+function DetailPanel({
+  focusedMarker,
+  dispatch,
+  isReferencesOpen,
+  setIsReferencesOpen,
+  validatedEvents,
+  validatedMarkers,
+}) {
+    const templateType = focusedMarker.templateType || 'normal';
+    const { eventName, description, references } = focusedMarker;
+
+    const findMarkerForEvent = (eventId) => {
+      if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
+      return validatedMarkers.find((m) => {
+        if (m.id === eventId) return true;
+        if (m.eventsAtLocation) {
+          return m.eventsAtLocation.some((e) => e.id === eventId);
+        }
+        return false;
+      });
+    };
+
+    const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
+    const currentIndex = sortedEvents.findIndex((event) => event.id === focusedMarker.id);
+    const hasPrevEvent = currentIndex > 0;
+    const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
+
+    return (
+      <>
+        {/* Vùng cuộn riêng để bookmark không bị overflow cắt */}
+        <div className="detail-scroll">
+          <div className="header">
+            <Button
+              label="Quay về quả địa cầu"
+              onClick={() => dispatch({ type: 'FOCUS' })}
+            />
+          </div>
+          <div className="detail-content">
+            <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
+
+            <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType={templateType} />
+
+            {templateType === 'normal' && (
+              <div className="event-description">
+                {description &&
+                  (typeof description === 'string' ? (
+                    <p>{description}</p>
+                  ) : Array.isArray(description) ? (
+                    <p>{description[0]}</p>
+                  ) : (
+                    <p>No description available.</p>
+                  ))}
+              </div>
+            )}
+
+            {/* Tham khảo ở cuối trang – cuộn xuống mới thấy */}
+            <div className="references-section-end">
+              {((Array.isArray(references) && references.length > 0) ||
+                (typeof references === 'string' && references.trim() !== '')) && (
+                <div className="references-dropdown">
+                  <button
+                    className="references-dropdown-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsReferencesOpen(!isReferencesOpen);
+                    }}
+                  >
+                    Tham khảo {isReferencesOpen ? '▼' : '▲'}
+                  </button>
+                  <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
+                    {Array.isArray(references) ?
+                      references.map((reference, index) => (
+                        <a
+                          key={index}
+                          href={
+                            reference.startsWith('http')
+                              ? reference
+                              : `https://${reference}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="reference-link-item"
+                        >
+                          {reference}
+                        </a>
+                      )) :
+                      <a
+                        href={
+                          references.startsWith('http')
+                            ? references
+                            : `https://${references}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="reference-link-item"
+                      >
+                        {references}
+                      </a>
+                    }
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Bookmark gắn cạnh trái detail page – ngoài vùng cuộn nên không bị cắt */}
+        <div className="event-navigation-fixed">
+          <div className="event-navigation-buttons">
+            {hasNextEvent && (
+              <button
+                className="next-event-button"
+                onClick={() => {
+                  const nextEvent = sortedEvents[currentIndex + 1];
+                  if (nextEvent) {
+                    const nextMarker = findMarkerForEvent(nextEvent.id);
+                    if (nextMarker) {
+                      const tempMarker = {
+                        ...nextMarker,
+                        id: nextEvent.id,
+                        phase: nextEvent.phase,
+                        year: nextEvent.year,
+                        city: nextEvent.location,
+                        eventName: nextEvent.eventName,
+                        description: nextEvent.description,
+                        mediaUrl: nextEvent.mediaUrl,
+                        sourceMedia: nextEvent.sourceMedia,
+                        templateType: nextEvent.templateType,
+                        references: nextEvent.references,
+                        eventsAtLocation: undefined,
+                      };
+                      dispatch({ type: 'FOCUS', payload: tempMarker });
+                    }
+                  }
+                }}
+              >
+                Sự kiện tiếp theo →
+              </button>
+            )}
+            {hasPrevEvent && (
+              <button
+                className="prev-event-button"
+                onClick={() => {
+                  const prevEvent = sortedEvents[currentIndex - 1];
+                  if (prevEvent) {
+                    const prevMarker = findMarkerForEvent(prevEvent.id);
+                    if (prevMarker) {
+                      const tempMarker = {
+                        ...prevMarker,
+                        id: prevEvent.id,
+                        phase: prevEvent.phase,
+                        year: prevEvent.year,
+                        city: prevEvent.location,
+                        eventName: prevEvent.eventName,
+                        description: prevEvent.description,
+                        mediaUrl: prevEvent.mediaUrl,
+                        sourceMedia: prevEvent.sourceMedia,
+                        templateType: prevEvent.templateType,
+                        references: prevEvent.references,
+                        eventsAtLocation: undefined,
+                      };
+                      dispatch({ type: 'FOCUS', payload: tempMarker });
+                    }
+                  }
+                }}
+              >
+                Sự kiện trước đó ←
+              </button>
             )}
           </div>
-
-          {/* Original references section removed - using dropdown instead */}
-
-          {/* Container for both next button and references dropdown */}
-          <div className="navigation-container">
-            {/* References Dropdown */}
-            {references &&
-              Array.isArray(references) &&
-              references.length > 0 && (
-                <div className="references-dropdown">
-                  <button className="references-dropdown-button">
-                    References ▼
-                  </button>
-                  <div className="references-dropdown-content">
-                    {references.map((reference, index) => (
-                      <a
-                        key={index}
-                        href={
-                          reference.startsWith("http")
-                            ? reference
-                            : `https://${reference}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="reference-link-item"
-                      >
-                        {reference}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-            {/* Next Event Button - navigate by ID order */}
-            {(() => {
-              // Sort all events by ID
-              const sortedEvents = [...events].sort((a, b) => a.id - b.id);
-              const currentIndex = sortedEvents.findIndex(
-                (event) => event.id === focusedMarker.id
-              );
-              const hasNextEvent =
-                currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
-
-              return hasNextEvent ? (
-                <div className="next-event-button-container">
-                  <button
-                    className="next-event-button"
-                    onClick={() => {
-                      const nextEvent = sortedEvents[currentIndex + 1];
-
-                      if (nextEvent) {
-                        // Find the marker for this event
-                        const nextMarker = markers.find((m) => {
-                          if (m.id === nextEvent.id) return true;
-                          if (m.eventsAtLocation) {
-                            return m.eventsAtLocation.some(
-                              (e) => e.id === nextEvent.id
-                            );
-                          }
-                          return false;
-                        });
-
-                        if (nextMarker) {
-                          // Create marker with event data
-                          const tempMarker = {
-                            ...nextMarker,
-                            id: nextEvent.id,
-                            phase: nextEvent.phase,
-                            year: nextEvent.year,
-                            city: nextEvent.location,
-                            eventName: nextEvent.eventName,
-                            description: nextEvent.description,
-                            mediaUrl: nextEvent.mediaUrl,
-                            sourceMedia: nextEvent.sourceMedia,
-                            templateType: nextEvent.templateType,
-                          };
-                          dispatch({ type: "FOCUS", payload: tempMarker });
-                        }
-                      }
-                    }}
-                  >
-                    Next Event →
-                  </button>
-                </div>
-              ) : null;
-            })()}
-          </div>
         </div>
       </>
     );
-  };
+}
 
-  // Component to handle grid template with shared state
-  const GridTemplateContent = ({ focusedMarker, dispatch }) => {
-    const { eventName, mediaUrl, sourceMedia, description, references } =
-      focusedMarker;
-    const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
-    const [currentIndex, setCurrentIndex] = React.useState(0);
+export default function Details() {
+  const [{ focusedMarker, markers, events }, dispatch] = useStateValue();
 
-    return (
-      <>
-        <div className="header">
-          <Button
-            label="Back to globe"
-            onClick={() => dispatch({ type: "FOCUS" })}
-          />
-        </div>
-        <div className="detail-content">
-          {/* Title from eventName */}
-          <h2 className="event-title">{eventName || "Historical Event"}</h2>
+  const validatedEvents = events && Array.isArray(events) ? events : [];
+  const validatedMarkers = markers && Array.isArray(markers) ? markers : [];
 
-          {/* Media (image/video) from mediaUrl - grid template with navigation */}
-          {mediaArray.length > 0 && (
-            <div className="media-container">
-              <div className="grid-media-container">
-                <div className="grid-nav-buttons">
-                  <button
-                    className="nav-btn prev-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev > 0 ? prev - 1 : mediaArray.length - 1
-                      );
-                    }}
-                  >
-                    &#8249;
-                  </button>
+  const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
 
-                  <div className="media-display">
-                    {mediaArray[currentIndex]?.endsWith(".mp4") ||
-                      mediaArray[currentIndex]?.endsWith(".mov") ||
-                      mediaArray[currentIndex]?.endsWith(".avi") ? (
-                      <video
-                        controls
-                        src={mediaArray[currentIndex]}
-                        className="event-media"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={mediaArray[currentIndex]}
-                        alt={`${eventName || "Historical media"} - Item ${currentIndex + 1
-                          }`}
-                        className="event-media"
-                      />
-                    )}
+  React.useEffect(() => {
+    if (focusedMarker && focusedMarker.id && focusedMarker.phase) {
+      const currentPhase = focusedMarker.phase;
+      const viewedEvents =
+        JSON.parse(
+          localStorage.getItem(`viewedEvents_phase_${currentPhase}`)
+        ) || [];
+      if (!viewedEvents.includes(focusedMarker.id)) {
+        localStorage.setItem(
+          `viewedEvents_phase_${currentPhase}`,
+          JSON.stringify([...viewedEvents, focusedMarker.id])
+        );
+      }
+    }
+  }, [focusedMarker?.id, focusedMarker?.phase]);
 
-                    {/* Source media caption */}
-                    {sourceMedia && (
-                      <div className="media-caption">
-                        {typeof sourceMedia === "string"
-                          ? sourceMedia
-                          : Array.isArray(sourceMedia)
-                            ? Array.isArray(sourceMedia) &&
-                              sourceMedia[currentIndex]
-                              ? sourceMedia[currentIndex]
-                              : sourceMedia[0] || "Source"
-                            : "Source"}
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    className="nav-btn next-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentIndex((prev) =>
-                        prev < mediaArray.length - 1 ? prev + 1 : 0
-                      );
-                    }}
-                  >
-                    &#8250;
-                  </button>
-                </div>
-
-                {/* Grid tabs */}
-                <div className="grid-tabs">
-                  {mediaArray.map((_, idx) => (
-                    <div
-                      key={idx}
-                      className={`grid-tab ${currentIndex === idx ? "active" : ""
-                        }`}
-                      onClick={() => setCurrentIndex(idx)}
-                    >
-                      {idx + 1}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Detailed description */}
-          <div className="event-description">
-            {description &&
-              (typeof description === "string" ? (
-                <p>{description}</p>
-              ) : Array.isArray(description) ? (
-                // If description is an array (for other templates), show the first item
-                <p>{description[0]}</p>
-              ) : (
-                <p>No description available.</p>
-              ))}
-          </div>
-
-          {/* Original references section removed - using dropdown instead */}
-
-          {/* Container for both next button and references dropdown */}
-          <div className="navigation-container">
-            {/* References Dropdown */}
-            {references &&
-              Array.isArray(references) &&
-              references.length > 0 && (
-                <div className="references-dropdown">
-                  <button className="references-dropdown-button">
-                    References ▼
-                  </button>
-                  <div className="references-dropdown-content">
-                    {references.map((reference, index) => (
-                      <a
-                        key={index}
-                        href={
-                          reference.startsWith("http")
-                            ? reference
-                            : `https://${reference}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="reference-link-item"
-                      >
-                        {reference}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-            {/* Next Event Button - navigate by ID order */}
-            {(() => {
-              // Sort all events by ID
-              const sortedEvents = [...events].sort((a, b) => a.id - b.id);
-              const currentIndex = sortedEvents.findIndex(
-                (event) => event.id === focusedMarker.id
-              );
-              const hasNextEvent =
-                currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
-
-              return hasNextEvent ? (
-                <div className="next-event-button-container">
-                  <button
-                    className="next-event-button"
-                    onClick={() => {
-                      const nextEvent = sortedEvents[currentIndex + 1];
-
-                      if (nextEvent) {
-                        // Find the marker for this event
-                        const nextMarker = markers.find((m) => {
-                          if (m.id === nextEvent.id) return true;
-                          if (m.eventsAtLocation) {
-                            return m.eventsAtLocation.some(
-                              (e) => e.id === nextEvent.id
-                            );
-                          }
-                          return false;
-                        });
-
-                        if (nextMarker) {
-                          // Create marker with event data
-                          const tempMarker = {
-                            ...nextMarker,
-                            id: nextEvent.id,
-                            phase: nextEvent.phase,
-                            year: nextEvent.year,
-                            city: nextEvent.location,
-                            eventName: nextEvent.eventName,
-                            description: nextEvent.description,
-                            mediaUrl: nextEvent.mediaUrl,
-                            sourceMedia: nextEvent.sourceMedia,
-                            templateType: nextEvent.templateType,
-                          };
-                          dispatch({ type: "FOCUS", payload: tempMarker });
-                        }
-                      }
-                    }}
-                  >
-                    Next Event →
-                  </button>
-                </div>
-              ) : null;
-            })()}
-          </div>
-        </div>
-      </>
-    );
-  };
+  React.useEffect(() => {
+    setIsReferencesOpen(false);
+  }, [focusedMarker?.id]);
 
   let content;
   if (focusedMarker) {
-    const {
-      eventName,
-      mediaUrl,
-      sourceMedia,
-      description,
-      references,
-      eventsAtLocation,
-    } = focusedMarker || {};
+    const { eventsAtLocation } = focusedMarker || {};
 
     // Handle multiple events at location
     if (eventsAtLocation && eventsAtLocation.length > 1) {
@@ -453,13 +495,13 @@ export default function Details() {
         <>
           <div className="header">
             <Button
-              label="Back to globe"
-              onClick={() => dispatch({ type: "FOCUS" })}
+              label="Quay về quả địa cầu"
+              onClick={() => dispatch({ type: 'FOCUS' })}
             />
           </div>
           <div className="content">
             <h2>
-              Các sự kiện tại:{" "}
+              Các sự kiện tại:{' '}
               {eventsAtLocation[0]?.location || focusedMarker.city}
             </h2>
             <div className="multiple-events-list">
@@ -481,9 +523,10 @@ export default function Details() {
                       sourceMedia: event.sourceMedia,
                       quoteSource: event.quoteSource,
                       templateType: event.templateType,
+                      references: event.references,
                       value: focusedMarker.value,
                     };
-                    dispatch({ type: "FOCUS", payload: tempMarker });
+                    dispatch({ type: 'FOCUS', payload: tempMarker });
                   }}
                 >
                   <h3>
@@ -496,199 +539,40 @@ export default function Details() {
         </>
       );
     } else {
-      // Handle different template types
-      const templateType = focusedMarker.templateType || "normal";
-
-      if (templateType === "story_scroll") {
-        // Render story scroll template with shared state
-        return (
-          <Fade className="details" show={!!focusedMarker}>
-            <StoryScrollContent
-              focusedMarker={focusedMarker}
-              dispatch={dispatch}
-            />
-          </Fade>
-        );
-      } else if (templateType === "grid") {
-        // Render grid template with shared state
-        return (
-          <Fade className="details" show={!!focusedMarker}>
-            <GridTemplateContent
-              focusedMarker={focusedMarker}
-              dispatch={dispatch}
-            />
-          </Fade>
-        );
-      } else {
-        // Normal template: single media item
-        content = (
-          <>
-            <div className="header">
-              <Button
-                label="Back to globe"
-                onClick={() => dispatch({ type: "FOCUS" })}
-              />
-            </div>
-            <div className="detail-content">
-              {/* Title from eventName */}
-              <h2 className="event-title">{eventName || "Historical Event"}</h2>
-
-              {/* Media (image/video) from mediaUrl - normal template */}
-              {mediaUrl && (
-                <div className="media-container">
-                  {Array.isArray(mediaUrl) ? (
-                    // If mediaUrl is an array (fallback for normal template), show the first item
-                    <img
-                      src={mediaUrl[0]}
-                      alt={eventName || "Historical media"}
-                      className="event-media"
-                    />
-                  ) : typeof mediaUrl === "string" ? (
-                    // If mediaUrl is a single string
-                    mediaUrl.endsWith(".mp4") ||
-                      mediaUrl.endsWith(".mov") ||
-                      mediaUrl.endsWith(".avi") ? (
-                      <video
-                        controls
-                        src={mediaUrl}
-                        className="event-media"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={mediaUrl}
-                        alt={eventName || "Historical media"}
-                        className="event-media"
-                      />
-                    )
-                  ) : null}
-
-                  {/* Source media caption */}
-                  {sourceMedia && (
-                    <div className="media-caption">
-                      {typeof sourceMedia === "string"
-                        ? sourceMedia
-                        : Array.isArray(sourceMedia)
-                          ? sourceMedia[0] || "Source"
-                          : "Source"}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Detailed description */}
-              <div className="event-description">
-                {description &&
-                  (typeof description === "string" ? (
-                    <p>{description}</p>
-                  ) : Array.isArray(description) ? (
-                    // If description is an array (for other templates), show the first item
-                    <p>{description[0]}</p>
-                  ) : (
-                    <p>No description available.</p>
-                  ))}
-              </div>
-
-              {/* Original references section removed - using dropdown instead */}
-
-              {/* Container for both next button and references dropdown */}
-              <div className="navigation-container">
-                {/* References Dropdown */}
-                {references &&
-                  Array.isArray(references) &&
-                  references.length > 0 && (
-                    <div className="references-dropdown">
-                      <button className="references-dropdown-button">
-                        References ▼
-                      </button>
-                      <div className="references-dropdown-content">
-                        {references.map((reference, index) => (
-                          <a
-                            key={index}
-                            href={
-                              reference.startsWith("http")
-                                ? reference
-                                : `https://${reference}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="reference-link-item"
-                          >
-                            {reference}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                {/* Next Event Button - navigate by ID order */}
-                {(() => {
-                  // Sort all events by ID
-                  const sortedEvents = [...events].sort((a, b) => a.id - b.id);
-                  const currentIndex = sortedEvents.findIndex(
-                    (event) => event.id === focusedMarker.id
-                  );
-                  const hasNextEvent =
-                    currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
-
-                  return hasNextEvent ? (
-                    <div className="next-event-button-container">
-                      <button
-                        className="next-event-button"
-                        onClick={() => {
-                          const nextEvent = sortedEvents[currentIndex + 1];
-
-                          if (nextEvent) {
-                            // Find the marker for this event
-                            const nextMarker = markers.find((m) => {
-                              if (m.id === nextEvent.id) return true;
-                              if (m.eventsAtLocation) {
-                                return m.eventsAtLocation.some(
-                                  (e) => e.id === nextEvent.id
-                                );
-                              }
-                              return false;
-                            });
-
-                            if (nextMarker) {
-                              // Create marker with event data
-                              const tempMarker = {
-                                ...nextMarker,
-                                id: nextEvent.id,
-                                phase: nextEvent.phase,
-                                year: nextEvent.year,
-                                city: nextEvent.location,
-                                eventName: nextEvent.eventName,
-                                description: nextEvent.description,
-                                mediaUrl: nextEvent.mediaUrl,
-                                sourceMedia: nextEvent.sourceMedia,
-                                templateType: nextEvent.templateType,
-                              };
-                              dispatch({ type: "FOCUS", payload: tempMarker });
-                            }
-                          }
-                        }}
-                      >
-                        Next Event →
-                      </button>
-                    </div>
-                  ) : null;
-                })()}
-              </div>
-            </div>
-          </>
-        );
-      }
+      // Single-event detail: always use DetailPanel so Fade has same child type (no flash on prev/next)
+      content = (
+        <DetailPanel
+          focusedMarker={focusedMarker}
+          dispatch={dispatch}
+          isReferencesOpen={isReferencesOpen}
+          setIsReferencesOpen={setIsReferencesOpen}
+          validatedEvents={validatedEvents}
+          validatedMarkers={validatedMarkers}
+        />
+      );
     }
   }
 
   return (
-    <Fade className="details" show={!!focusedMarker}>
-      {content}
-    </Fade>
+    <>
+      {focusedMarker && (
+        <div
+          className="details-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 999,
+            pointerEvents: 'auto' // This ensures the overlay blocks interaction
+          }}
+          onClick={() => dispatch({ type: 'FOCUS' })} // Close when clicking on overlay
+        />
+      )}
+      <Fade className="details" show={!!focusedMarker}>
+        {content}
+      </Fade>
+    </>
   );
 }
