@@ -7,7 +7,7 @@
       "id": 1,
       "phase": 1,
       "year": "19-5-1890",
-      "location": "Làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An",
+      "location": "Nam Đàn, Nghệ An",
       "coordinates": [
         18.676754,
         105.568941
@@ -37,7 +37,7 @@
       "id": 2,
       "phase": 1,
       "year": "1895",
-      "location": "Gian nhà nhỏ ở đường Đông Ba trong Thành Nội (nay là 112 - Mai Thúc Loan)",
+      "location": "112 - Mai Thúc Loan",
       "coordinates": [
         16.4755189,
         107.5805452
@@ -83,7 +83,7 @@
       "id": 3,
       "phase": 1,
       "year": 1901,
-      "location": "Làng Hoàng Trù (còn gọi là Làng Chùa), xã Chung Cự, tổng Lâm Thịnh, nay thuộc xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An",
+      "location": "Nam Đàn, Nghệ An",
       "coordinates": [
         18.676754,
         105.568941
@@ -215,7 +215,73 @@
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 8,
       "phase": 2,
-      "year": "15-07-1917",
+      "year": "08-06-1911",
+      "location": "Singapore",
+      "coordinates": [
+        1.3436663,
+        103.2000452
+      ],
+      "eventMeta": "Tàu cập bến Singapore và nhận thức của Bác về chủ nghĩa thực dân",
+      "eventName": "Tàu cập bến Singapore và nhận thức của Bác về chủ nghĩa thực dân",
+      "description": "Đây là cảng đầu tiên tàu ghé lại, một quốc đảo thuộc địa của người Anh có diện tích nhỏ hẹp nhưng dân số đông đúc. Trong vài ngày ngắn ngủi tại đây, Văn Ba lần đầu tiên chứng kiến cảnh đời nô lệ bên ngoài biên giới Việt Nam và nhận ra bản chất tàn bạo của bọn thực dân là như nhau ở khắp mọi nơi. Anh thấu hiểu rằng không chỉ dân tộc mình mà hàng trăm dân tộc nhược tiểu khác cũng đang chịu chung ách thống trị vô nhân đạo.",
+      "mediaUrl": [
+        "https://vcdn1-kinhdoanh.vnecdn.net/2015/03/23/Singapore-xua-5038-1427086142.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=B5Lz4eNyGvJpHx8UvvCApA"
+      ],
+      "sourceMedia": [
+        "Nguồn: VnExpress"
+      ],
+      "references": "https://www.fahasa.com/blog/review-sach-hanh-trinh-theo-chan-bac-lan-theo-dau-chan-vi-dai-cua-chu-tich-ho-chi-minh/",
+      "templateType": "normal"
+    },
+    {
+      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
+      "id": 9,
+      "phase": 2,
+      "year": "11-06-1911",
+      "location": "Colombo, Sri Lanka",
+      "coordinates": [
+        6.9218316,
+        79.7738033
+      ],
+      "eventMeta": "Tàu cập bến Colombo - Thủ phủ Tích Lan",
+      "eventName": "Tàu cập bến Colombo - Thủ phủ Tích Lan",
+      "description": "Sau khi rời Singapore, con tàu tiếp tục vượt biển cả mênh mông đưa Nguyễn Tất Thành đến Colombo, thủ phủ của xứ Phật giáo Tích Lan. Đây là vùng đất nổi tiếng từ thời hoàng kim của A Dục Vương (Asoka), vị Phật hoàng vĩ đại của Ấn Độ đã từng truyền giáo sang đây. Việc dừng chân tại vùng đất giàu truyền thống này tiếp tục mở ra những chân trời mới trong hành trình vạn dặm của người thanh niên yêu nước.",
+      "mediaUrl": [
+        "https://vantainhanhvn.com/wp-content/uploads/2022/09/van-tai-nguyen-container-hang-xuat-khau-sang-cang-colombo.png"
+      ],
+      "sourceMedia": [
+        "Nguồn: vantainhanhvn"
+      ],
+      "references": "https://www.fahasa.com/blog/review-sach-hanh-trinh-theo-chan-bac-lan-theo-dau-chan-vi-dai-cua-chu-tich-ho-chi-minh/",
+      "templateType": "normal"
+    },
+    {
+      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
+      "id": 10,
+      "phase": 2,
+      "year": "30-06-1911",
+      "location": "Port Said, Ai Cập",
+      "coordinates": [
+        31.2386715,
+        32.2439697
+      ],
+      "eventMeta": "Tàu đến Port Said và chứng kiến cảnh lầm than của người Ai Cập",
+      "eventName": "Tàu đến Port Said và chứng kiến cảnh lầm than của người Ai Cập",
+      "description": "Sau hành trình dài vượt Ấn Độ Dương và đi dọc kênh đào Suez, con tàu dừng lại tại thành phố cảng nằm bên bờ Địa Trung Hải. Tại đây, Văn Ba tận mắt chứng kiến cảnh sống lam lũ, cơ hàn của người dân địa phương dưới sự bóc lột khắc nghiệt của Anh quốc. Hình ảnh đất nước Ai Cập nghèo khổ bên cạnh dòng kênh huyết mạch sầm uất càng khắc sâu thêm nhận thức của anh về số phận chung của các dân tộc bị áp bức.",
+      "mediaUrl": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Port_Said%2C_The_Office_of_the_Suez_Canal_Company_%28n.d.%29_-_front_-_TIMEA.jpg/250px-Port_Said%2C_The_Office_of_the_Suez_Canal_Company_%28n.d.%29_-_front_-_TIMEA.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: Wikipedia"
+      ],
+      "references": "https://www.fahasa.com/blog/review-sach-hanh-trinh-theo-chan-bac-lan-theo-dau-chan-vi-dai-cua-chu-tich-ho-chi-minh/",
+      "templateType": "normal"
+    },
+    {
+      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
+      "id": 11,
+      "phase": 2,
+      "year": "06-07-1917",
       "location": "Marseille, Pháp",
       "coordinates": [
         43.30405417091031,
@@ -235,7 +301,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 9,
+      "id": 12,
       "phase": 2,
       "year": 1912,
       "location": "Le Havre, Pháp",
@@ -257,7 +323,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 10,
+      "id": 13,
       "phase": 2,
       "year": "12-1912",
       "location": "New York, Hoa Kỳ",
@@ -279,7 +345,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 11,
+      "id": 14,
       "phase": 2,
       "year": 1913,
       "location": "Boston, Hoa Kỳ",
@@ -301,10 +367,10 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 12,
+      "id": 15,
       "phase": 2,
       "year": "5-1914",
-      "location": "London (Anh)",
+      "location": "London, Anh",
       "coordinates": [
         51.50502529335678, -0.12632781669614476
       ],
@@ -323,7 +389,7 @@
   
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 13,
+      "id": 16,
       "phase": 2,
       "year": 1917,
       "location": "Paris, Pháp",
@@ -345,7 +411,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 14,
+      "id": 17,
       "phase": 2,
       "year": "18-06-1919",
       "location": "Versailles, Pháp",
@@ -367,7 +433,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 15,
+      "id": 18,
       "phase": 2,
       "year": "17-07-1920",
       "location": "Paris, Pháp",
@@ -389,7 +455,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 16,
+      "id": 19,
       "phase": 3,
       "year": 1920,
       "location": "Tours, Pháp",
@@ -416,10 +482,34 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 17,
+      "id": 20,
+      "phase": 3,
+      "year": "1922",
+      "location": "Marseille, Pháp",
+      "coordinates": [
+        43.30405417091031,
+        5.371718764124055
+      ],
+      "eventMeta": "Pháp tổ chức triển lãm tại Marseille để tuyên truyền chính sách khai thác thuộc địa.",
+      "eventName": "Pháp tổ chức triển lãm tại Marseille để tuyên truyền chính sách khai thác thuộc địa.",
+      "description": "Nhân dịp vua Khải Định sang dự hội chợ, Nguyễn Ái Quốc đã viết vở kịch này để châm biếm bộ mặt tay sai của triều đình nhà Nguyễn. Vở kịch ví vua Khải Định như con rồng làm bằng tre, tuy được trang trí nhưng thực chất chỉ là đồ chơi, một sự hãnh diện thảm hại. Điều này khiến kẻ thù tức giận và hồ sơ của Người tại sở mật thám càng dày thêm.",
+      "mediaUrl": [
+        "https://vietnamesecommunity.wordpress.com/wp-content/uploads/2023/12/conrongtre.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: Thông tấn xã Việt Nam"
+      ],
+      "references": [
+        "https://www.fahasa.com/blog/review-sach-hanh-trinh-theo-chan-bac-lan-theo-dau-chan-vi-dai-cua-chu-tich-ho-chi-minh/"
+      ],
+      "templateType": "normal"
+    },
+    {
+      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
+      "id": 21,
       "phase": 3,
       "year": "1924",
-      "location": "Moskva (Moscow) – Liên Xô",
+      "location": "Moscow, Liên Xô",
       "coordinates": [
         55.759325461913626,
         37.63929582115238
@@ -444,10 +534,10 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 18,
+      "id": 22,
       "phase": 3,
       "year": 1925,
-      "location": "Quảng Châu (Guangzhou) – Trung Quốc",
+      "location": "Quảng Châu, Trung Quốc",
       "coordinates": [
         23.128590814502367,
         113.2794836620152
@@ -471,7 +561,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 19,
+      "id": 23,
       "phase": 3,
       "year": 1927,
       "location": "Châu Âu",
@@ -495,7 +585,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 20,
+      "id": 24,
       "phase": 3,
       "year": "7-1928",
       "location": "Thái Lan",
@@ -523,7 +613,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 21,
+      "id": 25,
       "phase": 3,
       "year": "3-2-1930",
       "location": "Hương Cảng, Trung Quốc",
@@ -550,7 +640,7 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 22,
+      "id": 26,
       "phase": 4,
       "year": 1931,
       "location": "Nhà tù Victoria, Hồng Kông",
@@ -573,7 +663,7 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 23,
+      "id": 27,
       "phase": 4,
       "year": 1933,
       "location": "Thượng Hải, Trung Quốc",
@@ -595,7 +685,7 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 24,
+      "id": 28,
       "phase": 4,
       "year": 1934,
       "location": "Moskva, Liên Xô",
@@ -615,10 +705,10 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 25,
+      "id": 29,
       "phase": 4,
       "year": 1938,
-      "location": "Diên An (Trung Quốc)",
+      "location": "Diên An, Trung Quốc",
       "coordinates": [
         36.5737015779124,
         109.58713604239753
@@ -635,7 +725,7 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 26,
+      "id": 30,
       "phase": 4,
       "year": 1938,
       "location": "Quế Lâm (Quảng Tây), Trung Quốc",
@@ -655,7 +745,7 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 27,
+      "id": 31,
       "phase": 4,
       "year": 1939,
       "location": "Quý Dương, Trung Quốc",
@@ -675,10 +765,10 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 28,
+      "id": 32,
       "phase": 4,
       "year": 1940,
-      "location": "Côn Minh (Vân Nam), Trung Quốc",
+      "location": "Vân Nam, Trung Quốc",
       "coordinates": [
         24.873122589606098,
         102.83647432274974
@@ -695,7 +785,7 @@
     },
     {
       "__comment": "TEMPLATE NORMAL: Dùng cho sự kiện đơn lẻ. 'description' là 1 đoạn văn, 'mediaUrl' là 1 link ảnh/video duy nhất.",
-      "id": 29,
+      "id": 33,
       "phase": 4,
       "year": 1941,
       "location": "Tĩnh Tây, Trung Quốc",
@@ -715,7 +805,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 30,
+      "id": 34,
       "phase": 5,
       "year": 1941,
       "location": "Hang Cốc Bó, Pác Bó, Cao Bằng",
@@ -742,10 +832,10 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 31,
+      "id": 35,
       "phase": 5,
       "year": 1945,
-      "location": "Quảng Trường Ba Đình (Hà Nội)",
+      "location": "Quảng Trường Ba Đình, Hà Nội",
       "coordinates": [
         21.036824,
         105.835881
@@ -766,10 +856,10 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 32,
+      "id": 36,
       "phase": 5,
       "year": 1946,
-      "location": "Làng Vạn Phúc Hà Đông (Hà Nội)",
+      "location": "Làng Vạn Phúc, Hà Đông, Hà Nội",
       "coordinates": [
         20.9798229,
         105.7701981
@@ -790,7 +880,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 33,
+      "id": 37,
       "phase": 5,
       "year": 1951,
       "location": "Chiến khu Việt Bắc",
@@ -814,7 +904,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 34,
+      "id": 38,
       "phase": 5,
       "year": 1954,
       "location": "Hà Nội",
@@ -838,7 +928,7 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
-      "id": 35,
+      "id": 39,
       "phase": 5,
       "year": 1969,
       "location": "Nhà 67",
