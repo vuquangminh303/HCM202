@@ -216,11 +216,7 @@ body.theme-festival {
 
   @media only screen and (max-width: $media-phone-max-width) {
     max-width: 60vw;
-    left: 0;
-  }
-
-  * {
-    color: #000000 !important;
+    right: $spacing * 2;
   }
 }
 
