@@ -19,11 +19,11 @@ const MARKER_COLORS = [
 
 const MARKER_COMPANION_COLOR = '#ffffff';
 
-// function random(scaleFactor) {
-//   return Math.random() > 0.5
-//     ? scaleFactor * Math.random()
-//     : -scaleFactor * Math.random();
-// }
+function random(scaleFactor) {
+  return Math.random() > 0.5
+    ? scaleFactor * Math.random()
+    : -scaleFactor * Math.random();
+}
 
 // Pre-create materials to avoid recreating them repeatedly
 const markerMaterials = {
