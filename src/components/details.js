@@ -64,48 +64,37 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
   );
 }
 
-export default function Details() {
-  const [{ focusedMarker, markers, events }, dispatch] = useStateValue();
-
-  // Add error checking for events and markers
-  const validatedEvents = events && Array.isArray(events) ? events : [];
-  const validatedMarkers = markers && Array.isArray(markers) ? markers : [];
-
-  const randomMarker = getRandomMarker({ focusedMarker, markers: validatedMarkers });
-  const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
-
-  // Track viewed events whenever focusedMarker changes (detail page opens)
-  React.useEffect(() => {
-    if (focusedMarker && focusedMarker.id && focusedMarker.phase) {
-      const currentPhase = focusedMarker.phase;
-
-      // Get existing viewed events for this phase
-      const viewedEvents =
-        JSON.parse(
-          localStorage.getItem(`viewedEvents_phase_${currentPhase}`)
-        ) || [];
-
-      // Add this event to viewed list if not already there
-      if (!viewedEvents.includes(focusedMarker.id)) {
-        localStorage.setItem(
-          `viewedEvents_phase_${currentPhase}`,
-          JSON.stringify([...viewedEvents, focusedMarker.id])
-        );
-      }
-    }
-  }, [focusedMarker?.id, focusedMarker?.phase]);
-
-  // Reset dropdown state when focused marker changes
-  React.useEffect(() => {
-    setIsReferencesOpen(false);
-  }, [focusedMarker?.id]);
-
-  // Common component to handle media display and navigation
-  const MediaDisplaySection = ({ focusedMarker, dispatch, templateType = 'normal' }) => {
+// Định nghĩa ngoài Details để reference ổn định, tránh unmount/remount khi state (isReferencesOpen) đổi → không mất scroll
+function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' }) {
     const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
     const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
+
+    // Normal template: single media only, no carousel
+    if (templateType === 'normal') {
+      const singleMediaUrl = mediaArray[0];
+      if (!singleMediaUrl) return null;
+      return (
+        <div className="media-container">
+          <MediaDisplay
+            mediaUrl={singleMediaUrl}
+            eventName={eventName}
+            currentIndex={0}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+          {sourceMedia && (
+            <div className="media-caption">
+              {typeof sourceMedia === 'string'
+                ? sourceMedia
+                : Array.isArray(sourceMedia) ? sourceMedia[0] || 'Source' : 'Source'}
+            </div>
+          )}
+        </div>
+      );
+    }
 
     // Determine which description array to use based on template type
     const useSynchronizedDescription = templateType === 'story_scroll';
@@ -289,31 +278,68 @@ export default function Details() {
         </div>
       </>
     );
-  };
+}
 
-  // Component to handle story scroll template with shared state
-  const StoryScrollContent = ({ focusedMarker, dispatch, isReferencesOpen, setIsReferencesOpen }) => {
+// Định nghĩa ngoài Details để reference ổn định → mở dropdown Tham khảo không gây unmount → scroll không nhảy lên đầu
+function DetailPanel({
+  focusedMarker,
+  dispatch,
+  isReferencesOpen,
+  setIsReferencesOpen,
+  validatedEvents,
+  validatedMarkers,
+}) {
+    const templateType = focusedMarker.templateType || 'normal';
+    const { eventName, description, references } = focusedMarker;
+
+    const findMarkerForEvent = (eventId) => {
+      if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
+      return validatedMarkers.find((m) => {
+        if (m.id === eventId) return true;
+        if (m.eventsAtLocation) {
+          return m.eventsAtLocation.some((e) => e.id === eventId);
+        }
+        return false;
+      });
+    };
+
+    const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
+    const currentIndex = sortedEvents.findIndex((event) => event.id === focusedMarker.id);
+    const hasPrevEvent = currentIndex > 0;
+    const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
 
     return (
       <>
-        <div className="header">
-          <Button
-            label="Quay về quả địa cầu"
-            onClick={() => dispatch({ type: 'FOCUS' })}
-          />
-        </div>
-        <div className="detail-content">
-          {/* Title from eventName */}
-          <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
+        {/* Vùng cuộn riêng để bookmark không bị overflow cắt */}
+        <div className="detail-scroll">
+          <div className="header">
+            <Button
+              label="Quay về quả địa cầu"
+              onClick={() => dispatch({ type: 'FOCUS' })}
+            />
+          </div>
+          <div className="detail-content">
+            <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
 
-          {/* Media section with story_scroll template */}
-          <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType="story_scroll" />
+            <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType={templateType} />
 
-          {/* Container for both next button and references dropdown */}
-          <div className="navigation-container">
-            {/* References Dropdown */}
-            {((Array.isArray(focusedMarker.references) && focusedMarker.references.length > 0) ||
-              (typeof focusedMarker.references === 'string' && focusedMarker.references.trim() !== '')) && (
+            {templateType === 'normal' && (
+              <div className="event-description">
+                {description &&
+                  (typeof description === 'string' ? (
+                    <p>{description}</p>
+                  ) : Array.isArray(description) ? (
+                    <p>{description[0]}</p>
+                  ) : (
+                    <p>No description available.</p>
+                  ))}
+              </div>
+            )}
+
+            {/* Tham khảo ở cuối trang – cuộn xuống mới thấy */}
+            <div className="references-section-end">
+              {((Array.isArray(references) && references.length > 0) ||
+                (typeof references === 'string' && references.trim() !== '')) && (
                 <div className="references-dropdown">
                   <button
                     className="references-dropdown-button"
@@ -322,11 +348,11 @@ export default function Details() {
                       setIsReferencesOpen(!isReferencesOpen);
                     }}
                   >
-                    References {isReferencesOpen ? '▼' : '▲'}
+                    Tham khảo {isReferencesOpen ? '▼' : '▲'}
                   </button>
                   <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
-                    {Array.isArray(focusedMarker.references) ?
-                      focusedMarker.references.map((reference, index) => (
+                    {Array.isArray(references) ?
+                      references.map((reference, index) => (
                         <a
                           key={index}
                           href={
@@ -343,313 +369,124 @@ export default function Details() {
                       )) :
                       <a
                         href={
-                          focusedMarker.references.startsWith('http')
-                            ? focusedMarker.references
-                            : `https://${focusedMarker.references}`
+                          references.startsWith('http')
+                            ? references
+                            : `https://${references}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="reference-link-item"
                       >
-                        {focusedMarker.references}
+                        {references}
                       </a>
                     }
                   </div>
                 </div>
               )}
-
-            {/* Back and Next Event Buttons - navigate by ID */}
-            {(() => {
-              // Helper function to find marker for an event
-              const findMarkerForEvent = (eventId) => {
-                if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
-
-                return validatedMarkers.find((m) => {
-                  if (m.id === eventId) return true;
-                  if (m.eventsAtLocation) {
-                    return m.eventsAtLocation.some((e) => e.id === eventId);
-                  }
-                  return false;
-                });
-              };
-
-              // Sort all events by ID
-              const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
-
-              const currentIndex = sortedEvents.findIndex(
-                (event) => event.id === focusedMarker.id
-              );
-
-              const hasPrevEvent = currentIndex > 0;
-              const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
-
-              return (
-                <div className="event-navigation-buttons">
-                  {hasPrevEvent && (
-                    <button
-                      className="prev-event-button"
-                      onClick={() => {
-                        const prevEvent = sortedEvents[currentIndex - 1];
-
-                        if (prevEvent) {
-                          const prevMarker = findMarkerForEvent(prevEvent.id);
-
-                          if (prevMarker) {
-                            // Create marker with event data
-                            const tempMarker = {
-                              ...prevMarker,
-                              id: prevEvent.id,
-                              phase: prevEvent.phase,
-                              year: prevEvent.year,
-                              city: prevEvent.location,
-                              eventName: prevEvent.eventName,
-                              description: prevEvent.description,
-                              mediaUrl: prevEvent.mediaUrl,
-                              sourceMedia: prevEvent.sourceMedia,
-                              templateType: prevEvent.templateType,
-                              references: prevEvent.references,
-                            };
-                            dispatch({ type: 'FOCUS', payload: tempMarker });
-                          }
-                        }
-                      }}
-                    >
-                      ← Previous Event
-                    </button>
-                  )}
-
-                  {hasNextEvent && (
-                    <button
-                      className="next-event-button"
-                      onClick={() => {
-                        const nextEvent = sortedEvents[currentIndex + 1];
-
-                        if (nextEvent) {
-                          const nextMarker = findMarkerForEvent(nextEvent.id);
-
-                          if (nextMarker) {
-                            // Create marker with event data
-                            const tempMarker = {
-                              ...nextMarker,
-                              id: nextEvent.id,
-                              phase: nextEvent.phase,
-                              year: nextEvent.year,
-                              city: nextEvent.location,
-                              eventName: nextEvent.eventName,
-                              description: nextEvent.description,
-                              mediaUrl: nextEvent.mediaUrl,
-                              sourceMedia: nextEvent.sourceMedia,
-                              templateType: nextEvent.templateType,
-                              references: nextEvent.references,
-                            };
-                            dispatch({ type: 'FOCUS', payload: tempMarker });
-                          }
-                        }
-                      }}
-                    >
-                      Next Event →
-                    </button>
-                  )}
-                </div>
-              );
-            })()}
+            </div>
           </div>
         </div>
-      </>
-    );
-  };
 
-  // Component to handle grid template with shared state
-  const GridTemplateContent = ({ focusedMarker, dispatch, isReferencesOpen, setIsReferencesOpen }) => {
-
-    return (
-      <>
-        <div className="header">
-          <Button
-            label="Quay về quả địa cầu"
-            onClick={() => dispatch({ type: 'FOCUS' })}
-          />
-        </div>
-        <div className="detail-content">
-          {/* Title from eventName */}
-          <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
-
-          {/* Media section with grid template */}
-          <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType="grid" />
-
-          {/* Detailed description */}
-          <div className="event-description">
-            {focusedMarker.description &&
-              (typeof focusedMarker.description === 'string' ? (
-                <p>{focusedMarker.description}</p>
-              ) : Array.isArray(focusedMarker.description) ? (
-                // If description is an array (for other templates), show the first item
-                <p>{focusedMarker.description[0]}</p>
-              ) : (
-                <p>No description available.</p>
-              ))}
-          </div>
-
-          {/* Container for both next button and references dropdown */}
-          <div className="navigation-container">
-            {/* References Dropdown */}
-            {((Array.isArray(focusedMarker.references) && focusedMarker.references.length > 0) ||
-              (typeof focusedMarker.references === 'string' && focusedMarker.references.trim() !== '')) && (
-                <div className="references-dropdown">
-                  <button
-                    className="references-dropdown-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsReferencesOpen(!isReferencesOpen);
-                    }}
-                  >
-                    References {isReferencesOpen ? '▼' : '▲'}
-                  </button>
-                  <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
-                    {Array.isArray(focusedMarker.references) ?
-                      focusedMarker.references.map((reference, index) => (
-                        <a
-                          key={index}
-                          href={
-                            reference.startsWith('http')
-                              ? reference
-                              : `https://${reference}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="reference-link-item"
-                        >
-                          {reference}
-                        </a>
-                      )) :
-                      <a
-                        href={
-                          focusedMarker.references.startsWith('http')
-                            ? focusedMarker.references
-                            : `https://${focusedMarker.references}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="reference-link-item"
-                      >
-                        {focusedMarker.references}
-                      </a>
+        {/* Bookmark gắn cạnh trái detail page – ngoài vùng cuộn nên không bị cắt */}
+        <div className="event-navigation-fixed">
+          <div className="event-navigation-buttons">
+            {hasNextEvent && (
+              <button
+                className="next-event-button"
+                onClick={() => {
+                  const nextEvent = sortedEvents[currentIndex + 1];
+                  if (nextEvent) {
+                    const nextMarker = findMarkerForEvent(nextEvent.id);
+                    if (nextMarker) {
+                      const tempMarker = {
+                        ...nextMarker,
+                        id: nextEvent.id,
+                        phase: nextEvent.phase,
+                        year: nextEvent.year,
+                        city: nextEvent.location,
+                        eventName: nextEvent.eventName,
+                        description: nextEvent.description,
+                        mediaUrl: nextEvent.mediaUrl,
+                        sourceMedia: nextEvent.sourceMedia,
+                        templateType: nextEvent.templateType,
+                        references: nextEvent.references,
+                        eventsAtLocation: undefined,
+                      };
+                      dispatch({ type: 'FOCUS', payload: tempMarker });
                     }
-                  </div>
-                </div>
-              )}
-
-            {/* Back and Next Event Buttons - navigate by ID */}
-            {(() => {
-              // Helper function to find marker for an event
-              const findMarkerForEvent = (eventId) => {
-                if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
-
-                return validatedMarkers.find((m) => {
-                  if (m.id === eventId) return true;
-                  if (m.eventsAtLocation) {
-                    return m.eventsAtLocation.some((e) => e.id === eventId);
                   }
-                  return false;
-                });
-              };
-
-              // Sort all events by ID
-              const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
-
-              const currentIndex = sortedEvents.findIndex(
-                (event) => event.id === focusedMarker.id
-              );
-
-              const hasPrevEvent = currentIndex > 0;
-              const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
-
-              return (
-                <div className="event-navigation-buttons">
-                  {hasPrevEvent && (
-                    <button
-                      className="prev-event-button"
-                      onClick={() => {
-                        const prevEvent = sortedEvents[currentIndex - 1];
-
-                        if (prevEvent) {
-                          const prevMarker = findMarkerForEvent(prevEvent.id);
-
-                          if (prevMarker) {
-                            // Create marker with event data
-                            const tempMarker = {
-                              ...prevMarker,
-                              id: prevEvent.id,
-                              phase: prevEvent.phase,
-                              year: prevEvent.year,
-                              city: prevEvent.location,
-                              eventName: prevEvent.eventName,
-                              description: prevEvent.description,
-                              mediaUrl: prevEvent.mediaUrl,
-                              sourceMedia: prevEvent.sourceMedia,
-                              templateType: prevEvent.templateType,
-                              references: prevEvent.references,
-                            };
-                            dispatch({ type: 'FOCUS', payload: tempMarker });
-                          }
-                        }
-                      }}
-                    >
-                      ← Previous Event
-                    </button>
-                  )}
-
-                  {hasNextEvent && (
-                    <button
-                      className="next-event-button"
-                      onClick={() => {
-                        const nextEvent = sortedEvents[currentIndex + 1];
-
-                        if (nextEvent) {
-                          const nextMarker = findMarkerForEvent(nextEvent.id);
-
-                          if (nextMarker) {
-                            // Create marker with event data
-                            const tempMarker = {
-                              ...nextMarker,
-                              id: nextEvent.id,
-                              phase: nextEvent.phase,
-                              year: nextEvent.year,
-                              city: nextEvent.location,
-                              eventName: nextEvent.eventName,
-                              description: nextEvent.description,
-                              mediaUrl: nextEvent.mediaUrl,
-                              sourceMedia: nextEvent.sourceMedia,
-                              templateType: nextEvent.templateType,
-                              references: nextEvent.references,
-                            };
-                            dispatch({ type: 'FOCUS', payload: tempMarker });
-                          }
-                        }
-                      }}
-                    >
-                      Next Event →
-                    </button>
-                  )}
-                </div>
-              );
-            })()}
+                }}
+              >
+                Sự kiện tiếp theo →
+              </button>
+            )}
+            {hasPrevEvent && (
+              <button
+                className="prev-event-button"
+                onClick={() => {
+                  const prevEvent = sortedEvents[currentIndex - 1];
+                  if (prevEvent) {
+                    const prevMarker = findMarkerForEvent(prevEvent.id);
+                    if (prevMarker) {
+                      const tempMarker = {
+                        ...prevMarker,
+                        id: prevEvent.id,
+                        phase: prevEvent.phase,
+                        year: prevEvent.year,
+                        city: prevEvent.location,
+                        eventName: prevEvent.eventName,
+                        description: prevEvent.description,
+                        mediaUrl: prevEvent.mediaUrl,
+                        sourceMedia: prevEvent.sourceMedia,
+                        templateType: prevEvent.templateType,
+                        references: prevEvent.references,
+                        eventsAtLocation: undefined,
+                      };
+                      dispatch({ type: 'FOCUS', payload: tempMarker });
+                    }
+                  }
+                }}
+              >
+                Sự kiện trước đó ←
+              </button>
+            )}
           </div>
         </div>
       </>
     );
-  };
+}
+
+export default function Details() {
+  const [{ focusedMarker, markers, events }, dispatch] = useStateValue();
+
+  const validatedEvents = events && Array.isArray(events) ? events : [];
+  const validatedMarkers = markers && Array.isArray(markers) ? markers : [];
+
+  const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (focusedMarker && focusedMarker.id && focusedMarker.phase) {
+      const currentPhase = focusedMarker.phase;
+      const viewedEvents =
+        JSON.parse(
+          localStorage.getItem(`viewedEvents_phase_${currentPhase}`)
+        ) || [];
+      if (!viewedEvents.includes(focusedMarker.id)) {
+        localStorage.setItem(
+          `viewedEvents_phase_${currentPhase}`,
+          JSON.stringify([...viewedEvents, focusedMarker.id])
+        );
+      }
+    }
+  }, [focusedMarker?.id, focusedMarker?.phase]);
+
+  React.useEffect(() => {
+    setIsReferencesOpen(false);
+  }, [focusedMarker?.id]);
 
   let content;
   if (focusedMarker) {
-    const {
-      eventName,
-      mediaUrl,
-      sourceMedia,
-      description,
-      references,
-      eventsAtLocation,
-    } = focusedMarker || {};
+    const { eventsAtLocation } = focusedMarker || {};
 
     // Handle multiple events at location
     if (eventsAtLocation && eventsAtLocation.length > 1) {
@@ -702,249 +539,17 @@ export default function Details() {
         </>
       );
     } else {
-      // Handle different template types
-      const templateType = focusedMarker.templateType || 'normal';
-
-      if (templateType === 'story_scroll') {
-        // Render story scroll template with shared state
-        return (
-          <Fade className="details" show={!!focusedMarker}>
-            <StoryScrollContent
-              focusedMarker={focusedMarker}
-              dispatch={dispatch}
-              isReferencesOpen={isReferencesOpen}
-              setIsReferencesOpen={setIsReferencesOpen}
-            />
-          </Fade>
-        );
-      } else if (templateType === 'grid') {
-        // Render grid template with shared state
-        return (
-          <Fade className="details" show={!!focusedMarker}>
-            <GridTemplateContent
-              focusedMarker={focusedMarker}
-              dispatch={dispatch}
-              isReferencesOpen={isReferencesOpen}
-              setIsReferencesOpen={setIsReferencesOpen}
-            />
-          </Fade>
-        );
-      } else {
-        // Normal template: single media item
-        content = (
-          <>
-            <div className="header">
-              <Button
-                label="Quay về quả địa cầu"
-                onClick={() => dispatch({ type: 'FOCUS' })}
-              />
-            </div>
-            <div className="detail-content">
-              {/* Title from eventName */}
-              <h2 className="event-title">{eventName || 'Historical Event'}</h2>
-
-              {/* Media (image/video) from mediaUrl - normal template */}
-              {mediaUrl && (
-                <div className="media-container">
-                  {Array.isArray(mediaUrl) ? (
-                    // If mediaUrl is an array (fallback for normal template), show the first item
-                    <MediaDisplay
-                      mediaUrl={mediaUrl[0]}
-                      eventName={eventName}
-                      currentIndex={0}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-                  ) : typeof mediaUrl === 'string' ? (
-                    // If mediaUrl is a single string
-                    <MediaDisplay
-                      mediaUrl={mediaUrl}
-                      eventName={eventName}
-                      currentIndex={0}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-                  ) : null}
-
-                  {/* Source media caption */}
-                  {sourceMedia && (
-                    <div className="media-caption">
-                      {typeof sourceMedia === 'string'
-                        ? sourceMedia
-                        : Array.isArray(sourceMedia)
-                          ? sourceMedia[0] || 'Source'
-                          : 'Source'}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Detailed description */}
-              <div className="event-description">
-                {description &&
-                  (typeof description === 'string' ? (
-                    <p>{description}</p>
-                  ) : Array.isArray(description) ? (
-                    // If description is an array (for other templates), show the first item
-                    <p>{description[0]}</p>
-                  ) : (
-                    <p>No description available.</p>
-                  ))}
-              </div>
-
-              {/* Original references section removed - using dropdown instead */}
-
-              {/* Container for both next button and references dropdown */}
-              <div className="navigation-container">
-                {/* References Dropdown */}
-                {((Array.isArray(references) && references.length > 0) ||
-                  (typeof references === 'string' && references.trim() !== '')) && (
-                    <div className="references-dropdown">
-                      <button
-                        className="references-dropdown-button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsReferencesOpen(!isReferencesOpen);
-                        }}
-                      >
-                        References {isReferencesOpen ? '▼' : '▲'}
-                      </button>
-                      <div className={`references-dropdown-content ${isReferencesOpen ? 'show' : ''}`}>
-                        {Array.isArray(references) ?
-                          references.map((reference, index) => (
-                            <a
-                              key={index}
-                              href={
-                                reference.startsWith('http')
-                                  ? reference
-                                  : `https://${reference}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="reference-link-item"
-                            >
-                              {reference}
-                            </a>
-                          )) :
-                          <a
-                            href={
-                              references.startsWith('http')
-                                ? references
-                                : `https://${references}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="reference-link-item"
-                          >
-                            {references}
-                          </a>
-                        }
-                      </div>
-                    </div>
-                  )}
-
-                {/* Back and Next Event Buttons - navigate by ID */}
-                {(() => {
-                  // Helper function to find marker for an event
-                  const findMarkerForEvent = (eventId) => {
-                    if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
-
-                    return validatedMarkers.find((m) => {
-                      if (m.id === eventId) return true;
-                      if (m.eventsAtLocation) {
-                        return m.eventsAtLocation.some((e) => e.id === eventId);
-                      }
-                      return false;
-                    });
-                  };
-
-                  // Sort all events by ID
-                  const sortedEvents = [...validatedEvents].sort((a, b) => a.id - b.id);
-
-                  const currentIndex = sortedEvents.findIndex(
-                    (event) => event.id === focusedMarker.id
-                  );
-
-                  const hasPrevEvent = currentIndex > 0;
-                  const hasNextEvent = currentIndex >= 0 && currentIndex < sortedEvents.length - 1;
-
-                  return (
-                    <div className="event-navigation-buttons">
-                      {hasPrevEvent && (
-                        <button
-                          className="prev-event-button"
-                          onClick={() => {
-                            const prevEvent = sortedEvents[currentIndex - 1];
-
-                            if (prevEvent) {
-                              const prevMarker = findMarkerForEvent(prevEvent.id);
-
-                              if (prevMarker) {
-                                // Create marker with event data
-                                const tempMarker = {
-                                  ...prevMarker,
-                                  id: prevEvent.id,
-                                  phase: prevEvent.phase,
-                                  year: prevEvent.year,
-                                  city: prevEvent.location,
-                                  eventName: prevEvent.eventName,
-                                  description: prevEvent.description,
-                                  mediaUrl: prevEvent.mediaUrl,
-                                  sourceMedia: prevEvent.sourceMedia,
-                                  templateType: prevEvent.templateType,
-                                  references: prevEvent.references,
-                                };
-                                dispatch({ type: 'FOCUS', payload: tempMarker });
-                              }
-                            }
-                          }}
-                        >
-                          ← Previous Event
-                        </button>
-                      )}
-
-                      {hasNextEvent && (
-                        <button
-                          className="next-event-button"
-                          onClick={() => {
-                            const nextEvent = sortedEvents[currentIndex + 1];
-
-                            if (nextEvent) {
-                              const nextMarker = findMarkerForEvent(nextEvent.id);
-
-                              if (nextMarker) {
-                                // Create marker with event data
-                                const tempMarker = {
-                                  ...nextMarker,
-                                  id: nextEvent.id,
-                                  phase: nextEvent.phase,
-                                  year: nextEvent.year,
-                                  city: nextEvent.location,
-                                  eventName: nextEvent.eventName,
-                                  description: nextEvent.description,
-                                  mediaUrl: nextEvent.mediaUrl,
-                                  sourceMedia: nextEvent.sourceMedia,
-                                  templateType: nextEvent.templateType,
-                                  references: nextEvent.references,
-                                };
-                                dispatch({ type: 'FOCUS', payload: tempMarker });
-                              }
-                            }
-                          }}
-                        >
-                          Next Event →
-                        </button>
-                      )}
-                    </div>
-                  );
-                })()}
-              </div>
-            </div>
-          </>
-        );
-      }
+      // Single-event detail: always use DetailPanel so Fade has same child type (no flash on prev/next)
+      content = (
+        <DetailPanel
+          focusedMarker={focusedMarker}
+          dispatch={dispatch}
+          isReferencesOpen={isReferencesOpen}
+          setIsReferencesOpen={setIsReferencesOpen}
+          validatedEvents={validatedEvents}
+          validatedMarkers={validatedMarkers}
+        />
+      );
     }
   }
 

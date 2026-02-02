@@ -168,10 +168,21 @@ body {
   top: 0;
   bottom: 0;
   width: 35%; // Take up right portion of screen
-  overflow-y: auto; // Single vertical scrollbar for the entire detail page
+  display: flex;
+  flex-direction: column;
+  overflow: visible; // Không clip để bookmark nhô ra trái hiển thị được
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); // Subtle shadow on left edge
   z-index: 1001; // Ensure detail panel is above other elements
   pointer-events: auto; // Ensure it captures mouse events
+
+  // Vùng cuộn riêng – scrollbar sát cạnh phải panel, không ảnh hưởng bookmark
+  .detail-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-right: -($spacing * 2); // Kéo scrollbar ra sát mé phải panel (bù padding .details)
+    padding-right: $spacing * 2; // Giữ khoảng cách nội dung với scrollbar
+  }
 
   // Override global body color for text elements in details panel
   h2,
@@ -293,33 +304,48 @@ body {
     }
   }
 
-  // Navigation Container for both next button and references dropdown
-  .navigation-container {
-    display: flex;
-    gap: $spacing / 2;
-    position: absolute;
-    bottom: $spacing * 2;
-    right: $spacing * 2;
+  // Tham khảo ở cuối trang – cuộn xuống mới thấy
+  .references-section-end {
+    margin-top: $spacing * 2;
+    padding-top: $spacing;
+    border-top: 1px solid $border-color;
     flex-shrink: 0;
+  }
+
+  // Bookmark: gắn cạnh phải panel, nhô ra ngoài (sang phải, vào vùng bản đồ)
+  .event-navigation-fixed {
+    position: absolute;
+    left: 100%; // Mé trái bookmark sát mé phải panel → cả khối nhô ra ngoài
+    bottom: $spacing * 2;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing / 2;
+    z-index: 1002;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 
     .event-navigation-buttons {
       display: flex;
+      flex-direction: column;
       gap: $spacing / 2;
+    }
 
-      .prev-event-button,
-      .next-event-button {
-        background-color: $container-background-color;
-        color: $body-font-color;
-        border: 1px solid $border-color;
-        border-radius: $spacing * 2;
-        padding: $spacing / 2 $spacing;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
+    .prev-event-button,
+    .next-event-button {
+      background-color: #2c2c2c;
+      color: #fff;
+      border: none;
+      border-left: 2px solid rgba(255, 255, 255, 0.1);
+      padding: $spacing / 2 $spacing $spacing / 2 ($spacing + 6px);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: right;
+      // Tab nhô ra ngoài (mũi bên phải hướng ra)
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
 
-        &:hover {
-          background-color: lighten($container-background-color, 10%);
-        }
+      &:hover {
+        background-color: #1a1a1a;
       }
     }
   }
