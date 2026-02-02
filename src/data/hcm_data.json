@@ -471,9 +471,33 @@
     },
     {
       "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
+      "id": 18,
+      "phase": 3,
+      "year": 1927,
+      "location": "Châu Âu",
+      "coordinates": [
+     47.5534469,1.0371898
+      ],
+      "eventMeta": "Bác Hồ trở lại Châu Âu",
+      "eventName": "Bác Hồ trở lại Châu Âu",
+      "description": "Mùa hè năm 1927, Nguyễn Ái Quốc rời Trung Quốc đi Liên Xô, sau đó đi Đức (11/1927) rồi bí mật sang Pháp, đến nước Bỉ dự cuộc họp của Đại hội đồng liên đoàn chống đế quốc (12/1927), rồi quay lại Đức, đi Thụy Sỹ, sang Italia. Tháng 7/1928, Nguyễn Ái Quốc tới Xiêm (Thái Lan), rồi trở lại Trung Quốc vào cuối năm 1929.",
+      "mediaUrl": [
+        "https://media.vietnamplus.vn/images/c85de7563ed347cad2bfc202c76ef76759661e5195548c3bf7350fbc598a773dbbeab62d0cc62edb06c5c22a3607a235e4b55680e50f6896e93b8e9e7a8191a3cdb57feb901aea868e56e8a402356a73/ttxvn-theo-chan-bac-tai-milan-italy2.jpg"
+      ],
+      "sourceMedia": [
+        "Nguồn: \"TTXVN\""
+
+      ],
+      "references": [
+        "https://www.hcmcpv.org.vn/tin-tuc/hanh-trinh-di-tim-hinh-cua-nuoc-1491878832#:~:text=M%C3%B9a%20h%C3%A8%20n%C4%83m%201927%2C%20Nguy%E1%BB%85n%20%C3%81i%20Qu%E1%BB%91c%20r%E1%BB%9Di,quay%20l%E1%BA%A1i%20%C4%90%E1%BB%A9c%2C%20%C4%91i%20Th%E1%BB%A5y%20S%E1%BB%B9%2C%20sang%20Italia."
+      ],
+      "templateType": "normal"
+    },
+    {
+      "__comment": "TEMPLATE GRID: Dùng hiển thị nhiều góc độ. 'description' là văn bản tổng quát, 'mediaUrl' là mảng nhiều ảnh để hiện dạng lưới (Bento Grid).",
       "id": 19,
       "phase": 3,
-      "year": 1928,
+      "year": "7-1928",
       "location": "Thái Lan",
       "coordinates": [
         15.349768786397398,
