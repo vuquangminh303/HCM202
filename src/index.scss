@@ -708,7 +708,7 @@ body.theme-festival {
   }
 }
 
-// Festival theme background image for details panel
+// Festival theme background image for details panel (random giữa 2 ảnh, set qua --festival-bg từ Details)
 body.theme-festival {
   .details {
     position: fixed; // keep fixed positioning
@@ -719,11 +719,10 @@ body.theme-festival {
       content: "";
       position: absolute;
       inset: 0;
-      // use asset from public/image so webpack doesn't try to bundle it
-      background-image: url("background.png");
+      background-image: var(--festival-bg);
       background-size: cover;
       background-position: center;
-      opacity: 0.15; // low opacity as requested
+      opacity: 0.25; // low opacity as requested
       pointer-events: none;
     }
   }

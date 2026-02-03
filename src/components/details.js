@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useStateValue } from '../state';
 import Button from './button';
 import Fade from './fade';
+import { normalizeMediaUrl } from '../utils/mediaUtils';
 import { extractYouTubeVideoId, isYouTubeUrl } from '../utils/youtubeUtils';
+
+import festivalBg0 from '../background.png';
+import festivalBg1 from '../background1.png';
+
+const FESTIVAL_BACKGROUNDS = [festivalBg0, festivalBg1];
 
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
@@ -19,9 +25,11 @@ export function getRandomMarker({ focusedMarker, markers }) {
 
 // MediaDisplay component to handle both images and YouTube videos
 function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
+  const normalizedUrl = normalizeMediaUrl(mediaUrl);
+
   // Check if mediaUrl is a YouTube URL
-  if (isYouTubeUrl(mediaUrl)) {
-    const videoId = extractYouTubeVideoId(mediaUrl);
+  if (isYouTubeUrl(normalizedUrl)) {
+    const videoId = extractYouTubeVideoId(normalizedUrl);
 
     if (videoId) {
       return (
@@ -41,13 +49,13 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
 
   // Check if mediaUrl is a video file
   if (
-    typeof mediaUrl === 'string' &&
-    (mediaUrl.endsWith('.mp4') ||
-      mediaUrl.endsWith('.mov') ||
-      mediaUrl.endsWith('.avi'))
+    typeof normalizedUrl === 'string' &&
+    (normalizedUrl.endsWith('.mp4') ||
+      normalizedUrl.endsWith('.mov') ||
+      normalizedUrl.endsWith('.avi'))
   ) {
     return (
-      <video controls src={mediaUrl} className="event-media" onError={onError}>
+      <video controls src={normalizedUrl} className="event-media" onError={onError}>
         Your browser does not support the video tag.
       </video>
     );
@@ -56,7 +64,7 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
   // Default to image
   return (
     <img
-      src={mediaUrl}
+      src={normalizedUrl}
       alt={`${eventName || 'Historical media'} - Item ${currentIndex + 1}`}
       className="event-media"
       onError={onError}
@@ -67,9 +75,17 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
 // Định nghĩa ngoài Details để reference ổn định, tránh unmount/remount khi state (isReferencesOpen) đổi → không mất scroll
 function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' }) {
     const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
-    const mediaArray = Array.isArray(mediaUrl) ? mediaUrl : [mediaUrl];
+    const mediaArray = (Array.isArray(mediaUrl) ? mediaUrl : mediaUrl != null ? [mediaUrl] : []).filter(Boolean);
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
+
+    // Reset carousel index khi đổi sự kiện (prev/next) – tránh index vượt quá mediaArray mới
+    useEffect(() => {
+      setCurrentIndex(0);
+    }, [focusedMarker?.id]);
+
+    // Clamp index để luôn nằm trong [0, mediaArray.length - 1]
+    const safeIndex = mediaArray.length > 0 ? Math.min(currentIndex, mediaArray.length - 1) : 0;
 
     // Normal template: single media only, no carousel
     if (templateType === 'normal') {
@@ -78,6 +94,7 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
       return (
         <div className="media-container">
           <MediaDisplay
+            key={`${focusedMarker?.id}-img`}
             mediaUrl={singleMediaUrl}
             eventName={eventName}
             currentIndex={0}
@@ -153,7 +170,7 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
                   onClick={(e) => {
                     e.stopPropagation();
                     setCurrentIndex((prev) =>
-                      prev > 0 ? prev - 1 : mediaArray.length - 1
+                      prev > 0 ? prev - 1 : Math.max(0, mediaArray.length - 1)
                     );
                   }}
                 >
@@ -162,9 +179,10 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
 
                 <div className="media-display">
                   <MediaDisplay
-                    mediaUrl={mediaArray[currentIndex]}
+                    key={`${focusedMarker?.id}-${safeIndex}-${mediaArray[safeIndex]}`}
+                    mediaUrl={mediaArray[safeIndex]}
                     eventName={eventName}
-                    currentIndex={currentIndex}
+                    currentIndex={safeIndex}
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
@@ -177,8 +195,8 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
                         ? sourceMedia
                         : Array.isArray(sourceMedia)
                           ? Array.isArray(sourceMedia) &&
-                            sourceMedia[currentIndex]
-                            ? sourceMedia[currentIndex]
+                            sourceMedia[safeIndex]
+                            ? sourceMedia[safeIndex]
                             : sourceMedia[0] || 'Source'
                           : 'Source'}
                     </div>
@@ -203,7 +221,7 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
                 <div
                   className={`${tabsClass}-track`}
                   style={{
-                    transform: `translateX(${calculateThumbnailOffset(currentIndex, mediaArray.length, templateType)}px)`
+                    transform: `translateX(${calculateThumbnailOffset(safeIndex, mediaArray.length, templateType)}px)`
                   }}
                 >
                   {mediaArray.map((mediaUrl, idx) => {
@@ -239,7 +257,7 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
                       // For images, use the image as thumbnail
                       thumbnailElement = (
                         <img
-                          src={mediaUrl}
+                          src={normalizeMediaUrl(mediaUrl)}
                           alt={`Thumbnail ${idx + 1}`}
                           className="thumbnail-image"
                           onError={(e) => {
@@ -252,7 +270,7 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
                     return (
                       <div
                         key={idx}
-                        className={`${tabClass} ${currentIndex === idx ? 'active' : ''
+                        className={`${tabClass} ${safeIndex === idx ? 'active' : ''
                           }`}
                         onClick={() => setCurrentIndex(idx)}
                       >
@@ -270,7 +288,7 @@ function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' 
         <div className="event-description">
           {displayDescription.length > 0 && (
             <p>
-              {displayDescription[currentIndex] ||
+              {displayDescription[safeIndex] ||
                 displayDescription[0] ||
                 'No description available.'}
             </p>
@@ -464,6 +482,18 @@ export default function Details() {
 
   const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
 
+  // Random background khi mở/đổi detail panel trong chế độ mừng Đảng mừng Xuân
+  const isFestivalTheme =
+    typeof document !== 'undefined' && document.body?.classList?.contains('theme-festival');
+  const festivalBg = useMemo(
+    () => FESTIVAL_BACKGROUNDS[Math.floor(Math.random() * FESTIVAL_BACKGROUNDS.length)],
+    [focusedMarker?.id]
+  );
+  const festivalBgStyle =
+    isFestivalTheme && focusedMarker
+      ? { '--festival-bg': `url(${festivalBg})` }
+      : undefined;
+
   React.useEffect(() => {
     if (focusedMarker && focusedMarker.id && focusedMarker.phase) {
       const currentPhase = focusedMarker.phase;
@@ -570,7 +600,7 @@ export default function Details() {
           onClick={() => dispatch({ type: 'FOCUS' })} // Close when clicking on overlay
         />
       )}
-      <Fade className="details" show={!!focusedMarker}>
+      <Fade className="details" show={!!focusedMarker} style={festivalBgStyle}>
         {content}
       </Fade>
     </>

@@ -5,6 +5,7 @@ export default function Fade({
   children,
   className,
   show,
+  style,
 }) {
   const [shouldRender, setRender] = useState(show);
 
@@ -31,6 +32,7 @@ export default function Fade({
       className={className}
       style={{
         animation: `${animationKeyFrame} ${animationDuration}ms ease-in-out`,
+        ...style,
       }}
       onAnimationEnd={onAnimationEnd}
     >

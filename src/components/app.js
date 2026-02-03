@@ -50,7 +50,7 @@ export default function App() {
           </a>
         </div>
         <div className="bottom-right-copy">
-          © 2026 Reserved by Group 1 - GD1810-AD
+          © 2026 Reserved by Group 1 - GD1810-AD (FPTU Hanoi)
         </div>
       </div>
     </>
