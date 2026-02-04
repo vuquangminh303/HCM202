@@ -993,8 +993,8 @@
       ],
       "mediaUrl": [
         "https://file3.qdnd.vn/data/images/0/2023/09/02/thutrang_la/bachomat01.jpg?dpi=150&quality=100&w=870",
-        "https://file3.qdnd.vn/data/images/0/2023/09/02/thutrang_la/bacho%2003%201.jpg?dpi=150&quality=100&w=870",
-        "https://file3.qdnd.vn/data/images/0/2023/09/02/thutrang_la/bacho04.jpg?dpi=150&quality=100&w=870"
+        "/image/bacho_03_1.jpg",
+        "/image/bacho04.jpg"
       ],
       "sourceMedia": [
         "Nguồn: Báo Quân đội Nhân dân"
