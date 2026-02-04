@@ -60,8 +60,8 @@ function createSphereMarker(marker) {
   const eventsAtLocation = marker.eventsCount || 1;
 
   // Calculate size based on number of events - scale relative to globe (2-4% of globe radius for visibility)
-  const baseScale = 0.005; // ~6 units at radius 300
-  const sizeScale = baseScale + eventsAtLocation * 0.005;
+  const baseScale = 0.004; // ~6 units at radius 300
+  const sizeScale = baseScale + eventsAtLocation * 0.002;
   const size = Math.min(GLOBE_RADIUS * sizeScale, GLOBE_RADIUS * 0.04); // Max ~4% of globe radius
 
   // Determine the event count category for material selection

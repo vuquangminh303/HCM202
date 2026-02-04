@@ -112,12 +112,11 @@ export default {
 
 Cập nhật dữ liệu lịch sử trong file [`src/data/hcm_data.json`](./src/data/hcm_data.json) với cấu trúc:
 
-```json
 {
   "id": 1,
   "phase": 1,
   "year": "19-5-1890",
-  "location": "Nam Đàn, Nghệ An",
+  "location": "Nghệ An, Việt Nam",
   "coordinates": [18.676754, 105.568941],
   "eventName": "Ngày chủ tịch Hồ Chí Minh ra đời",
   "description": "...",
