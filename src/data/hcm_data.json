@@ -377,7 +377,7 @@
       ],
       "eventMeta": "Rời cảng La Havre sang Anh",
       "eventName": "Rời cảng La Havre sang Anh",
-      "description": "5-1913 Người rời cảng La Harve và đến London lúc 5-1941. Tại London, trung tâm của đế quốc lớn nhất thế giới thời bấy giờ là nước Anh, Người đã khám phá và nắm bắt chủ nghĩa Marx như một lời kêu gọi giải phóng và hành động sáng tạo.Thời gian Người ở London là một bước đệm trên con đường tìm hiểu thế giới, để Người có thể mang về những điều tìm hiểu được, có lợi cho đồng bào của mình, góp phần quan trọng hình thành nên tư tưởng Hồ Chí Minh, một tài sản vô giá trong công cuộc giải phóng dân tộc khỏi nô lệ áp bức và là kim chỉ nam của nhân dân Việt Nam trên con đường đi tới tự do, dân chủ, xã hội công bằng, văn minh. Tại Anh, Người đã phải làm rất nhiều việc nặng nhọc như cào tuyết trong trường học, điều khiển hệ thống nước nóng rồi phụ bếp trong khách sạn nhỏ Drayton Court, rửa bát đĩa trong khách sạn danh tiếng Carlton ở London.",
+      "description": "5-1913 Người rời cảng La Harve và đến London lúc 5-1914. Tại London, trung tâm của đế quốc lớn nhất thế giới thời bấy giờ là nước Anh, Người đã khám phá và nắm bắt chủ nghĩa Marx như một lời kêu gọi giải phóng và hành động sáng tạo.Thời gian Người ở London là một bước đệm trên con đường tìm hiểu thế giới, để Người có thể mang về những điều tìm hiểu được, có lợi cho đồng bào của mình, góp phần quan trọng hình thành nên tư tưởng Hồ Chí Minh, một tài sản vô giá trong công cuộc giải phóng dân tộc khỏi nô lệ áp bức và là kim chỉ nam của nhân dân Việt Nam trên con đường đi tới tự do, dân chủ, xã hội công bằng, văn minh. Tại Anh, Người đã phải làm rất nhiều việc nặng nhọc như cào tuyết trong trường học, điều khiển hệ thống nước nóng rồi phụ bếp trong khách sạn nhỏ Drayton Court, rửa bát đĩa trong khách sạn danh tiếng Carlton ở London.",
       "mediaUrl": [
         "https://cdnmedia.baotintuc.vn/2015/05/07/22/38/Khach-san-Drayton-Court-Noi-Bac-Ho-tung-lam-viec.jpg"
       ],
@@ -1001,6 +1001,44 @@
       ],
       "references": "https://www.qdnd.vn/chinh-tri/cac-van-de/ho-chi-minh-phut-cuoi-cua-nguoi-va-ngon-lua-dau-tien-cua-doi-741135",
       "templateType": "grid"
+    },
+    {
+      "id": 0,
+      "phase": 0,
+      "location": "Manchester, United Kingdom",
+      "coordinates": [
+        53.4548873,
+        -2.3526099
+      ],
+      "eventName": "Sự kiện không nằm trong chuỗi hoạt động của chủ tịch Hồ Chí Minh, chỉ mang tính chất giải trí, vui lòng không phỏng đoán, suy diễn gây hiểu lầm. Xin chân thành cảm ơn",
+      "description": [
+        "Giữa mùa giải 2025-2026, câu lạc bộ Manchester United đang gặp vấn đề khi có chuỗi 5 trận thắng liên tiếp và nguy cơ bỏ lỡ cup C2 châu lục là rất cao."
+      ],
+      "mediaUrl": [
+        "https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/250px-Man_Utd_FC_.svg.png",
+        "/image/muvsful.png",
+        "/image/muvsar.png",
+        "/image/muvsmc.png",
+        "https://youtu.be/4t5R-t4JlQI?si=HlHM-2RBpuOo2g50"
+      ],
+      "templateType": "grid"
+    },
+    {
+      "id": 0,
+      "phase": 0,
+      "location": "Nghệ An, Việt Nam",
+      "coordinates": [
+        19.874217,
+        105.772314
+      ],
+      "eventName": "Sự kiện không nằm trong chuỗi hoạt động của chủ tịch Hồ Chí Minh, chỉ mang tính chất giải trí, vui lòng không phỏng đoán, suy diễn gây hiểu lầm. Xin chân thành cảm ơn",
+      "description": [
+        "(Nhìn hình đoán chữ)\nTừ tháng 3 đến tháng 6 năm 1936, hoàn thành tuyến đường sắt xuyên Việt, đi qua ***** ***"
+      ],
+      "mediaUrl": [
+        "https://cdn-i.vtcnews.vn/resize/th/upload/2023/05/12/anh-7-4934-19012839.jpg"
+      ],
+      "templateType": "normal"
     }
   ]
 }
