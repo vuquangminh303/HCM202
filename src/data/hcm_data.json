@@ -1001,44 +1001,6 @@
       ],
       "references": "https://www.qdnd.vn/chinh-tri/cac-van-de/ho-chi-minh-phut-cuoi-cua-nguoi-va-ngon-lua-dau-tien-cua-doi-741135",
       "templateType": "grid"
-    },
-    {
-      "id": 0,
-      "phase": 0,
-      "location": "Manchester, United Kingdom",
-      "coordinates": [
-        53.4548873,
-        -2.3526099
-      ],
-      "eventName": "Sự kiện không nằm trong chuỗi hoạt động của chủ tịch Hồ Chí Minh, chỉ mang tính chất giải trí, vui lòng không phỏng đoán, suy diễn gây hiểu lầm. Xin chân thành cảm ơn",
-      "description": [
-        "Giữa mùa giải 2025-2026, câu lạc bộ Manchester United đang gặp vấn đề khi có chuỗi 5 trận thắng liên tiếp và nguy cơ bỏ lỡ cup C2 châu lục là rất cao."
-      ],
-      "mediaUrl": [
-        "https://upload.wikimedia.org/wikipedia/vi/thumb/a/a1/Man_Utd_FC_.svg/250px-Man_Utd_FC_.svg.png",
-        "/image/muvsful.png",
-        "/image/muvsar.png",
-        "/image/muvsmc.png",
-        "https://youtu.be/4t5R-t4JlQI?si=HlHM-2RBpuOo2g50"
-      ],
-      "templateType": "grid"
-    },
-    {
-      "id": 0,
-      "phase": 0,
-      "location": "Nghệ An, Việt Nam",
-      "coordinates": [
-        19.874217,
-        105.772314
-      ],
-      "eventName": "Sự kiện không nằm trong chuỗi hoạt động của chủ tịch Hồ Chí Minh, chỉ mang tính chất giải trí, vui lòng không phỏng đoán, suy diễn gây hiểu lầm. Xin chân thành cảm ơn",
-      "description": [
-        "(Nhìn hình đoán chữ)\nTừ tháng 3 đến tháng 6 năm 1936, hoàn thành tuyến đường sắt xuyên Việt, đi qua ***** ***"
-      ],
-      "mediaUrl": [
-        "https://cdn-i.vtcnews.vn/resize/th/upload/2023/05/12/anh-7-4934-19012839.jpg"
-      ],
-      "templateType": "normal"
     }
   ]
 }
