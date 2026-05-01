@@ -20,13 +20,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.hcm202.rule=Host(`hcm202.smartnovi.tech`)
-      - traefik.http.routers.hcm202.entrypoints=websecure
-      - traefik.http.routers.hcm202.tls=true
-      - traefik.http.routers.hcm202.tls.certresolver=letsencrypt
-      - traefik.http.services.hcm202.loadbalancer.server.port=80
     networks:
       - coolify
 
