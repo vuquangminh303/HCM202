@@ -73,8 +73,8 @@ function MediaDisplay({ mediaUrl, eventName, currentIndex = 0, onError }) {
 }
 
 // Định nghĩa ngoài Details để reference ổn định, tránh unmount/remount khi state (isReferencesOpen) đổi → không mất scroll
-function MediaDisplaySection({ focusedMarker, dispatch, templateType = 'normal' }) {
-    const { eventName, mediaUrl, sourceMedia, description, references } = focusedMarker;
+function MediaDisplaySection({ focusedMarker, templateType = 'normal' }) {
+    const { eventName, mediaUrl, sourceMedia, description } = focusedMarker;
     const mediaArray = (Array.isArray(mediaUrl) ? mediaUrl : mediaUrl != null ? [mediaUrl] : []).filter(Boolean);
     const descArray = Array.isArray(description) ? description : [description];
     const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -308,7 +308,7 @@ function DetailPanel({
   validatedMarkers,
 }) {
     const templateType = focusedMarker.templateType || 'normal';
-    const { eventName, description, references } = focusedMarker;
+    const { description, references } = focusedMarker;
 
     const findMarkerForEvent = (eventId) => {
       if (!validatedMarkers || !Array.isArray(validatedMarkers)) return null;
@@ -339,7 +339,7 @@ function DetailPanel({
           <div className="detail-content">
             <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
 
-            <MediaDisplaySection focusedMarker={focusedMarker} dispatch={dispatch} templateType={templateType} />
+            <MediaDisplaySection focusedMarker={focusedMarker} templateType={templateType} />
 
             {templateType === 'normal' && (
               <div className="event-description">
@@ -535,7 +535,7 @@ export default function Details() {
               {eventsAtLocation[0]?.location || focusedMarker.city}
             </h2>
             <div className="multiple-events-list">
-              {eventsAtLocation.map((event, index) => (
+              {eventsAtLocation.map((event) => (
                 <div
                   key={event.id}
                   className="event-item"

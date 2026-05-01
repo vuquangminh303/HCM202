@@ -18,7 +18,7 @@ events.forEach((event) => {
 // Transform the events data to match the expected marker format
 // Each unique location gets one marker with the count of events at that location
 const transformedMarkers = Object.entries(locationMap).map(
-  ([coordKey, eventsAtLocation]) => {
+  ([, eventsAtLocation]) => {
     // Use the first event's details for the marker, but aggregate information
     const firstEvent = eventsAtLocation[0];
     return {

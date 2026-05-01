@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
-import ReactGlobe, { tween } from 'react-globe';
+import ReactGlobe from 'react-globe';
 import * as THREE from 'three';
 
 import { useStateValue } from '../state';
@@ -10,20 +10,6 @@ import 'tippy.js/animations/scale.css';
 
 // Globe radius in react-globe (from library internals) - used for marker size scaling
 const GLOBE_RADIUS = 300;
-
-// Limit marker colors to red and green only
-const MARKER_COLORS = [
-  '#ff6b6b', // Red
-  '#2ecc71', // Green
-];
-
-const MARKER_COMPANION_COLOR = '#ffffff';
-
-function random(scaleFactor) {
-  return Math.random() > 0.5
-    ? scaleFactor * Math.random()
-    : -scaleFactor * Math.random();
-}
 
 // Pre-create materials to avoid recreating them repeatedly
 const markerMaterials = {
