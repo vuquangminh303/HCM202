@@ -4,23 +4,33 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
     expose:
-      - "80"   # 👈 app của bạn đang chạy port 80
-
+      - '80'
     restart: unless-stopped
-
     environment:
       - NODE_ENV=production
-
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost"]
+      test:
+        - CMD
+        - wget
+        - '--quiet'
+        - '--tries=1'
+        - '--spider'
+        - 'http://localhost'
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`hcm202.smartnovi.tech`)"
-      - "traefik.http.services.app.loadbalancer.server.port=80"
+      - traefik.enable=true
+      - traefik.http.routers.app.rule=Host(`hcm202.smartnovi.tech`)
+      - traefik.http.routers.app.entrypoints=websecure
+      - traefik.http.routers.app.tls=true
+      - traefik.http.routers.app.tls.certresolver=letsencrypt
+      - traefik.http.services.app.loadbalancer.server.port=80
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true
