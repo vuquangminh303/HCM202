@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   app:
     build:
@@ -23,11 +22,11 @@ services:
       start_period: 40s
     labels:
       - traefik.enable=true
-      - traefik.http.routers.app.rule=Host(`hcm202.smartnovi.tech`)
-      - traefik.http.routers.app.entrypoints=websecure
-      - traefik.http.routers.app.tls=true
-      - traefik.http.routers.app.tls.certresolver=letsencrypt
-      - traefik.http.services.app.loadbalancer.server.port=80
+      - traefik.http.routers.hcm202.rule=Host(`hcm202.smartnovi.tech`)
+      - traefik.http.routers.hcm202.entrypoints=websecure
+      - traefik.http.routers.hcm202.tls=true
+      - traefik.http.routers.hcm202.tls.certresolver=letsencrypt
+      - traefik.http.services.hcm202.loadbalancer.server.port=80
     networks:
       - coolify
 
