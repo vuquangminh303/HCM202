@@ -36,6 +36,6 @@ services:
       networks:
         - coolify
 
-  networks:
+networks:
     coolify:
       external: true
