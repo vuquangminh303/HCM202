@@ -331,13 +331,19 @@ function DetailPanel({
         {/* Vùng cuộn riêng để bookmark không bị overflow cắt */}
         <div className="detail-scroll">
           <div className="header">
+            <span className="detail-document-label">HỒ SƠ TƯ LIỆU</span>
             <Button
-              label="Quay về quả địa cầu"
+              label="× Đóng"
               onClick={() => dispatch({ type: 'FOCUS' })}
             />
           </div>
           <div className="detail-content">
             <h2 className="event-title">{focusedMarker.eventName || 'Historical Event'}</h2>
+            <div className="event-meta">
+              <span className="event-meta-year">{focusedMarker.year}</span>
+              <span>{focusedMarker.city || focusedMarker.location}</span>
+              <span>Giai đoạn {focusedMarker.phase}</span>
+            </div>
 
             <MediaDisplaySection focusedMarker={focusedMarker} templateType={templateType} />
 
@@ -524,8 +530,9 @@ export default function Details() {
       content = (
         <>
           <div className="header">
+            <span className="detail-document-label">HỒ SƠ TƯ LIỆU</span>
             <Button
-              label="Quay về quả địa cầu"
+              label="× Đóng"
               onClick={() => dispatch({ type: 'FOCUS' })}
             />
           </div>

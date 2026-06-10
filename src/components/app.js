@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import Details from './details';
-import Globe from './globe';
 import Intro from './intro';
+import JourneyMap from './journey-map';
 import TimelineBar from './timeline-bar';
 
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <>
-      <Globe />
+      <JourneyMap />
       <Intro />
       <TimelineBar />
       <Details />

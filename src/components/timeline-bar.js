@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useStateValue } from '../state';
 
 const TimelineBar = () => {
   const [{ events, focusedMarker }, dispatch] = useStateValue();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [expandedPhases, setExpandedPhases] = useState({});
 
+  const sortedEvents = useMemo(
+    () => [...events].sort((a, b) => Number(a.id) - Number(b.id)),
+    [events]
+  );
+
+  const currentIndex = focusedMarker
+    ? sortedEvents.findIndex((event) => event.id === focusedMarker.id)
+    : -1;
+
+  useEffect(() => {
+    if (!focusedMarker?.phase) return;
+    setExpandedPhases((prev) => ({ ...prev, [focusedMarker.phase]: true }));
+  }, [focusedMarker?.phase]);
+
   // Group events by phase
-  const groupedEvents = events.reduce((acc, event) => {
+  const groupedEvents = sortedEvents.reduce((acc, event) => {
     if (!acc[event.phase]) {
       acc[event.phase] = [];
     }
@@ -25,42 +39,62 @@ const TimelineBar = () => {
   };
 
   // Dynamically determine the number of phases based on available data
-  const maxPhase = Math.max(...events.map((event) => event.phase), 0);
+  const maxPhase = Math.max(...sortedEvents.map((event) => event.phase), 0);
   const allPhases = Array.from({ length: maxPhase }, (_, i) => i + 1);
 
   const handleEventClick = (event) => {
-    // Find the corresponding marker in the state
-    const markers = events.map((e) => ({
-      id: e.id,
-      phase: e.phase,
-      year: e.year,
-      city: e.location,
-      coordinates: e.coordinates,
-      eventName: e.eventName,
-      description: e.description,
-      mediaUrl: e.mediaUrl,
-      sourceMedia: e.sourceMedia,
-      quoteSource: e.quoteSource,
-      templateType: e.templateType,
-      references: e.references, // Add references field
-      value: e.phase || 1,
-    }));
-
-    const marker = markers.find((m) => m.id === event.id);
-    if (marker) {
-      dispatch({ type: 'FOCUS', payload: marker });
-    }
+    dispatch({
+      type: 'FOCUS',
+      payload: { ...event, city: event.location, value: event.phase || 1 },
+    });
   };
 
   return (
     <div className="timeline-bar">
-      <div className="timeline-toggle" onClick={() => setIsOpen(!isOpen)}>
-        <span>5 Giai Đoạn Chính</span>
+      <button
+        type="button"
+        className="timeline-toggle"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div>
+          <small>DÒNG THỜI GIAN</small>
+          <span>Con đường hoạt động cách mạng</span>
+        </div>
         <span className={`arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>
-      </div>
+      </button>
 
       {isOpen && (
         <div className="timeline-dropdown">
+          <div className="timeline-story-controls">
+            <span>
+              <strong>{currentIndex >= 0 ? currentIndex + 1 : 0}</strong>
+              <small>/{sortedEvents.length} mốc tư liệu</small>
+            </span>
+            <div>
+              <button
+                type="button"
+                disabled={currentIndex <= 0}
+                onClick={() => handleEventClick(sortedEvents[currentIndex - 1])}
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={() => handleEventClick(sortedEvents[0])}
+              >
+                Từ đầu
+              </button>
+              <button
+                type="button"
+                disabled={currentIndex === sortedEvents.length - 1}
+                onClick={() =>
+                  handleEventClick(sortedEvents[Math.max(0, currentIndex + 1)])
+                }
+              >
+                →
+              </button>
+            </div>
+          </div>
           {allPhases.map((phase) => {
             const isCurrentPhase =
               focusedMarker && focusedMarker.phase === phase;
@@ -79,29 +113,48 @@ const TimelineBar = () => {
                 className={`phase-section ${isCurrentPhase ? 'active-phase' : ''
                   }`}
               >
-                <div
+                <button
+                  type="button"
                   className="phase-header"
                   onClick={togglePhase}
                 >
-                  <h3>{phaseLabels[phase] || `Giai đoạn ${phase}`}</h3>
+                  <span className="phase-number">{phase}</span>
+                  <span className="phase-heading">
+                    <small>Giai đoạn {phase}</small>
+                    <h3>{phaseLabels[phase] || `Giai đoạn ${phase}`}</h3>
+                  </span>
                   <span
                     className={`phase-arrow ${isExpanded ? 'expanded' : ''}`}
                   >
                     &#9660;
                   </span>
-                </div>
+                </button>
                 {isExpanded && (
                   <div className="phase-events">
                     {(groupedEvents[phase] || []).map((event) => {
+                      const eventIndex = sortedEvents.findIndex(
+                        (item) => item.id === event.id
+                      );
+                      const isVisited = currentIndex >= eventIndex && currentIndex >= 0;
+
                       return (
-                        <div
+                        <button
+                          type="button"
                           key={event.id}
-                          className="event-item"
+                          className={`event-item ${
+                            focusedMarker?.id === event.id ? 'active-event' : ''
+                          } ${isVisited ? 'visited-event' : ''}`}
                           onClick={() => handleEventClick(event)}
                         >
-                          <div className="event-year">{event.year}</div>
-                          <div className="event-name">{event.eventName}</div>
-                        </div>
+                          <span className="event-status" />
+                          <span className="event-copy">
+                            <div className="event-year">
+                              <span>{event.year}</span>
+                              <span>{event.location}</span>
+                            </div>
+                            <div className="event-name">{event.eventName}</div>
+                          </span>
+                        </button>
                       );
                     })}
                   </div>
