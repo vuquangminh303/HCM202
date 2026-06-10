@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useStateValue } from '../state';
 
 const TimelineBar = () => {
@@ -15,10 +15,22 @@ const TimelineBar = () => {
     ? sortedEvents.findIndex((event) => event.id === focusedMarker.id)
     : -1;
 
+  const activeEventRef = useRef(null);
+
   useEffect(() => {
     if (!focusedMarker?.phase) return;
     setExpandedPhases((prev) => ({ ...prev, [focusedMarker.phase]: true }));
   }, [focusedMarker?.phase]);
+
+  // Auto-scroll active event into view
+  useEffect(() => {
+    if (activeEventRef.current) {
+      activeEventRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }
+  }, [focusedMarker?.id]);
 
   // Group events by phase
   const groupedEvents = sortedEvents.reduce((acc, event) => {
@@ -137,12 +149,15 @@ const TimelineBar = () => {
                       );
                       const isVisited = currentIndex >= eventIndex && currentIndex >= 0;
 
+                      const isActive = focusedMarker?.id === event.id;
+
                       return (
                         <button
                           type="button"
                           key={event.id}
+                          ref={isActive ? activeEventRef : null}
                           className={`event-item ${
-                            focusedMarker?.id === event.id ? 'active-event' : ''
+                            isActive ? 'active-event' : ''
                           } ${isVisited ? 'visited-event' : ''}`}
                           onClick={() => handleEventClick(event)}
                         >

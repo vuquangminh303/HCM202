@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+const ANIMATION_TYPES = {
+  fade: { in: 'fade-in', out: 'fade-out' },
+  'slide-left': { in: 'slide-in-left', out: 'slide-out-left' },
+};
+
 export default function Fade({
   animationDuration = 800,
+  animationType = 'fade',
   children,
   className,
   show,
@@ -21,7 +27,8 @@ export default function Fade({
     }
   }
 
-  const animationKeyFrame = show ? 'fade-in' : 'fade-out';
+  const animations = ANIMATION_TYPES[animationType] || ANIMATION_TYPES.fade;
+  const animationKeyFrame = show ? animations.in : animations.out;
 
   if (!shouldRender) {
     return null;

@@ -1,10 +1,32 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Serif:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Serif:wght@600;700&display=swap");
 @import "maplibre-gl/dist/maplibre-gl.css";
+
+// ─── Design Tokens ─────────────────────────────────────────────────────────────
+:root {
+  --gold-primary: #d4a853;
+  --gold-light: #f0d68a;
+  --gold-dim: #b8923e;
+  --crimson-primary: #8b2d20;
+  --crimson-dark: #5c1a12;
+  --crimson-light: #b84227;
+  --parchment: #faf6ed;
+  --parchment-dark: #f0e8d8;
+  --ink: #2a1f17;
+  --ink-light: #4a3e35;
+  --accent-warm: #e8a63a;
+  --shadow-warm: rgba(53, 38, 27, 0.22);
+  --shadow-deep: rgba(30, 18, 10, 0.35);
+  --glass-bg: rgba(249, 244, 234, 0.88);
+  --glass-border: rgba(110, 80, 55, 0.18);
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
 // variables
 $background-color: rgba(0, 0, 0, 0.95);
 $body-font-color: #fcdcbf;
 $body-font-family: "Noto Sans", sans-serif;
+$heading-font-family: "Playfair Display", "Noto Serif", serif;
 $body-font-size: 16px;
 $border-color: #fcdcbf;
 $container-background-color: #222222;
@@ -20,13 +42,12 @@ $festival-background-color: #ff4d4f;
 $festival-text-color: #ffeb3b;
 $festival-background-color-hover: lighten($festival-background-color, 8%);
 
-// keyframes
+// ─── Keyframes ──────────────────────────────────────────────────────────────────
 @keyframes fade-in {
   0% {
     filter: blur(10px);
     opacity: 0;
   }
-
   100% {
     filter: blur(0px);
     opacity: 1;
@@ -34,16 +55,124 @@ $festival-background-color-hover: lighten($festival-background-color, 8%);
 }
 
 @keyframes fade-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-left {
   0% {
     opacity: 1;
+    transform: translateX(0);
   }
-
   100% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes emblem-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(212, 168, 83, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(212, 168, 83, 0.6));
+  }
+}
+
+@keyframes emblem-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes text-shimmer {
+  0% { background-position: -100% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes border-gradient-rotate {
+  0% { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+@keyframes stagger-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(4);
     opacity: 0;
   }
 }
 
-// dom styles
+@keyframes loading-progress {
+  0% { width: 0%; }
+  30% { width: 45%; }
+  60% { width: 70%; }
+  90% { width: 85%; }
+  100% { width: 100%; }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 83, 0.15); }
+  50% { box-shadow: 0 0 35px rgba(212, 168, 83, 0.3); }
+}
+
+@keyframes map-marker-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(201, 78, 47, 0.65); }
+  70% { box-shadow: 0 0 0 13px rgba(201, 78, 47, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 78, 47, 0); }
+}
+
+@keyframes counter-pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+// ─── Global Styles ──────────────────────────────────────────────────────────────
 body {
   * {
     color: $body-font-color;
@@ -68,6 +197,7 @@ body {
     cursor: pointer;
     font-weight: bold;
     pointer-events: auto;
+    transition: color 0.2s var(--transition-smooth);
 
     &:hover {
       color: lighten($body-font-color, 10%);
@@ -103,6 +233,7 @@ body {
   }
 }
 
+// ─── Festival Theme ─────────────────────────────────────────────────────────────
 body.theme-festival {
   background: radial-gradient(
     circle at top,
@@ -133,6 +264,7 @@ body.theme-festival {
   }
 }
 
+// ─── Button System ──────────────────────────────────────────────────────────────
 .button {
   background-color: rgba(249, 244, 234, 0.95);
   border: 1px solid rgba(110, 80, 55, 0.28);
@@ -143,14 +275,23 @@ body.theme-festival {
   pointer-events: auto;
   font-weight: 600;
   box-shadow: 0 4px 10px rgba(53, 38, 27, 0.12);
+  transition: all 0.25s var(--transition-smooth);
 
   &:hover {
     background-color: rgba(238, 230, 213, 0.95);
     color: #8b2d20 !important;
     border-color: rgba(139, 45, 32, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(53, 38, 27, 0.18);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(53, 38, 27, 0.15);
   }
 }
 
+// ─── Bottom Right Actions ───────────────────────────────────────────────────────
 .bottom-right-actions {
   position: fixed;
   right: $spacing * 2;
@@ -172,8 +313,15 @@ body.theme-festival {
 .source-code-button {
   padding: 6px 12px;
   font-size: 12px;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(53, 38, 27, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(53, 38, 27, 0.15);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s var(--transition-smooth);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(53, 38, 27, 0.2);
+  }
 }
 
 .bottom-right-copy {
@@ -185,7 +333,7 @@ body.theme-festival {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-// shared styles
+// ─── Shared Layout ──────────────────────────────────────────────────────────────
 .fixed {
   bottom: 0;
   left: 0;
@@ -199,7 +347,7 @@ body.theme-festival {
   margin-right: 24px;
 }
 
-// app styles
+// ─── About Section ──────────────────────────────────────────────────────────────
 .about {
   @extend .fixed;
   background: $background-color;
@@ -228,14 +376,43 @@ body.theme-festival {
   }
 }
 
+// ─── Loading Cover ──────────────────────────────────────────────────────────────
 .cover {
   @extend .fixed;
-  background-color: $background-color;
+  background: radial-gradient(ellipse at 40% 40%, #1a1210, #0a0705);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(139, 45, 32, 0.15), transparent 50%),
+      radial-gradient(circle at 70% 30%, rgba(212, 168, 83, 0.1), transparent 45%);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "Đang tải bản đồ tư liệu...";
+    color: var(--gold-light);
+    font-family: $heading-font-family;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    animation: pulse-soft 2s ease-in-out infinite;
+    position: absolute;
+    bottom: 20%;
+  }
 }
 
+// ─── Journey Map ────────────────────────────────────────────────────────────────
 .journey-map {
   background: #eae3d2;
-  cursor: grab;
+  cursor: default;
   height: 100vh;
   left: 0;
   overflow: hidden;
@@ -246,20 +423,64 @@ body.theme-festival {
   width: 100vw;
 
   &:active {
-    cursor: grabbing;
+    cursor: default;
   }
 
+  // Ambient vignette overlay
   &::after {
     background:
-      linear-gradient(90deg, rgba(42, 31, 23, 0.16), transparent 28%),
-      linear-gradient(0deg, rgba(42, 31, 23, 0.1), transparent 35%);
+      radial-gradient(ellipse at center, transparent 55%, rgba(42, 31, 23, 0.12) 100%),
+      linear-gradient(90deg, rgba(42, 31, 23, 0.18), transparent 28%),
+      linear-gradient(0deg, rgba(42, 31, 23, 0.12), transparent 32%);
     content: "";
     inset: 0;
     pointer-events: none;
     position: absolute;
     z-index: 2;
+    transition: opacity 0.5s var(--transition-smooth);
   }
 
+  &.has-focus {
+    .map-story-heading,
+    .map-legend {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-12px);
+    }
+  }
+
+  .map-canvas {
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .maplibregl-canvas {
+    filter: sepia(0.4) saturate(0.85) contrast(0.96) brightness(1.02);
+  }
+
+  .maplibregl-map,
+  .maplibregl-ctrl {
+    font-family: $body-font-family;
+  }
+
+  .maplibregl-canvas {
+    outline: none;
+  }
+
+  .maplibregl-ctrl-attrib {
+    background: rgba(250, 246, 238, 0.88);
+    color: #4c443d;
+    font-size: 10px;
+
+    a {
+      color: #4c443d;
+      font-weight: 500;
+    }
+  }
+
+  // ─── Map Markers (old, retained) ──────────────────────────────────────────
   .map-tiles,
   .map-markers,
   .journey-route {
@@ -399,166 +620,7 @@ body.theme-festival {
     }
   }
 
-  .map-story-heading {
-    left: 28px;
-    max-width: 430px;
-    pointer-events: none;
-    position: absolute;
-    top: 28px;
-    z-index: 7;
-
-    .map-eyebrow {
-      color: #c94e2f;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-    }
-
-    h1 {
-      color: #182629;
-      font-size: 42px;
-      line-height: 1;
-      margin: 8px 0;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
-    }
-
-    p {
-      color: #263638;
-      font-size: 14px;
-      line-height: 1.45;
-      margin: 0 0 14px;
-      max-width: 360px;
-    }
-
-    button {
-      background: #9f321f;
-      border: 1px solid rgba(255, 255, 255, 0.55);
-      border-radius: 3px;
-      box-shadow: 0 4px 14px rgba(64, 26, 17, 0.3);
-      color: #fff7ea;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 10px 15px;
-      pointer-events: auto;
-    }
-  }
-
-  .map-zoom-controls {
-    bottom: 28px;
-    display: flex;
-    flex-direction: column;
-    left: 28px;
-    position: absolute;
-    z-index: 7;
-
-    button {
-      align-items: center;
-      background: rgba(31, 43, 45, 0.92);
-      border: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      font-size: 20px;
-      height: 34px;
-      justify-content: center;
-      width: 34px;
-
-      &:first-child {
-        border-radius: 4px 4px 0 0;
-      }
-
-      &:last-child {
-        border-bottom: 0;
-        border-radius: 0 0 4px 4px;
-      }
-    }
-  }
-
-  .map-attribution {
-    background: rgba(255, 255, 255, 0.8);
-    bottom: 0;
-    color: #263638;
-    font-size: 10px;
-    font-weight: 400;
-    padding: 2px 5px;
-    position: absolute;
-    right: 0;
-    z-index: 7;
-  }
-}
-
-@keyframes map-marker-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(201, 78, 47, 0.65);
-  }
-
-  70% {
-    box-shadow: 0 0 0 13px rgba(201, 78, 47, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(201, 78, 47, 0);
-  }
-}
-
-// Vietnamese vector map and documentary presentation layer
-.journey-map {
-  background: #eae3d2;
-  cursor: default;
-
-  &:active {
-    cursor: default;
-  }
-
-  &::after {
-    background:
-      linear-gradient(90deg, rgba(42, 31, 23, 0.16), transparent 30%),
-      linear-gradient(0deg, rgba(42, 31, 23, 0.1), transparent 32%);
-    display: block;
-  }
-
-  &.has-focus {
-    .map-story-heading,
-    .map-legend {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-8px);
-    }
-  }
-
-  .map-canvas {
-    height: 100%;
-    inset: 0;
-    position: absolute;
-    width: 100%;
-  }
-
-  .maplibregl-canvas {
-    filter: sepia(0.4) saturate(0.85) contrast(0.96) brightness(1.02);
-  }
-
-  .maplibregl-map,
-  .maplibregl-ctrl {
-    font-family: $body-font-family;
-  }
-
-  .maplibregl-canvas {
-    outline: none;
-  }
-
-  .maplibregl-ctrl-attrib {
-    background: rgba(250, 246, 238, 0.88);
-    color: #4c443d;
-    font-size: 10px;
-
-    a {
-      color: #4c443d;
-      font-weight: 500;
-    }
-  }
-
+  // ─── Journey Markers (MapLibre) ───────────────────────────────────────────
   .journey-marker {
     align-items: center;
     background: transparent;
@@ -658,32 +720,85 @@ body.theme-festival {
     }
   }
 
+  // ─── Story Heading (Hero Card) ────────────────────────────────────────────
   .map-story-heading {
-    background: rgba(249, 244, 234, 0.94);
-    border: 1px solid rgba(110, 80, 55, 0.24);
-    border-left: 5px solid #8e2d20;
-    border-radius: 4px 14px 14px 4px;
-    box-shadow: 0 18px 45px rgba(48, 34, 25, 0.2);
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-left: 5px solid var(--crimson-primary);
+    border-radius: 4px 16px 16px 4px;
+    box-shadow:
+      0 20px 50px rgba(48, 34, 25, 0.22),
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
     left: 28px;
-    max-width: 425px;
-    padding: 22px 24px 23px;
+    max-width: 430px;
+    padding: 24px 26px 25px;
+    pointer-events: none;
+    position: absolute;
     top: 28px;
-    transition: 250ms ease;
+    transition: all 0.4s var(--transition-smooth);
+    z-index: 7;
+    animation: slide-in-left 0.8s var(--transition-smooth) both;
+    animation-delay: 0.3s;
+
+    // Animated border glow
+    &::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      left: -1px;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(212, 168, 83, 0.3),
+        transparent 40%,
+        transparent 60%,
+        rgba(139, 45, 32, 0.2)
+      );
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    // Vietnam emblem
+    .vietnam-emblem {
+      animation: emblem-glow 3s ease-in-out infinite;
+      transition: transform 0.3s var(--transition-smooth);
+    }
 
     .map-eyebrow {
       color: #9b392a;
       font-size: 10px;
+      font-weight: 800;
       letter-spacing: 0.18em;
     }
 
     h1 {
       color: #2f251e;
-      font-family: $header-font-family;
-      font-size: 38px;
-      letter-spacing: -0.03em;
+      font-family: $heading-font-family;
+      font-size: 36px;
+      letter-spacing: -0.02em;
       line-height: 1.15;
       margin: 8px 0 10px;
       text-shadow: none;
+      // Shimmer effect on heading
+      background: linear-gradient(
+        90deg,
+        #2f251e 0%,
+        #2f251e 40%,
+        var(--gold-primary) 50%,
+        #2f251e 60%,
+        #2f251e 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: text-shimmer 4s linear infinite;
+      animation-delay: 1.5s;
     }
 
     p {
@@ -695,46 +810,83 @@ body.theme-festival {
 
     button {
       align-items: center;
-      background: #84281d;
+      background: linear-gradient(135deg, #84281d, #6f2017);
       border: 0;
-      border-radius: 7px;
-      box-shadow: 0 7px 18px rgba(102, 35, 26, 0.24);
+      border-radius: 9px;
+      box-shadow:
+        0 7px 22px rgba(102, 35, 26, 0.28),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+      cursor: pointer;
       display: inline-flex;
       gap: 16px;
-      padding: 10px 12px 10px 16px;
+      padding: 11px 14px 11px 18px;
+      pointer-events: auto;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s var(--transition-smooth);
 
       span {
         color: #fff8ec;
         font-size: 12px;
+        position: relative;
+        z-index: 1;
       }
 
       strong {
         background: rgba(255, 255, 255, 0.15);
-        border-radius: 5px;
+        border-radius: 6px;
         color: #f8dba5;
         font-size: 13px;
-        padding: 5px 8px;
+        padding: 5px 9px;
+        position: relative;
+        z-index: 1;
+      }
+
+      // Ripple base
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       &:hover {
-        background: #6f2017;
-        transform: translateY(-1px);
+        background: linear-gradient(135deg, #6f2017, #5c1a12);
+        transform: translateY(-2px);
+        box-shadow:
+          0 10px 30px rgba(102, 35, 26, 0.35),
+          0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     }
   }
 
+  // ─── Map Legend ───────────────────────────────────────────────────────────
   .map-legend {
-    background: rgba(249, 244, 234, 0.9);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(110, 80, 55, 0.2);
-    border-radius: 8px;
+    border-radius: 10px;
     bottom: 28px;
     display: flex;
     gap: 18px;
     left: 78px;
-    padding: 8px 12px;
+    padding: 8px 14px;
     position: absolute;
-    transition: 250ms ease;
+    transition: all 0.35s var(--transition-smooth);
     z-index: 7;
+    animation: stagger-fade-in 0.6s var(--transition-smooth) both;
+    animation-delay: 0.8s;
 
     span {
       align-items: center;
@@ -759,27 +911,45 @@ body.theme-festival {
     }
   }
 
+  // ─── Zoom Controls ────────────────────────────────────────────────────────
   .map-zoom-controls {
     bottom: 28px;
+    display: flex;
+    flex-direction: column;
     gap: 1px;
     left: 28px;
+    position: absolute;
+    z-index: 7;
+    animation: stagger-fade-in 0.6s var(--transition-smooth) both;
+    animation-delay: 0.6s;
 
     button {
-      background: #f9f4ea;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(93, 70, 52, 0.28);
       color: #44372d;
+      cursor: pointer;
+      display: flex;
       font-size: 18px;
       height: 38px;
+      justify-content: center;
       width: 38px;
+      transition: all 0.2s var(--transition-smooth);
 
       &:hover {
         background: #fffaf2;
         color: #8e2d20;
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
       }
 
       &:first-child,
       &:last-child {
-        border-radius: 6px;
+        border-radius: 8px;
       }
 
       &.map-reset-button {
@@ -789,28 +959,54 @@ body.theme-festival {
     }
   }
 
+  // ─── Loading State ────────────────────────────────────────────────────────
   .map-loading {
-    background: rgba(249, 244, 234, 0.96);
-    border-radius: 8px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 10px;
     box-shadow: 0 12px 35px rgba(48, 34, 25, 0.22);
     color: #4a3d33;
     left: 50%;
-    padding: 12px 18px;
+    padding: 14px 20px;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+    animation: pulse-soft 2s ease-in-out infinite;
+
+    // Loading progress bar
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--crimson-primary), var(--gold-primary));
+      border-radius: 0 0 10px 10px;
+      animation: loading-progress 4s ease-in-out infinite;
+    }
 
     &.map-error {
       border-left: 4px solid #a93624;
       max-width: 360px;
+      animation: none;
+
+      &::after { display: none; }
     }
   }
+}
+
+// ─── Details Panel ──────────────────────────────────────────────────────────────
+.details-overlay {
+  // Animated backdrop
+  animation: fade-in 0.3s ease-out both;
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .details {
   @extend .fixed;
   background: rgba(249, 245, 236, 0.98);
+  backdrop-filter: blur(4px);
   padding: 26px 26px 20px;
   box-sizing: border-box;
   left: 0;
@@ -820,19 +1016,22 @@ body.theme-festival {
   width: clamp(410px, 37vw, 520px);
   display: flex;
   flex-direction: column;
-  overflow: visible; // Không clip để bookmark nhô ra trái hiển thị được
-  border-right: 1px solid rgba(114, 87, 65, 0.24);
-  box-shadow: 12px 0 40px rgba(47, 32, 23, 0.22);
-  z-index: 1001; // Ensure detail panel is above other elements
-  pointer-events: auto; // Ensure it captures mouse events
+  overflow: visible;
+  border-right: 1px solid rgba(114, 87, 65, 0.2);
+  box-shadow:
+    12px 0 45px rgba(47, 32, 23, 0.25),
+    1px 0 0 rgba(212, 168, 83, 0.15);
+  z-index: 1001;
+  pointer-events: auto;
 
-  // Vùng cuộn riêng – scrollbar sát cạnh phải panel, không ảnh hưởng bookmark
+  // Scrollable content area
   .detail-scroll {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
     margin-right: -16px;
     padding-right: 16px;
+    scroll-behavior: smooth;
   }
 
   // Override global body color for text elements in details panel
@@ -849,12 +1048,20 @@ body.theme-festival {
     border-bottom: 1px solid #d9ccba;
     margin-bottom: 20px;
     padding: 0 0 13px;
+    animation: stagger-fade-in 0.4s var(--transition-smooth) both;
 
     .detail-document-label {
       color: #9b392a !important;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.16em;
+      // Subtle gold shimmer
+      background: linear-gradient(90deg, #9b392a, #9b392a 40%, var(--gold-primary) 50%, #9b392a 60%, #9b392a);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: text-shimmer 5s linear infinite;
     }
 
     .button {
@@ -864,9 +1071,11 @@ body.theme-festival {
       color: #55483d;
       font-size: 11px;
       padding: 7px 10px;
+      transition: all 0.2s var(--transition-smooth);
 
       &:hover {
         background: #eee3d4;
+        border-color: var(--crimson-primary);
       }
     }
   }
@@ -874,23 +1083,39 @@ body.theme-festival {
   .detail-content {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 60px); // Account for header height
-    min-height: 0; // Allow flex child to shrink below content size
-    position: relative; // Enable absolute positioning for child elements
-    padding-bottom: 80px; // Add space at the bottom for the floating buttons
-    overflow: visible; // Allow content to extend beyond bounds (for dropdown)
+    height: calc(100% - 60px);
+    min-height: 0;
+    position: relative;
+    padding-bottom: 80px;
+    overflow: visible;
 
-    // Layout for single event details as per requirements
     .event-title {
       color: #2e241d;
-      font-family: $header-font-family;
+      font-family: $heading-font-family;
       line-height: 1.3;
       margin-top: 0;
       font-size: 26px;
       margin-bottom: 10px;
       flex-shrink: 0;
-      overflow: visible; // Allow full text display
+      overflow: visible;
       padding-bottom: $spacing / 2;
+      animation: stagger-fade-in 0.5s var(--transition-smooth) both;
+      animation-delay: 0.1s;
+      // Animated underline reveal
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background: linear-gradient(90deg, var(--crimson-primary), var(--gold-primary));
+        border-radius: 1px;
+        animation: stagger-fade-in 0.6s var(--transition-smooth) both;
+        animation-delay: 0.4s;
+      }
     }
 
     .event-meta {
@@ -898,19 +1123,24 @@ body.theme-festival {
       flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 18px;
+      animation: stagger-fade-in 0.5s var(--transition-smooth) both;
+      animation-delay: 0.15s;
 
       span {
         background: #ece3d5;
-        border-radius: 4px;
+        border-radius: 6px;
         color: #66584c !important;
         font-size: 10px;
         font-weight: 600;
-        padding: 5px 7px;
+        padding: 5px 8px;
+        transition: all 0.2s var(--transition-smooth);
       }
 
       .event-meta-year {
-        background: #8b2d20;
+        background: linear-gradient(135deg, #8b2d20, #a93624);
         color: #fff5e5 !important;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(139, 45, 32, 0.25);
       }
     }
 
@@ -918,49 +1148,69 @@ body.theme-festival {
       position: relative;
       margin-bottom: $spacing;
       flex-shrink: 0;
-      overflow: visible; // Allow content to flow naturally
+      overflow: visible;
+      animation: stagger-fade-in 0.5s var(--transition-smooth) both;
+      animation-delay: 0.2s;
 
       .event-media {
         width: 100%;
         height: auto;
-        background: #e8dfd1;
+        background: linear-gradient(90deg, #e8dfd1, #f0e8d8, #e8dfd1);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
         border: 1px solid #d8c9b5;
-        border-radius: 8px;
+        border-radius: 10px;
         margin-bottom: $spacing / 2;
         object-fit: contain;
         max-height: 25vh;
+        transition: all 0.3s var(--transition-smooth);
 
-        // Specific styles for iframes (YouTube videos)
+        // Stop skeleton when loaded
+        &[src] {
+          animation: none;
+          background: #e8dfd1;
+        }
+
+        &:hover {
+          transform: scale(1.01);
+          box-shadow: 0 8px 25px rgba(53, 38, 27, 0.15);
+        }
+
         &.youtube-video {
-          max-height: 400px; // Set a reasonable max height for YouTube videos
+          max-height: 400px;
+          border-radius: 10px;
         }
       }
 
       .media-caption {
         position: absolute;
         bottom: 0;
-        right: 0; // Positioned at bottom right as requested
+        right: 0;
         background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
         color: white;
         padding: $spacing / 4 $spacing / 2;
-        border-radius: $spacing / 2;
-        font-size: 12px;
+        border-radius: 8px 0 8px 0;
+        font-size: 11px;
         margin-bottom: $spacing / 2;
+        transition: opacity 0.3s ease;
       }
     }
 
     .event-description {
       margin: $spacing 0;
-      color: #000; // Black color as requested
+      color: #000;
       flex-shrink: 1;
       flex-grow: 1;
-      overflow-y: visible; // Let content flow naturally, scrolling handled by parent
+      overflow-y: visible;
       padding: $spacing / 2 0;
+      animation: stagger-fade-in 0.5s var(--transition-smooth) both;
+      animation-delay: 0.25s;
 
       p {
         margin: 0 0 $spacing / 2 0;
         font-size: 14px;
-        line-height: 1.75;
+        line-height: 1.8;
         word-wrap: break-word;
       }
     }
@@ -968,7 +1218,7 @@ body.theme-festival {
     .references-section {
       margin-top: $spacing;
       flex-shrink: 0;
-      overflow-y: visible; // Let content flow naturally, scrolling handled by parent
+      overflow-y: visible;
 
       h3 {
         margin-top: 0;
@@ -986,13 +1236,13 @@ body.theme-festival {
           margin-bottom: $spacing / 4;
 
           .reference-link {
-            color: #000; // Black color for links
+            color: #000;
             text-decoration: underline;
             font-weight: normal;
-            font-size: 13px; // Smaller font size
+            font-size: 13px;
 
             &:hover {
-              color: #000; // Keep black on hover
+              color: #000;
             }
           }
         }
@@ -1000,7 +1250,7 @@ body.theme-festival {
     }
   }
 
-  // Tham khảo ở cuối trang – cuộn xuống mới thấy
+  // References section at bottom
   .references-section-end {
     margin-top: $spacing * 2;
     padding-top: $spacing;
@@ -1008,7 +1258,7 @@ body.theme-festival {
     flex-shrink: 0;
   }
 
-  // Bookmark: gắn cạnh phải panel, nhô ra ngoài (sang phải, vào vùng bản đồ)
+  // Navigation bookmarks
   .event-navigation-fixed {
     position: absolute;
     bottom: 24px;
@@ -1018,6 +1268,8 @@ body.theme-festival {
     gap: $spacing / 2;
     z-index: 1002;
     box-shadow: none;
+    animation: stagger-fade-in 0.5s var(--transition-smooth) both;
+    animation-delay: 0.5s;
 
     .event-navigation-buttons {
       display: flex;
@@ -1027,19 +1279,29 @@ body.theme-festival {
 
     .prev-event-button,
     .next-event-button {
-      background-color: rgba(74, 54, 41, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 6px;
+      background: rgba(74, 54, 41, 0.94);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
       color: #fff8ec;
-      padding: 9px 12px;
+      padding: 10px 14px;
       cursor: pointer;
       font-size: 13px;
       font-weight: 600;
       white-space: nowrap;
       text-align: left;
+      transition: all 0.25s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
 
       &:hover {
-        background-color: #84281d;
+        background: linear-gradient(135deg, #84281d, #6f2017);
+        transform: translateX(3px);
+        box-shadow: 0 4px 16px rgba(132, 40, 29, 0.3);
+      }
+
+      &:active {
+        transform: translateX(1px);
       }
     }
   }
@@ -1048,7 +1310,7 @@ body.theme-festival {
   .references-dropdown {
     position: relative;
     display: inline-block;
-    z-index: 2000; // Increased z-index to ensure visibility
+    z-index: 2000;
 
     .references-dropdown-button {
       background-color: $container-background-color;
@@ -1059,46 +1321,50 @@ body.theme-festival {
       cursor: pointer;
       font-size: 14px;
       font-weight: bold;
+      transition: all 0.2s var(--transition-smooth);
 
       &:hover {
         background-color: lighten($container-background-color, 10%);
+        transform: translateY(-1px);
       }
     }
 
     .references-dropdown-content {
       display: none;
-      position: absolute; // Use absolute positioning relative to parent
-      bottom: 100%; // Position directly above the button
-      right: 0; // Align with right edge of button
-      margin-bottom: $spacing / 2; // Small gap between button and dropdown
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      margin-bottom: $spacing / 2;
       background-color: $container-background-color;
-      width: 100%; // Match the exact width of the button
-      max-width: 100%; // Prevent overflow
-      box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.2); // Shadow pointing upward
-      z-index: 2001; // Higher z-index to ensure visibility
+      width: 100%;
+      max-width: 100%;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.25);
+      z-index: 2001;
       border: 1px solid $border-color;
       border-radius: $spacing / 2;
       max-height: 200px;
       overflow-y: auto;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: all 0.25s var(--transition-smooth);
 
       a {
-        color: white; // White text for better contrast
+        color: white;
         padding: $spacing / 2;
         text-decoration: none;
         display: block;
         font-size: 12px;
         border-bottom: 1px solid darken($border-color, 20%);
-        width: 100%; // Full width of dropdown
-        box-sizing: border-box; // Include padding in width calculation
-
-        // Single line with ellipsis for long URLs
+        width: 100%;
+        box-sizing: border-box;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        transition: background-color 0.15s ease;
 
         &:hover {
           background-color: lighten($container-background-color, 10%);
-          color: lighten(white, 5%); // Slightly brighter on hover
+          color: lighten(white, 5%);
         }
 
         &:last-child {
@@ -1107,9 +1373,10 @@ body.theme-festival {
       }
     }
 
-    // Show dropdown when 'show' class is present (click-based)
     .references-dropdown-content.show {
       display: block;
+      transform: translateY(0);
+      opacity: 1;
     }
   }
 
@@ -1117,20 +1384,27 @@ body.theme-festival {
     width: 100%;
 
     .event-item {
-      padding: $spacing / 2;
+      padding: $spacing;
       margin-bottom: $spacing / 2;
-      border: 1px solid $border-color;
-      border-radius: $spacing / 2;
+      border: 1px solid rgba(110, 80, 55, 0.2);
+      border-radius: 10px;
       cursor: pointer;
+      background: rgba(255, 250, 240, 0.5);
+      transition: all 0.25s var(--transition-smooth);
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 250, 240, 0.9);
+        border-color: var(--crimson-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(53, 38, 27, 0.12);
       }
 
       h3 {
         margin-top: 0;
         margin-bottom: $spacing / 4;
-        color: #333 !important; // Dark gray for readability
+        color: #333 !important;
+        font-family: $heading-font-family;
+        font-size: 15px;
       }
 
       p {
@@ -1139,7 +1413,7 @@ body.theme-festival {
     }
   }
 
-  // Grid template styles
+  // ─── Grid Template ────────────────────────────────────────────────────────
   .grid-container {
     .grid-nav-buttons {
       display: flex;
@@ -1148,7 +1422,8 @@ body.theme-festival {
       margin-bottom: $spacing;
 
       .nav-btn {
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(42, 31, 23, 0.8);
+        backdrop-filter: blur(4px);
         color: white;
         border: none;
         width: 40px;
@@ -1161,9 +1436,15 @@ body.theme-festival {
         justify-content: center;
         user-select: none;
         flex-shrink: 0;
+        transition: all 0.2s var(--transition-smooth);
 
         &:hover {
-          background: rgba(0, 0, 0, 0.9);
+          background: rgba(139, 45, 32, 0.9);
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
         }
       }
 
@@ -1175,7 +1456,7 @@ body.theme-festival {
         .event-media {
           width: 100%;
           height: auto;
-          border-radius: $spacing / 2;
+          border-radius: 10px;
           max-height: 25vh;
           object-fit: contain;
         }
@@ -1192,7 +1473,7 @@ body.theme-festival {
       .grid-tabs-track {
         display: flex;
         gap: $spacing / 2;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s var(--transition-smooth);
         will-change: transform;
         justify-content: center;
       }
@@ -1200,8 +1481,8 @@ body.theme-festival {
       .grid-tab {
         width: 45px;
         height: 45px;
-        border-radius: $spacing / 2;
-        background: #ddd;
+        border-radius: 8px;
+        background: #e8dfd1;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1211,14 +1492,17 @@ body.theme-festival {
         overflow: hidden;
         border: 2px solid transparent;
         flex-shrink: 0;
+        transition: all 0.2s var(--transition-smooth);
 
         &:hover {
-          border-color: #999;
+          border-color: var(--gold-dim);
+          transform: translateY(-2px);
         }
 
         &.active {
-          border-color: #007bff;
-          box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+          border-color: var(--crimson-primary);
+          box-shadow: 0 0 12px rgba(139, 45, 32, 0.3);
+          transform: translateY(-2px);
         }
 
         .thumbnail-image {
@@ -1235,7 +1519,7 @@ body.theme-festival {
     }
   }
 
-  // Story scroll template styles
+  // ─── Story Scroll Template ────────────────────────────────────────────────
   .story_scroll-container {
     .story-nav-buttons {
       display: flex;
@@ -1244,7 +1528,8 @@ body.theme-festival {
       margin-bottom: $spacing;
 
       .nav-btn {
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(42, 31, 23, 0.8);
+        backdrop-filter: blur(4px);
         color: white;
         border: none;
         width: 40px;
@@ -1257,14 +1542,20 @@ body.theme-festival {
         justify-content: center;
         user-select: none;
         flex-shrink: 0;
+        transition: all 0.2s var(--transition-smooth);
 
         &:hover {
-          background: rgba(0, 0, 0, 0.9);
+          background: rgba(139, 45, 32, 0.9);
+          transform: scale(1.1);
         }
 
         &:disabled {
           opacity: 0.5;
           cursor: not-allowed;
+
+          &:hover {
+            transform: none;
+          }
         }
       }
 
@@ -1276,7 +1567,7 @@ body.theme-festival {
         .event-media {
           width: 100%;
           height: auto;
-          border-radius: $spacing / 2;
+          border-radius: 10px;
           max-height: 30vh;
           object-fit: contain;
         }
@@ -1293,7 +1584,7 @@ body.theme-festival {
       .story-tabs-track {
         display: flex;
         gap: $spacing / 2;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s var(--transition-smooth);
         will-change: transform;
         justify-content: center;
       }
@@ -1301,8 +1592,8 @@ body.theme-festival {
       .story-tab {
         width: 40px;
         height: 40px;
-        border-radius: $spacing / 2;
-        background: #ddd;
+        border-radius: 8px;
+        background: #e8dfd1;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1312,14 +1603,17 @@ body.theme-festival {
         overflow: hidden;
         border: 2px solid transparent;
         flex-shrink: 0;
+        transition: all 0.2s var(--transition-smooth);
 
         &:hover {
-          border-color: #999;
+          border-color: var(--gold-dim);
+          transform: translateY(-2px);
         }
 
         &.active {
-          border-color: #007bff;
-          box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+          border-color: var(--crimson-primary);
+          box-shadow: 0 0 12px rgba(139, 45, 32, 0.3);
+          transform: translateY(-2px);
         }
 
         .thumbnail-image {
@@ -1337,10 +1631,10 @@ body.theme-festival {
   }
 }
 
-// Festival theme background image for details panel (random giữa 2 ảnh, set qua --festival-bg từ Details)
+// Festival theme background image for details panel
 body.theme-festival {
   .details {
-    position: fixed; // keep fixed positioning
+    position: fixed;
     background: rgba(255, 255, 255, 0.9);
     overflow: visible;
 
@@ -1351,12 +1645,13 @@ body.theme-festival {
       background-image: var(--festival-bg);
       background-size: cover;
       background-position: center;
-      opacity: 0.25; // low opacity as requested
+      opacity: 0.25;
       pointer-events: none;
     }
   }
 }
 
+// ─── Footer / Header / Intro ────────────────────────────────────────────────────
 .footer {
   @extend .fixed;
   bottom: $spacing;
@@ -1399,102 +1694,143 @@ body.theme-festival {
   }
 }
 
+// ─── Timeline Bar ───────────────────────────────────────────────────────────────
 .timeline-bar {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 24px;
+  right: 24px;
   z-index: 1000;
-  background-color: rgba(249, 244, 234, 0.97);
-  border: 1px solid rgba(110, 80, 55, 0.28);
-  border-radius: 8px;
-  width: 330px;
-  box-shadow: 0 8px 25px rgba(53, 38, 27, 0.16);
+  background: var(--parchment);
+  border: 1px solid rgba(94, 68, 49, 0.2);
+  border-radius: 16px;
+  width: 370px;
+  box-shadow:
+    0 20px 50px rgba(46, 31, 22, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  overflow: hidden;
+  animation: slide-in-left 0.6s var(--transition-smooth) both;
+  animation-delay: 0.5s;
+  // Reverse direction – slide from right
+  animation-name: stagger-fade-in;
 
-  // Override global body color for timeline bar elements
   * {
     color: #312820 !important;
   }
 
   .timeline-toggle {
-    padding: $spacing;
+    background: linear-gradient(135deg, #77251b, #5c1a12);
+    border: 0;
+    border-radius: 0;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(244, 238, 224, 0.96);
-    border-radius: 8px 8px 0 0;
-    border: none;
-    border-bottom: 1px solid rgba(110, 80, 55, 0.2);
+    padding: 16px 18px;
+    text-align: left;
     width: 100%;
+    transition: all 0.3s var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+
+    // Animated gradient overlay
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(212, 168, 83, 0.1) 50%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 4s ease-in-out infinite;
+      pointer-events: none;
+    }
 
     > div {
+      gap: 3px;
       display: flex;
       flex-direction: column;
-      gap: 2px;
       text-align: left;
 
       small {
-        color: #8b2d20 !important;
+        color: #e7b978 !important;
         font-size: 9px;
         font-weight: 800;
         letter-spacing: 0.12em;
       }
 
       span {
-        color: #2f251e !important;
+        color: #fff8ec !important;
+        font-family: $heading-font-family;
+        font-size: 15px;
         font-weight: 700;
       }
     }
 
-    &:hover {
-      background-color: rgba(235, 227, 210, 0.96);
+    .arrow {
+      color: #f3d6ad !important;
+      font-size: 11px;
+      transition: transform 0.3s var(--transition-smooth);
+
+      &.open {
+        transform: rotate(180deg);
+      }
     }
-  }
 
-  .arrow {
-    transition: transform 0.3s ease;
-    color: #8b2d20 !important;
-
-    &.open {
-      transform: rotate(180deg);
+    &:hover {
+      background: linear-gradient(135deg, #672017, #4f150e);
     }
   }
 
   .timeline-dropdown {
-    max-height: calc(100vh - 180px); // leave space above bottom-right buttons
+    background: var(--parchment);
+    border-radius: 0;
+    max-height: calc(100vh - 190px);
+    scrollbar-color: #bca991 transparent;
+    scrollbar-width: thin;
     overflow-y: auto;
-    background-color: rgba(249, 244, 234, 0.97);
-    border-radius: 0 0 8px 8px;
 
     .timeline-story-controls {
-      align-items: center;
-      border-bottom: 1px solid rgba(110, 80, 55, 0.16);
+      background: var(--parchment-dark);
+      border-bottom: 1px solid #d8c9b5;
+      padding: 10px 14px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding: $spacing / 2 $spacing;
 
       > span {
-        color: #5c5147 !important;
-        font-size: 11px;
-      }
-
-      > div {
+        align-items: baseline;
         display: flex;
-        gap: 4px;
+        gap: 3px;
+
+        strong {
+          color: #8b2d20 !important;
+          font-family: $heading-font-family;
+          font-size: 20px;
+          animation: counter-pop 0.4s var(--transition-spring) both;
+        }
+
+        small {
+          color: #74675c !important;
+          font-size: 10px;
+        }
       }
 
       button {
-        background: rgba(110, 80, 55, 0.08);
-        border: 1px solid rgba(110, 80, 55, 0.2);
-        border-radius: 4px;
-        color: #2f251e !important;
+        background: #fffaf1;
+        border: 1px solid #cdbda8;
+        border-radius: 6px;
+        color: #4e4035 !important;
+        font-size: 10px;
+        min-width: 32px;
+        padding: 6px 9px;
         cursor: pointer;
-        font-size: 11px;
-        min-width: 30px;
-        padding: 5px 7px;
+        transition: all 0.2s var(--transition-smooth);
 
         &:hover:not(:disabled) {
-          background: rgba(110, 80, 55, 0.15);
+          background: linear-gradient(135deg, #84281d, #6f2017);
+          border-color: #84281d;
+          color: #fff !important;
+          transform: translateY(-1px);
         }
 
         &:disabled {
@@ -1505,268 +1841,20 @@ body.theme-festival {
     }
 
     .phase-section {
-      border-bottom: 1px solid rgba(110, 80, 55, 0.16);
+      border-bottom: 1px solid #dfd2c1;
 
       &:last-child {
         border-bottom: none;
       }
 
       &.active-phase {
-        background-color: rgba(139, 45, 32, 0.03);
-      }
-
-      .phase-header {
-        padding: $spacing / 2 $spacing;
-        background-color: rgba(236, 228, 214, 0.8);
-        display: flex;
-        align-items: center;
-        width: 100%;
-        border: none;
-        text-align: left;
-        border-bottom: 1px solid rgba(110, 80, 55, 0.08);
-
-        &:hover {
-          background-color: rgba(227, 218, 201, 0.85);
-        }
-
-        .phase-number {
-          background: #8b2d20;
-          color: #fff !important;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 10px;
-          font-weight: bold;
-          margin-right: 8px;
-          flex-shrink: 0;
-        }
-
-        .phase-heading {
-          display: flex;
-          flex-direction: column;
-          gap: 1px;
-
-          small {
-            font-size: 8px;
-            color: #726255 !important;
-            font-weight: 700;
-            text-transform: uppercase;
-          }
-
-          h3 {
-            margin: 0;
-            font-size: 12px;
-            line-height: 1.3;
-            font-weight: 700;
-            color: #2f251e !important;
-          }
-        }
-
-        .phase-arrow {
-          margin-left: auto;
-          color: #8b2d20 !important;
-          font-size: 10px;
-          transition: transform 0.3s ease;
-          flex-shrink: 0;
-          padding-left: 8px;
-
-          &.expanded {
-            transform: rotate(180deg);
-          }
-        }
-      }
-
-      .phase-events {
-        background: rgba(254, 252, 248, 0.5);
-
-        .event-item {
-          padding: $spacing / 2 $spacing;
-          cursor: pointer;
-          border-left: 3px solid transparent;
-          width: 100%;
-          border-right: none;
-          border-top: none;
-          border-bottom: 1px solid rgba(110, 80, 55, 0.05);
-          background: transparent;
-          text-align: left;
-          display: block;
-
-          &:last-child {
-            border-bottom: none;
-          }
-
-          &.active-event {
-            background: rgba(139, 45, 32, 0.12);
-            border-left-color: #8b2d20;
-
-            .event-name {
-              font-weight: 700;
-            }
-          }
-
-          &.visited-event {
-            opacity: 0.85;
-            background-color: rgba(139, 45, 32, 0.02);
-
-            .event-status {
-              background-color: #8b2d20;
-            }
-          }
-
-          &:hover {
-            background-color: rgba(139, 45, 32, 0.05);
-            border-left-color: rgba(139, 45, 32, 0.3);
-          }
-
-          .event-year {
-            display: flex;
-            gap: 8px;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #726255 !important;
-            margin-bottom: 2px;
-
-            span {
-              color: #726255 !important;
-              font-size: 10px;
-              font-weight: 600;
-            }
-
-            span:last-child {
-              max-width: 145px;
-              overflow: hidden;
-              text-align: right;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-          }
-
-          .event-name {
-            font-size: 12px;
-            line-height: 1.4;
-            color: #312820 !important;
-          }
-        }
-      }
-    }
-  }
-}
-
-/* Custom Vintage Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(110, 80, 55, 0.05);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(110, 80, 55, 0.24);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(110, 80, 55, 0.45);
-}
-
-// Documentary timeline panel
-.timeline-bar {
-  background: #f9f4ea;
-  border: 1px solid rgba(94, 68, 49, 0.25);
-  border-radius: 14px;
-  box-shadow: 0 18px 45px rgba(46, 31, 22, 0.22);
-  overflow: hidden;
-  right: 24px;
-  top: 24px;
-  width: 370px;
-
-  .timeline-toggle {
-    background: #77251b;
-    border: 0;
-    border-radius: 0;
-    cursor: pointer;
-    padding: 15px 17px;
-    text-align: left;
-    width: 100%;
-
-    > div {
-      gap: 3px;
-
-      small {
-        color: #e7b978;
-        font-size: 9px;
-      }
-
-      span {
-        color: #fff8ec;
-        font-family: $header-font-family;
-        font-size: 15px;
-      }
-    }
-
-    .arrow {
-      color: #f3d6ad;
-      font-size: 11px;
-    }
-
-    &:hover {
-      background: #672017;
-    }
-  }
-
-  .timeline-dropdown {
-    background: #f9f4ea;
-    border-radius: 0;
-    max-height: calc(100vh - 190px);
-    scrollbar-color: #bca991 transparent;
-    scrollbar-width: thin;
-
-    .timeline-story-controls {
-      background: #eee4d5;
-      border-bottom: 1px solid #d8c9b5;
-      padding: 9px 12px;
-
-      > span {
-        align-items: baseline;
-        display: flex;
-        gap: 3px;
-
-        strong {
-          color: #8b2d20;
-          font-family: $header-font-family;
-          font-size: 19px;
-        }
-
-        small {
-          color: #74675c;
-          font-size: 10px;
-        }
-      }
-
-      button {
-        background: #fffaf1;
-        border: 1px solid #cdbda8;
-        border-radius: 5px;
-        color: #4e4035;
-        font-size: 10px;
-        min-width: 32px;
-        padding: 6px 8px;
-
-        &:hover:not(:disabled) {
-          background: #84281d;
-          border-color: #84281d;
-          color: #fff;
-        }
-      }
-    }
-
-    .phase-section {
-      border-bottom: 1px solid #dfd2c1;
-
-      &.active-phase {
         background: #f3e8d9;
+
+        .phase-header .phase-number {
+          background: var(--crimson-primary);
+          color: #fff !important;
+          box-shadow: 0 2px 8px rgba(139, 45, 32, 0.3);
+        }
       }
 
       .phase-header {
@@ -1775,22 +1863,25 @@ body.theme-festival {
         border: 0;
         cursor: pointer;
         display: flex;
-        padding: 11px 13px;
+        padding: 12px 14px;
         text-align: left;
         width: 100%;
+        transition: background 0.2s var(--transition-smooth);
 
         .phase-number {
           align-items: center;
           background: #e6d8c6;
           border-radius: 50%;
-          color: #7d2a20;
+          color: #7d2a20 !important;
           display: flex;
-          flex: 0 0 29px;
-          font-family: $header-font-family;
-          font-size: 13px;
-          height: 29px;
+          flex: 0 0 30px;
+          font-family: $heading-font-family;
+          font-size: 14px;
+          font-weight: 700;
+          height: 30px;
           justify-content: center;
           margin-right: 10px;
+          transition: all 0.3s var(--transition-smooth);
         }
 
         .phase-heading {
@@ -1798,7 +1889,7 @@ body.theme-festival {
           min-width: 0;
 
           small {
-            color: #9b392a;
+            color: #9b392a !important;
             display: block;
             font-size: 8px;
             font-weight: 800;
@@ -1808,21 +1899,34 @@ body.theme-festival {
           }
 
           h3 {
-            color: #3c3129;
+            color: #3c3129 !important;
             font-family: $body-font-family;
             font-size: 11px;
             font-weight: 700;
             line-height: 1.35;
+            margin: 0;
           }
         }
 
         .phase-arrow {
-          color: #8a7b6e;
+          color: #8a7b6e !important;
           font-size: 9px;
+          margin-left: auto;
+          flex-shrink: 0;
+          padding-left: 8px;
+          transition: transform 0.3s var(--transition-smooth);
+
+          &.expanded {
+            transform: rotate(180deg);
+          }
         }
 
         &:hover {
           background: #f0e5d6;
+
+          .phase-number {
+            transform: scale(1.08);
+          }
         }
       }
 
@@ -1837,9 +1941,18 @@ body.theme-festival {
           border-left: 0;
           cursor: pointer;
           display: flex;
-          padding: 7px 13px 7px 17px;
+          padding: 8px 14px 8px 18px;
           text-align: left;
           width: 100%;
+          transition: all 0.2s var(--transition-smooth);
+          // Staggered entrance
+          animation: stagger-fade-in 0.35s var(--transition-smooth) both;
+
+          @for $i from 1 through 15 {
+            &:nth-child(#{$i}) {
+              animation-delay: #{$i * 0.04}s;
+            }
+          }
 
           .event-status {
             border-left: 1px solid #d4c5b2;
@@ -1857,6 +1970,7 @@ body.theme-festival {
               position: absolute;
               top: 5px;
               width: 7px;
+              transition: all 0.25s var(--transition-smooth);
             }
           }
 
@@ -1867,22 +1981,33 @@ body.theme-festival {
           }
 
           .event-year {
+            display: flex;
+            gap: 8px;
+            justify-content: space-between;
             margin-bottom: 3px;
 
             span {
-              color: #8c7d70;
+              color: #8c7d70 !important;
               font-size: 9px;
               font-weight: 600;
             }
 
             span:first-child {
-              color: #9b392a;
+              color: #9b392a !important;
               font-weight: 800;
+            }
+
+            span:last-child {
+              max-width: 145px;
+              overflow: hidden;
+              text-align: right;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
 
           .event-name {
-            color: #4a3e35;
+            color: #4a3e35 !important;
             font-size: 11px;
             line-height: 1.4;
           }
@@ -1900,17 +2025,23 @@ body.theme-festival {
               background: #e7ae42;
               border-color: #84281d;
               box-shadow: 0 0 0 4px rgba(169, 54, 36, 0.13);
+              transform: scale(1.2);
             }
 
             .event-name {
-              color: #72251c;
+              color: #72251c !important;
               font-weight: 700;
             }
           }
 
-          &:hover:not(.viewed) {
+          &:hover:not(.active-event) {
             background: #f6ecdf;
             border-left: 0;
+
+            .event-status::before {
+              transform: scale(1.15);
+              border-color: #8a7b6e;
+            }
           }
         }
       }
@@ -1918,68 +2049,24 @@ body.theme-festival {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .journey-map {
-    .map-story-heading {
-      left: 16px;
-      max-width: calc(100vw - 32px);
-      padding: 16px 17px 17px;
-      top: 16px;
-
-      h1 {
-        font-size: 28px;
-      }
-
-      p {
-        display: none;
-      }
-    }
-
-    .map-focus-label {
-      max-width: 165px;
-    }
-
-    .map-zoom-controls {
-      bottom: auto;
-      left: 16px;
-      top: 205px;
-    }
-
-    .map-legend {
-      display: none;
-    }
-  }
-
-  .timeline-bar {
-    left: 12px;
-    right: 12px;
-    top: auto;
-    bottom: 12px;
-    width: auto;
-
-    .timeline-dropdown {
-      max-height: 55vh;
-    }
-  }
-
-  .details {
-    left: 0;
-    right: 0;
-    width: 100%;
-
-    .event-navigation-fixed {
-      bottom: 12px;
-      left: auto;
-      right: 12px;
-    }
-  }
-
-  .bottom-right-actions {
-    display: none;
-  }
+// ─── Custom Scrollbars ──────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(110, 80, 55, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(110, 80, 55, 0.24);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(110, 80, 55, 0.45);
 }
 
-// Tooltip styling for marker hover (Tippy.js)
+// ─── Tippy Tooltips ─────────────────────────────────────────────────────────────
 .tippy-box {
   background-color: white !important;
   color: black !important;
@@ -1994,14 +2081,78 @@ body.theme-festival {
     padding: 0 !important;
   }
 
-  // Arrow styling
   .tippy-arrow {
     color: white !important;
   }
 
-  // Remove default Tippy styles
   &[data-theme~="dark"] {
     background-color: white !important;
     color: black !important;
+  }
+}
+
+// ─── Responsive ─────────────────────────────────────────────────────────────────
+@media only screen and (max-width: 768px) {
+  .journey-map {
+    .map-story-heading {
+      left: 16px;
+      max-width: calc(100vw - 32px);
+      padding: 18px 18px 19px;
+      top: 16px;
+      border-radius: 4px 12px 12px 4px;
+
+      h1 {
+        font-size: 26px;
+      }
+
+      p {
+        display: none;
+      }
+    }
+
+    .map-focus-label {
+      max-width: 165px;
+    }
+
+    .map-zoom-controls {
+      bottom: auto;
+      left: 16px;
+      top: 180px;
+    }
+
+    .map-legend {
+      display: none;
+    }
+  }
+
+  .timeline-bar {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 12px;
+    width: auto;
+    border-radius: 14px 14px 16px 16px;
+
+    .timeline-dropdown {
+      max-height: 55vh;
+    }
+  }
+
+  .details {
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    border-right: none;
+
+    .event-navigation-fixed {
+      bottom: 12px;
+      left: auto;
+      right: 12px;
+    }
+  }
+
+  .bottom-right-actions {
+    display: none;
   }
 }

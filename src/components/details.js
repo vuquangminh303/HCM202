@@ -607,7 +607,7 @@ export default function Details() {
           onClick={() => dispatch({ type: 'FOCUS' })} // Close when clicking on overlay
         />
       )}
-      <Fade className="details" show={!!focusedMarker} style={festivalBgStyle}>
+      <Fade animationType="slide-left" className="details" show={!!focusedMarker} style={festivalBgStyle}>
         {content}
       </Fade>
     </>
