@@ -141,6 +141,80 @@ function localizeLabels(map) {
   });
 }
 
+// Biến map style phố thị hiện đại thành "atlas cổ": ẩn đường/POI, nhuộm tone giấy cũ
+function applyAntiqueStyle(map) {
+  const PAPER = '#e9dec3';
+  const PAPER_DARK = '#ddcfae';
+  const SEA = '#c3c9b4';
+  const INK = '#5c4a32';
+  const HALO = 'rgba(247, 241, 226, 0.92)';
+  const BORDER = '#9a8358';
+
+  const layers = map.getStyle()?.layers || [];
+
+  const set = (id, prop, value) => {
+    try {
+      map.setPaintProperty(id, prop, value);
+    } catch (e) {
+      /* layer may not support this prop */
+    }
+  };
+  const hide = (id) => {
+    try {
+      map.setLayoutProperty(id, 'visibility', 'none');
+    } catch (e) {
+      /* ignore */
+    }
+  };
+
+  layers.forEach((layer) => {
+    const id = layer.id.toLowerCase();
+    const type = layer.type;
+
+    // Ẩn hạ tầng hiện đại gây rối cho cảm giác lịch sử
+    if (/(poi|transit|aeroway|ferry|airport|rail|bridge|tunnel|building)/.test(id)) {
+      hide(id);
+      return;
+    }
+
+    if (type === 'background') {
+      set(id, 'background-color', PAPER);
+    } else if (/water|ocean|sea|bathymetry/.test(id) && type === 'fill') {
+      set(id, 'fill-color', SEA);
+      set(id, 'fill-opacity', 1);
+    } else if (/waterway|river|stream|canal/.test(id)) {
+      set(id, 'line-color', '#b3bca6');
+      set(id, 'line-opacity', 0.6);
+    } else if (/(wood|forest|park|grass|wetland|landcover|landuse|vegetation)/.test(id) && type === 'fill') {
+      set(id, 'fill-color', '#dcd1ab');
+      set(id, 'fill-opacity', 0.55);
+    } else if (/(road|highway|transportation|street|motorway|path|track)/.test(id)) {
+      // Giữ lại nét đường rất mờ như đường vẽ tay, ẩn loại nhỏ
+      if (/(motorway|trunk|primary)/.test(id) && type === 'line') {
+        set(id, 'line-color', '#cdbd99');
+        set(id, 'line-opacity', 0.5);
+        set(id, 'line-width', 0.6);
+      } else {
+        hide(id);
+      }
+    } else if (/(boundary|admin|border)/.test(id) && type === 'line') {
+      set(id, 'line-color', BORDER);
+      set(id, 'line-opacity', 0.45);
+      set(id, 'line-dasharray', [3, 2]);
+    } else if (type === 'fill' && /(landuse|residential|earth|land)/.test(id)) {
+      set(id, 'fill-color', PAPER_DARK);
+      set(id, 'fill-opacity', 0.5);
+    }
+
+    // Nhuộm mọi nhãn chữ sẵn có thành mực sepia trên nền giấy
+    if (type === 'symbol' && layer.layout?.['text-field']) {
+      set(id, 'text-color', INK);
+      set(id, 'text-halo-color', HALO);
+      set(id, 'text-halo-width', 1.4);
+    }
+  });
+}
+
 function addJourneyLayers(map, events) {
   const firstSymbolLayer = map
     .getStyle()
@@ -266,6 +340,21 @@ function addJourneyLayers(map, events) {
       'circle-color': 'rgba(38, 27, 20, 0.24)',
       'circle-blur': 0.65,
       'circle-translate': [0, 3],
+    },
+  });
+
+  // Vòng sáng lan toả quanh marker đang được chọn (animate bằng RAF trong component)
+  map.addLayer({
+    id: 'journey-marker-pulse',
+    type: 'circle',
+    source: 'journey-markers',
+    filter: ['==', ['get', 'isFocused'], true],
+    paint: {
+      'circle-radius': 10,
+      'circle-color': 'rgba(232, 175, 66, 0.28)',
+      'circle-opacity': 0.6,
+      'circle-stroke-color': 'rgba(232, 175, 66, 0.9)',
+      'circle-stroke-width': 1.4,
     },
   });
 
@@ -441,6 +530,7 @@ export default function JourneyMap() {
         if (cancelled || journeyLayersAdded) return;
         journeyLayersAdded = true;
         localizeLabels(map);
+        applyAntiqueStyle(map);
         addJourneyLayers(map, sortedEvents);
         let hoveredMarkerId = null;
 
@@ -531,22 +621,45 @@ export default function JourneyMap() {
     if (!mapReady || !map) return;
 
     if (focusedMarker?.coordinates?.length === 2) {
-      map.easeTo({
+      map.flyTo({
         center: [focusedMarker.coordinates[1], focusedMarker.coordinates[0]],
         zoom: 5.3,
-        duration: 1200,
+        duration: 1800,
+        curve: 1.5,
+        speed: 0.9,
         offset: [window.innerWidth > 768 ? 180 : 0, 0],
         essential: true,
       });
       return;
     }
 
-    map.easeTo({
+    map.flyTo({
       ...DEFAULT_CAMERA,
-      duration: 900,
+      duration: 1400,
+      curve: 1.4,
       essential: true,
     });
   }, [focusedMarker?.coordinates, focusedMarker?.id, mapReady]);
+
+  // Vòng sáng lan toả quanh marker đang chọn
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map || !focusedMarker) return;
+
+    let raf;
+    const start = performance.now();
+    const tick = (now) => {
+      const phase = ((now - start) % 1700) / 1700; // 0 → 1 lặp lại
+      if (map.getLayer('journey-marker-pulse')) {
+        map.setPaintProperty('journey-marker-pulse', 'circle-radius', 10 + phase * 28);
+        map.setPaintProperty('journey-marker-pulse', 'circle-opacity', 0.45 * (1 - phase));
+        map.setPaintProperty('journey-marker-pulse', 'circle-stroke-opacity', 0.9 * (1 - phase));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [mapReady, focusedMarker?.id, focusedMarker]);
 
   return (
     <div className={`journey-map ${focusedMarker ? 'has-focus' : ''}`}>

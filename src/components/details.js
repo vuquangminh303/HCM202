@@ -1,15 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 
 import { useStateValue } from '../state';
 import Button from './button';
 import Fade from './fade';
 import { normalizeMediaUrl } from '../utils/mediaUtils';
 import { extractYouTubeVideoId, isYouTubeUrl } from '../utils/youtubeUtils';
-
-import festivalBg0 from '../background.png';
-import festivalBg1 from '../background1.png';
-
-const FESTIVAL_BACKGROUNDS = [festivalBg0, festivalBg1];
 
 export function getRandomMarker({ focusedMarker, markers }) {
   if (!markers || !Array.isArray(markers) || markers.length === 0) return null;
@@ -488,18 +483,6 @@ export default function Details() {
 
   const [isReferencesOpen, setIsReferencesOpen] = React.useState(false);
 
-  // Random background khi mở/đổi detail panel trong chế độ mừng Đảng mừng Xuân
-  const isFestivalTheme =
-    typeof document !== 'undefined' && document.body?.classList?.contains('theme-festival');
-  const festivalBg = useMemo(
-    () => FESTIVAL_BACKGROUNDS[Math.floor(Math.random() * FESTIVAL_BACKGROUNDS.length)],
-    [focusedMarker?.id]
-  );
-  const festivalBgStyle =
-    isFestivalTheme && focusedMarker
-      ? { '--festival-bg': `url(${festivalBg})` }
-      : undefined;
-
   React.useEffect(() => {
     if (focusedMarker && focusedMarker.id && focusedMarker.phase) {
       const currentPhase = focusedMarker.phase;
@@ -607,7 +590,7 @@ export default function Details() {
           onClick={() => dispatch({ type: 'FOCUS' })} // Close when clicking on overlay
         />
       )}
-      <Fade animationType="slide-left" className="details" show={!!focusedMarker} style={festivalBgStyle}>
+      <Fade animationType="slide-left" className="details" show={!!focusedMarker}>
         {content}
       </Fade>
     </>

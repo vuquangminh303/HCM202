@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
-import config from './config';
 import hcmData from './data/hcm_data.json';
 
 const { lastUpdated, events } = hcmData;
@@ -42,7 +41,6 @@ const transformedMarkers = Object.entries(locationMap).map(
 );
 
 export const initialState = {
-  config,
   focusedMarker: null,
   hasLoaded: false,
   lastUpdated,
