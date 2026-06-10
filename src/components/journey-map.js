@@ -48,6 +48,38 @@ function makeVietnameseLabelCollection() {
   };
 }
 
+function makeMarkerCollection(markers, events, currentIndex, focusedMarker) {
+  return {
+    type: 'FeatureCollection',
+    features: markers.map((marker) => {
+      const markerEvents = marker.eventsAtLocation || [];
+      const isVisited = markerEvents.some((event) => {
+        const eventIndex = events.findIndex((item) => item.id === event.id);
+        return eventIndex >= 0 && eventIndex <= currentIndex;
+      });
+      const isFocused =
+        focusedMarker?.coordinates?.[0] === marker.coordinates[0] &&
+        focusedMarker?.coordinates?.[1] === marker.coordinates[1];
+
+      return {
+        type: 'Feature',
+        id: marker.id,
+        properties: {
+          markerId: String(marker.id),
+          city: marker.city,
+          count: marker.eventsCount || 1,
+          isVisited,
+          isFocused,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [marker.coordinates[1], marker.coordinates[0]],
+        },
+      };
+    }),
+  };
+}
+
 function eventToMarker(event) {
   return {
     ...event,
@@ -212,14 +244,148 @@ function addJourneyLayers(map, events) {
       'text-halo-width': 1.5,
     },
   });
+
+  map.addSource('journey-markers', {
+    type: 'geojson',
+    data: { type: 'FeatureCollection', features: [] },
+  });
+
+  map.addLayer({
+    id: 'journey-marker-shadow',
+    type: 'circle',
+    source: 'journey-markers',
+    paint: {
+      'circle-radius': [
+        'case',
+        ['get', 'isFocused'],
+        14,
+        ['>', ['get', 'count'], 1],
+        11,
+        9,
+      ],
+      'circle-color': 'rgba(38, 27, 20, 0.24)',
+      'circle-blur': 0.65,
+      'circle-translate': [0, 3],
+    },
+  });
+
+  map.addLayer({
+    id: 'journey-marker-points',
+    type: 'circle',
+    source: 'journey-markers',
+    paint: {
+      'circle-radius': [
+        'case',
+        ['get', 'isFocused'],
+        9,
+        ['>', ['get', 'count'], 1],
+        7,
+        5,
+      ],
+      'circle-color': [
+        'case',
+        ['get', 'isFocused'],
+        '#e8af42',
+        ['get', 'isVisited'],
+        '#a93624',
+        ['>', ['get', 'count'], 1],
+        '#344447',
+        '#fffaf0',
+      ],
+      'circle-stroke-color': [
+        'case',
+        ['get', 'isFocused'],
+        '#7f241a',
+        ['get', 'isVisited'],
+        '#fff4df',
+        ['>', ['get', 'count'], 1],
+        '#fffaf0',
+        '#344447',
+      ],
+      'circle-stroke-width': 3,
+    },
+  });
+
+  map.addLayer({
+    id: 'journey-marker-counts',
+    type: 'symbol',
+    source: 'journey-markers',
+    filter: ['>', ['get', 'count'], 1],
+    layout: {
+      'text-field': ['to-string', ['get', 'count']],
+      'text-font': ['Noto Sans Bold'],
+      'text-size': 9,
+      'text-allow-overlap': true,
+      'text-ignore-placement': true,
+    },
+    paint: {
+      'text-color': [
+        'case',
+        ['get', 'isFocused'],
+        '#4f2018',
+        '#ffffff',
+      ],
+    },
+  });
+
+  map.addLayer({
+    id: 'journey-marker-hover-label',
+    type: 'symbol',
+    source: 'journey-markers',
+    layout: {
+      'text-field': ['get', 'city'],
+      'text-font': ['Noto Sans Bold'],
+      'text-size': 11,
+      'text-anchor': 'left',
+      'text-offset': [1.3, 0],
+      'text-allow-overlap': true,
+      'text-ignore-placement': true,
+    },
+    paint: {
+      'text-color': '#312820',
+      'text-halo-color': '#fffaf0',
+      'text-halo-width': 2,
+      'text-halo-blur': 0.5,
+      'text-opacity': [
+        'case',
+        ['get', 'isFocused'],
+        0,
+        ['boolean', ['feature-state', 'hover'], false],
+        1,
+        0,
+      ],
+    },
+  });
+
+  map.addLayer({
+    id: 'journey-marker-focused-label',
+    type: 'symbol',
+    source: 'journey-markers',
+    filter: ['==', ['get', 'isFocused'], true],
+    layout: {
+      'text-field': ['get', 'city'],
+      'text-font': ['Noto Sans Bold'],
+      'text-size': 11,
+      'text-anchor': 'left',
+      'text-offset': [1.3, 0],
+      'text-allow-overlap': true,
+      'text-ignore-placement': true,
+    },
+    paint: {
+      'text-color': '#312820',
+      'text-halo-color': '#fffaf0',
+      'text-halo-width': 2,
+      'text-halo-blur': 0.5,
+    },
+  });
 }
 
 export default function JourneyMap() {
-  const containerRef = useRef(null);
-  const mapRef = useRef(null);
-  const markerRefs = useRef([]);
   const [{ events, focusedMarker, hasLoaded, markers }, dispatch] =
     useStateValue();
+  const containerRef = useRef(null);
+  const mapRef = useRef(null);
+  const markersRef = useRef(markers);
   const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState(false);
 
@@ -240,6 +406,10 @@ export default function JourneyMap() {
     (event) => dispatch({ type: 'FOCUS', payload: eventToMarker(event) }),
     [dispatch]
   );
+
+  useEffect(() => {
+    markersRef.current = markers;
+  }, [markers]);
 
   useEffect(() => {
     let cancelled = false;
@@ -272,6 +442,48 @@ export default function JourneyMap() {
         journeyLayersAdded = true;
         localizeLabels(map);
         addJourneyLayers(map, sortedEvents);
+        let hoveredMarkerId = null;
+
+        const handleMarkerClick = (event) => {
+          const markerId = event.features?.[0]?.properties?.markerId;
+          const marker = markersRef.current.find(
+            (item) => String(item.id) === String(markerId)
+          );
+          if (marker) dispatch({ type: 'FOCUS', payload: marker });
+        };
+
+        map.on('click', 'journey-marker-points', handleMarkerClick);
+        map.on('mouseenter', 'journey-marker-points', () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mousemove', 'journey-marker-points', (event) => {
+          const nextMarkerId = event.features?.[0]?.id;
+          if (nextMarkerId === hoveredMarkerId) return;
+
+          if (hoveredMarkerId != null) {
+            map.setFeatureState(
+              { source: 'journey-markers', id: hoveredMarkerId },
+              { hover: false }
+            );
+          }
+          if (nextMarkerId != null) {
+            map.setFeatureState(
+              { source: 'journey-markers', id: nextMarkerId },
+              { hover: true }
+            );
+          }
+          hoveredMarkerId = nextMarkerId;
+        });
+        map.on('mouseleave', 'journey-marker-points', () => {
+          map.getCanvas().style.cursor = '';
+          if (hoveredMarkerId != null) {
+            map.setFeatureState(
+              { source: 'journey-markers', id: hoveredMarkerId },
+              { hover: false }
+            );
+            hoveredMarkerId = null;
+          }
+        });
         setMapReady(true);
         dispatch({ type: 'LOADED' });
       };
@@ -288,8 +500,6 @@ export default function JourneyMap() {
 
     return () => {
       cancelled = true;
-      markerRefs.current.forEach((marker) => marker.remove());
-      markerRefs.current = [];
       if (mapRef.current) mapRef.current.remove();
       mapRef.current = null;
     };
@@ -311,52 +521,10 @@ export default function JourneyMap() {
     const map = mapRef.current;
     if (!mapReady || !map) return;
 
-    markerRefs.current.forEach((marker) => marker.remove());
-    markerRefs.current = markers.map((marker) => {
-      const element = document.createElement('button');
-      const dot = document.createElement('span');
-      const label = document.createElement('span');
-      const markerEvents = marker.eventsAtLocation || [];
-      const isVisited = markerEvents.some((event) => {
-        const eventIndex = sortedEvents.findIndex((item) => item.id === event.id);
-        return eventIndex >= 0 && eventIndex <= currentIndex;
-      });
-      const isFocused =
-        focusedMarker?.coordinates?.[0] === marker.coordinates[0] &&
-        focusedMarker?.coordinates?.[1] === marker.coordinates[1];
-
-      element.type = 'button';
-      element.className = `journey-marker ${isVisited ? 'visited' : ''} ${
-        isFocused ? 'focused' : ''
-      }`;
-      element.title = `${marker.city} - ${marker.eventsCount} sự kiện`;
-      dot.className = 'journey-marker-dot';
-      label.className = 'journey-marker-label';
-      label.textContent = marker.city;
-      element.append(dot, label);
-
-      if (marker.eventsCount > 1) {
-        const count = document.createElement('span');
-        count.className = 'journey-marker-count';
-        count.textContent = marker.eventsCount;
-        element.appendChild(count);
-      }
-
-      element.addEventListener('click', (event) => {
-        event.stopPropagation();
-        dispatch({ type: 'FOCUS', payload: marker });
-      });
-
-      return new maplibregl.Marker({ element, anchor: 'center' })
-        .setLngLat([marker.coordinates[1], marker.coordinates[0]])
-        .addTo(map);
-    });
-
-    return () => {
-      markerRefs.current.forEach((marker) => marker.remove());
-      markerRefs.current = [];
-    };
-  }, [currentIndex, dispatch, focusedMarker, mapReady, markers, sortedEvents]);
+    map.getSource('journey-markers')?.setData(
+      makeMarkerCollection(markers, sortedEvents, currentIndex, focusedMarker)
+    );
+  }, [currentIndex, focusedMarker, mapReady, markers, sortedEvents]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -385,6 +553,16 @@ export default function JourneyMap() {
       <div ref={containerRef} className="map-canvas" />
 
       <div className="map-story-heading">
+        <svg className="vietnam-emblem" viewBox="0 0 100 100" width="48" height="48" style={{ display: 'block', margin: '0 auto 12px 0' }}>
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#d09a3c" strokeWidth="2" strokeDasharray="3, 3" />
+          <circle cx="50" cy="50" r="41" fill="none" stroke="#d09a3c" strokeWidth="1" />
+          <path d="M50,25 C53,38 53,52 50,75 C47,52 47,38 50,25 Z" fill="#d09a3c" />
+          <path d="M50,35 C42,42 40,55 50,75 C36,58 42,42 50,35 Z" fill="#d09a3c" opacity="0.9" />
+          <path d="M50,35 C58,42 60,55 50,75 C64,58 58,42 50,35 Z" fill="#d09a3c" opacity="0.9" />
+          <path d="M50,45 C30,50 32,65 50,75 C26,60 30,50 50,45 Z" fill="#d09a3c" opacity="0.8" />
+          <path d="M50,45 C70,50 68,65 50,75 C74,60 70,50 50,45 Z" fill="#d09a3c" opacity="0.8" />
+          <path d="M30,75 C40,80 60,80 70,75 C60,73 40,73 30,75 Z" fill="#d09a3c" />
+        </svg>
         <span className="map-eyebrow">BẢN ĐỒ TƯ LIỆU SỐ</span>
         <h1>Hành trình Hồ Chí Minh</h1>
         <p>

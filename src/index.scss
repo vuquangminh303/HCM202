@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Serif:wght@600;700&display=swap");
+@import "maplibre-gl/dist/maplibre-gl.css";
 
 // variables
 $background-color: rgba(0, 0, 0, 0.95);
@@ -133,16 +134,20 @@ body.theme-festival {
 }
 
 .button {
-  background-color: $container-background-color;
-  border: 1px solid $border-color;
-  border-radius: $spacing * 2;
-  color: $body-font-color;
+  background-color: rgba(249, 244, 234, 0.95);
+  border: 1px solid rgba(110, 80, 55, 0.28);
+  border-radius: 6px;
+  color: #2f251e !important;
   cursor: pointer;
-  padding: $spacing $spacing * 2;
+  padding: 8px 16px;
   pointer-events: auto;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(53, 38, 27, 0.12);
 
   &:hover {
-    background-color: lighten($container-background-color, 10%);
+    background-color: rgba(238, 230, 213, 0.95);
+    color: #8b2d20 !important;
+    border-color: rgba(139, 45, 32, 0.5);
   }
 }
 
@@ -165,16 +170,19 @@ body.theme-festival {
 
 .theme-toggle-button,
 .source-code-button {
-  padding: $spacing / 2 $spacing * 1.5;
-  font-size: 13px;
-  border-radius: $spacing * 1.5;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(53, 38, 27, 0.12);
 }
 
 .bottom-right-copy {
   font-size: 11px;
-  opacity: 0.75;
+  opacity: 0.85;
   text-align: right;
+  color: #312820 !important;
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 // shared styles
@@ -226,7 +234,7 @@ body.theme-festival {
 }
 
 .journey-map {
-  background: #c8d7d1;
+  background: #eae3d2;
   cursor: grab;
   height: 100vh;
   left: 0;
@@ -243,8 +251,8 @@ body.theme-festival {
 
   &::after {
     background:
-      linear-gradient(90deg, rgba(16, 25, 27, 0.26), transparent 28%),
-      linear-gradient(0deg, rgba(16, 25, 27, 0.16), transparent 35%);
+      linear-gradient(90deg, rgba(42, 31, 23, 0.16), transparent 28%),
+      linear-gradient(0deg, rgba(42, 31, 23, 0.1), transparent 35%);
     content: "";
     inset: 0;
     pointer-events: none;
@@ -260,7 +268,7 @@ body.theme-festival {
   }
 
   .map-tiles {
-    background: #d9e4df;
+    background: #eae3d2;
 
     img {
       filter: saturate(0.72) sepia(0.12) contrast(0.92);
@@ -497,7 +505,7 @@ body.theme-festival {
 
 // Vietnamese vector map and documentary presentation layer
 .journey-map {
-  background: #d9dfd8;
+  background: #eae3d2;
   cursor: default;
 
   &:active {
@@ -525,6 +533,10 @@ body.theme-festival {
     inset: 0;
     position: absolute;
     width: 100%;
+  }
+
+  .maplibregl-canvas {
+    filter: sepia(0.4) saturate(0.85) contrast(0.96) brightness(1.02);
   }
 
   .maplibregl-map,
@@ -1392,11 +1404,16 @@ body.theme-festival {
   top: 20px;
   right: 20px;
   z-index: 1000;
-  background-color: $container-background-color;
-  border: 1px solid $border-color;
-  border-radius: $spacing * 2;
+  background-color: rgba(249, 244, 234, 0.97);
+  border: 1px solid rgba(110, 80, 55, 0.28);
+  border-radius: 8px;
   width: 330px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(53, 38, 27, 0.16);
+
+  // Override global body color for timeline bar elements
+  * {
+    color: #312820 !important;
+  }
 
   .timeline-toggle {
     padding: $spacing;
@@ -1404,34 +1421,39 @@ body.theme-festival {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(34, 34, 34, 0.9);
-    border-radius: $spacing * 2;
+    background-color: rgba(244, 238, 224, 0.96);
+    border-radius: 8px 8px 0 0;
+    border: none;
+    border-bottom: 1px solid rgba(110, 80, 55, 0.2);
+    width: 100%;
 
     > div {
       display: flex;
       flex-direction: column;
       gap: 2px;
+      text-align: left;
 
       small {
-        color: #d77a5f;
+        color: #8b2d20 !important;
         font-size: 9px;
-        font-weight: 700;
+        font-weight: 800;
         letter-spacing: 0.12em;
       }
 
       span {
-        color: #fff;
+        color: #2f251e !important;
         font-weight: 700;
       }
     }
 
     &:hover {
-      background-color: lighten($container-background-color, 10%);
+      background-color: rgba(235, 227, 210, 0.96);
     }
   }
 
   .arrow {
     transition: transform 0.3s ease;
+    color: #8b2d20 !important;
 
     &.open {
       transform: rotate(180deg);
@@ -1441,18 +1463,18 @@ body.theme-festival {
   .timeline-dropdown {
     max-height: calc(100vh - 180px); // leave space above bottom-right buttons
     overflow-y: auto;
-    background-color: $container-background-color;
-    border-radius: 0 0 $spacing * 2 $spacing * 2;
+    background-color: rgba(249, 244, 234, 0.97);
+    border-radius: 0 0 8px 8px;
 
     .timeline-story-controls {
       align-items: center;
-      border-bottom: 1px solid rgba(252, 220, 191, 0.2);
+      border-bottom: 1px solid rgba(110, 80, 55, 0.16);
       display: flex;
       justify-content: space-between;
       padding: $spacing / 2 $spacing;
 
       > span {
-        color: #aaa;
+        color: #5c5147 !important;
         font-size: 11px;
       }
 
@@ -1462,14 +1484,18 @@ body.theme-festival {
       }
 
       button {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(252, 220, 191, 0.35);
-        border-radius: 3px;
-        color: $body-font-color;
+        background: rgba(110, 80, 55, 0.08);
+        border: 1px solid rgba(110, 80, 55, 0.2);
+        border-radius: 4px;
+        color: #2f251e !important;
         cursor: pointer;
         font-size: 11px;
         min-width: 30px;
         padding: 5px 7px;
+
+        &:hover:not(:disabled) {
+          background: rgba(110, 80, 55, 0.15);
+        }
 
         &:disabled {
           cursor: not-allowed;
@@ -1479,85 +1505,134 @@ body.theme-festival {
     }
 
     .phase-section {
-      border-bottom: 1px solid darken($border-color, 30%);
+      border-bottom: 1px solid rgba(110, 80, 55, 0.16);
 
       &:last-child {
         border-bottom: none;
       }
 
       &.active-phase {
-        background-color: rgba(100, 100, 100, 0.3);
+        background-color: rgba(139, 45, 32, 0.03);
       }
 
       .phase-header {
         padding: $spacing / 2 $spacing;
-        background-color: rgba(50, 50, 50, 0.7);
+        background-color: rgba(236, 228, 214, 0.8);
         display: flex;
         align-items: center;
-        cursor: pointer;
+        width: 100%;
+        border: none;
+        text-align: left;
+        border-bottom: 1px solid rgba(110, 80, 55, 0.08);
 
-        &.locked {
-          opacity: 0.6;
-          cursor: not-allowed;
+        &:hover {
+          background-color: rgba(227, 218, 201, 0.85);
         }
 
-        &.unlocked {
-          cursor: pointer;
-        }
-
-        .phase-icon {
+        .phase-number {
+          background: #8b2d20;
+          color: #fff !important;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          font-weight: bold;
           margin-right: 8px;
-          font-size: 16px;
+          flex-shrink: 0;
+        }
+
+        .phase-heading {
+          display: flex;
+          flex-direction: column;
+          gap: 1px;
+
+          small {
+            font-size: 8px;
+            color: #726255 !important;
+            font-weight: 700;
+            text-transform: uppercase;
+          }
+
+          h3 {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.3;
+            font-weight: 700;
+            color: #2f251e !important;
+          }
         }
 
         .phase-arrow {
           margin-left: auto;
+          color: #8b2d20 !important;
+          font-size: 10px;
           transition: transform 0.3s ease;
+          flex-shrink: 0;
+          padding-left: 8px;
 
           &.expanded {
             transform: rotate(180deg);
           }
         }
-
-        h3 {
-          margin: 0;
-          font-size: 14px;
-          color: $header-font-color;
-        }
       }
 
       .phase-events {
+        background: rgba(254, 252, 248, 0.5);
+
         .event-item {
           padding: $spacing / 2 $spacing;
           cursor: pointer;
           border-left: 3px solid transparent;
+          width: 100%;
+          border-right: none;
+          border-top: none;
+          border-bottom: 1px solid rgba(110, 80, 55, 0.05);
+          background: transparent;
+          text-align: left;
+          display: block;
+
+          &:last-child {
+            border-bottom: none;
+          }
 
           &.active-event {
-            background: rgba(201, 78, 47, 0.26);
-            border-left-color: #d85c3e;
+            background: rgba(139, 45, 32, 0.12);
+            border-left-color: #8b2d20;
+
+            .event-name {
+              font-weight: 700;
+            }
           }
 
-          &.viewed {
-            opacity: 0.7;
-            background-color: rgba(0, 100, 0, 0.2);
+          &.visited-event {
+            opacity: 0.85;
+            background-color: rgba(139, 45, 32, 0.02);
+
+            .event-status {
+              background-color: #8b2d20;
+            }
           }
 
-          &:hover:not(.viewed) {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 3px solid $border-color;
+          &:hover {
+            background-color: rgba(139, 45, 32, 0.05);
+            border-left-color: rgba(139, 45, 32, 0.3);
           }
 
           .event-year {
             display: flex;
             gap: 8px;
             justify-content: space-between;
-            font-size: 12px;
-            color: #aaa;
+            font-size: 11px;
+            color: #726255 !important;
             margin-bottom: 2px;
 
             span {
-              color: #aaa;
-              font-size: 11px;
+              color: #726255 !important;
+              font-size: 10px;
+              font-weight: 600;
             }
 
             span:last-child {
@@ -1570,12 +1645,30 @@ body.theme-festival {
           }
 
           .event-name {
-            font-size: 14px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #312820 !important;
           }
         }
       }
     }
   }
+}
+
+/* Custom Vintage Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(110, 80, 55, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(110, 80, 55, 0.24);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(110, 80, 55, 0.45);
 }
 
 // Documentary timeline panel
