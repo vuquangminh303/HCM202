@@ -10,5 +10,10 @@ node_modules
 *.swp
 *.swo
 
+# secrets / env
+.env
+.env.*
+!.env.example
+
 # project
 build

@@ -2034,3 +2034,173 @@ body {
   }
 
 }
+
+// ─── Narrator (Giọng kể chuyện) ───────────────────────────────────────────────
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes narrator-breathe {
+  0%, 100% {
+    box-shadow: 0 8px 22px rgba(124, 33, 23, 0.42),
+      0 0 0 1px rgba(246, 217, 140, 0.45) inset, 0 0 16px rgba(212, 168, 83, 0.22);
+  }
+  50% {
+    box-shadow: 0 12px 30px rgba(124, 33, 23, 0.55),
+      0 0 0 1px rgba(246, 217, 140, 0.7) inset, 0 0 30px rgba(212, 168, 83, 0.5);
+  }
+}
+
+// Cụm điều khiển giọng kể — giữa phía trên
+.narrator-controls {
+  position: fixed;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+// Nút bật/tắt âm thanh (đọc sự kiện đang xem)
+.narrator-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border-radius: 999px;
+  cursor: pointer;
+  pointer-events: auto;
+  font-family: $body-font-family;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #3a2c20;
+  background: rgba(250, 246, 238, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(110, 80, 55, 0.32);
+  box-shadow: 0 8px 22px rgba(53, 38, 27, 0.2);
+  transition: transform 0.25s var(--transition-spring), box-shadow 0.25s var(--transition-smooth),
+    border-color 0.25s var(--transition-smooth);
+
+  svg { color: #8b2d20; flex-shrink: 0; }
+  .narrator-sound-label { color: #3a2c20; }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(53, 38, 27, 0.26);
+    border-color: rgba(139, 45, 32, 0.5);
+  }
+
+  &.is-off {
+    background: rgba(238, 232, 222, 0.9);
+    svg { color: #8a7d70; }
+    .narrator-sound-label { color: #6f6358; }
+  }
+
+  // Nhịp nhẹ khi đang đọc lẻ (không phải tour)
+  &.is-speaking {
+    border-color: rgba(139, 45, 32, 0.55);
+    box-shadow: 0 8px 22px rgba(139, 45, 32, 0.28), 0 0 0 1px rgba(212, 168, 83, 0.4) inset;
+  }
+}
+
+.narrator-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+  font-family: $heading-font-family;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #fff7ea;
+  background: linear-gradient(135deg, #b23a22 0%, #8b2d20 50%, #6f2017 100%);
+  border: 1px solid rgba(246, 217, 140, 0.55);
+  animation: narrator-breathe 3.2s ease-in-out infinite;
+  transition: transform 0.28s var(--transition-spring);
+
+  // vệt sáng quét ngang
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 245, 220, 0.45), transparent);
+    transform: skewX(-18deg);
+    animation: cover-sweep 4.5s ease-in-out infinite;
+  }
+
+  &:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  &:active {
+    transform: translateY(0) scale(1);
+  }
+
+  .narrator-icon {
+    color: #f8e3ab;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 1px 2px rgba(70, 18, 12, 0.5));
+  }
+
+  // Đè màu chữ rõ ràng (global `body * { color }` làm span bị nhạt)
+  .narrator-label {
+    color: #fff7ea;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 3px rgba(70, 18, 12, 0.5);
+  }
+
+  // Thanh equalizer – chỉ hiện khi đang đọc
+  .narrator-bars {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    position: relative;
+    z-index: 1;
+    transition: width 0.3s var(--transition-smooth), opacity 0.3s var(--transition-smooth);
+
+    i {
+      display: block;
+      width: 3px;
+      height: 15px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, #f6e3ad, #f0d68a);
+      transform: scaleY(0.4);
+    }
+  }
+
+  // Đang đọc: ánh vàng mạnh hơn + equalizer chạy
+  &.is-speaking {
+    background: linear-gradient(135deg, #c2451f 0%, #9a3119 55%, #7c2117 100%);
+    animation: narrator-breathe 1.8s ease-in-out infinite;
+
+    .narrator-bars {
+      width: 23px;
+      opacity: 1;
+
+      i {
+        animation: eq-bounce 0.9s ease-in-out infinite;
+        &:nth-child(2) { animation-delay: 0.18s; }
+        &:nth-child(3) { animation-delay: 0.36s; }
+        &:nth-child(4) { animation-delay: 0.12s; }
+      }
+    }
+  }
+}
