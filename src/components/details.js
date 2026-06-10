@@ -585,9 +585,8 @@ export default function Details() {
             width: '100%',
             height: '100%',
             zIndex: 999,
-            pointerEvents: 'auto' // This ensures the overlay blocks interaction
+            pointerEvents: 'none'
           }}
-          onClick={() => dispatch({ type: 'FOCUS' })} // Close when clicking on overlay
         />
       )}
       <Fade animationType="slide-left" className="details" show={!!focusedMarker}>

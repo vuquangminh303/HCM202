@@ -163,6 +163,11 @@ $media-phone-max-width: 320px;
   100% { box-shadow: 0 0 0 0 rgba(201, 78, 47, 0); }
 }
 
+@keyframes journey-traveler-step {
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-6px) rotate(2deg); }
+}
+
 @keyframes counter-pop {
   0% { transform: scale(0.8); opacity: 0; }
   60% { transform: scale(1.1); }
@@ -318,6 +323,11 @@ body {
       pointer-events: none;
       transform: translateY(-12px);
     }
+
+    .map-zoom-controls {
+      left: calc(clamp(410px, 37vw, 520px) + 20px);
+      z-index: 1000;
+    }
   }
 
   .map-canvas {
@@ -338,6 +348,41 @@ body {
 
   .maplibregl-canvas {
     outline: none;
+  }
+
+  .journey-traveler-marker {
+    height: 96px;
+    pointer-events: none;
+    position: relative;
+    width: 58px;
+    z-index: 4;
+
+    &::after {
+      background: rgba(45, 28, 18, 0.3);
+      border-radius: 50%;
+      bottom: -3px;
+      content: "";
+      filter: blur(3px);
+      height: 8px;
+      left: 12px;
+      position: absolute;
+      width: 34px;
+    }
+
+    img {
+      display: block;
+      filter: drop-shadow(0 7px 8px rgba(48, 29, 18, 0.36));
+      height: 96px;
+      object-fit: contain;
+      position: relative;
+      transform-origin: 50% 100%;
+      width: 58px;
+      z-index: 1;
+    }
+
+    &.is-moving img {
+      animation: journey-traveler-step 0.36s ease-in-out infinite alternate;
+    }
   }
 
   .maplibregl-ctrl-attrib {
@@ -550,6 +595,7 @@ body {
     gap: 1px;
     left: 28px;
     position: absolute;
+    transition: left 0.35s var(--transition-smooth);
     z-index: 7;
     animation: stagger-fade-in 0.6s var(--transition-smooth) both;
     animation-delay: 0.6s;
@@ -1922,6 +1968,13 @@ body {
 // ─── Responsive ─────────────────────────────────────────────────────────────────
 @media only screen and (max-width: 768px) {
   .journey-map {
+    &.has-focus .map-zoom-controls {
+      left: auto;
+      right: 16px;
+      top: 72px;
+      z-index: 1002;
+    }
+
     .map-story-heading {
       left: 16px;
       max-width: calc(100vw - 32px);

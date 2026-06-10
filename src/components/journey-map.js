@@ -7,6 +7,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 const DEFAULT_CAMERA = { center: [24, 20], zoom: 1.75 };
+const JOURNEY_TRAVEL_DURATION_MS = 2000;
+const JOURNEY_FOCUS_ZOOM = 5.3;
+const JOURNEY_TRAVELER_IMAGE = '/HCM.png';
 
 const VIETNAMESE_PLACE_LABELS = [
   ['Việt Nam', 108.2, 15.7, 'country'],
@@ -86,6 +89,42 @@ function eventToMarker(event) {
     city: event.location,
     value: event.phase || 1,
   };
+}
+
+function easeInOutCubic(value) {
+  return value < 0.5
+    ? 4 * value * value * value
+    : 1 - Math.pow(-2 * value + 2, 3) / 2;
+}
+
+function getTravelCoordinates(from, to) {
+  let targetLng = to[0];
+
+  if (targetLng - from[0] > 180) targetLng -= 360;
+  if (targetLng - from[0] < -180) targetLng += 360;
+
+  return { fromLng: from[0], fromLat: from[1], targetLng, targetLat: to[1] };
+}
+
+function interpolateTravelPosition(travel, progress) {
+  return [
+    travel.fromLng + (travel.targetLng - travel.fromLng) * progress,
+    travel.fromLat + (travel.targetLat - travel.fromLat) * progress,
+  ];
+}
+
+function createTravelerElement() {
+  const element = document.createElement('div');
+  element.className = 'journey-traveler-marker';
+  element.setAttribute('aria-hidden', 'true');
+
+  const image = document.createElement('img');
+  image.src = JOURNEY_TRAVELER_IMAGE;
+  image.alt = '';
+  image.draggable = false;
+  element.appendChild(image);
+
+  return element;
 }
 
 function makeRouteCollection(events, currentIndex, isCompleted) {
@@ -228,7 +267,6 @@ function addJourneyLayers(map, events) {
     type: 'geojson',
     data: makeRouteCollection(events, -1, true),
   });
-
   map.addLayer(
     {
       id: 'journey-route-shadow',
@@ -475,6 +513,9 @@ export default function JourneyMap() {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef(markers);
+  const travelerMarkerRef = useRef(null);
+  const travelerPositionRef = useRef(null);
+  const travelAnimationRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState(false);
 
@@ -590,6 +631,12 @@ export default function JourneyMap() {
 
     return () => {
       cancelled = true;
+      if (travelAnimationRef.current) {
+        cancelAnimationFrame(travelAnimationRef.current);
+      }
+      travelerMarkerRef.current?.remove();
+      travelerMarkerRef.current = null;
+      travelerPositionRef.current = null;
       if (mapRef.current) mapRef.current.remove();
       mapRef.current = null;
     };
@@ -618,20 +665,97 @@ export default function JourneyMap() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map) return;
+    if (!mapReady || !map || focusedMarker?.coordinates?.length !== 2) return;
 
-    if (focusedMarker?.coordinates?.length === 2) {
-      map.flyTo({
-        center: [focusedMarker.coordinates[1], focusedMarker.coordinates[0]],
-        zoom: 5.3,
-        duration: 1800,
-        curve: 1.5,
-        speed: 0.9,
-        offset: [window.innerWidth > 768 ? 180 : 0, 0],
+    const target = [focusedMarker.coordinates[1], focusedMarker.coordinates[0]];
+
+    if (!travelerMarkerRef.current) {
+      travelerMarkerRef.current = new maplibregl.Marker({
+        element: createTravelerElement(),
+        anchor: 'bottom',
+        offset: [0, -10],
+      })
+        .setLngLat(target)
+        .addTo(map);
+      travelerPositionRef.current = target;
+      map.easeTo({
+        center: target,
+        zoom: JOURNEY_FOCUS_ZOOM,
+        duration: JOURNEY_TRAVEL_DURATION_MS,
+        easing: easeInOutCubic,
         essential: true,
       });
       return;
     }
+
+    const start = travelerPositionRef.current || target;
+    const travel = getTravelCoordinates(start, target);
+    const isSamePosition =
+      travel.fromLng === travel.targetLng && travel.fromLat === travel.targetLat;
+
+    if (isSamePosition) {
+      travelerMarkerRef.current.setLngLat(target);
+      travelerPositionRef.current = target;
+      map.easeTo({
+        center: target,
+        zoom: JOURNEY_FOCUS_ZOOM,
+        duration: 500,
+        essential: true,
+      });
+      return;
+    }
+
+    if (travelAnimationRef.current) {
+      cancelAnimationFrame(travelAnimationRef.current);
+    }
+
+    const markerElement = travelerMarkerRef.current.getElement();
+    const startedAt = performance.now();
+    const startZoom = map.getZoom();
+
+    map.stop();
+    markerElement.classList.add('is-moving');
+
+    const animateTravel = (now) => {
+      const elapsed = now - startedAt;
+      const progress = Math.min(elapsed / JOURNEY_TRAVEL_DURATION_MS, 1);
+      const easedProgress = easeInOutCubic(progress);
+      const position = interpolateTravelPosition(travel, easedProgress);
+      const zoom =
+        startZoom + (JOURNEY_FOCUS_ZOOM - startZoom) * easedProgress;
+
+      travelerMarkerRef.current?.setLngLat(position);
+      travelerPositionRef.current = position;
+      map.jumpTo({ center: position, zoom });
+
+      if (progress < 1) {
+        travelAnimationRef.current = requestAnimationFrame(animateTravel);
+        return;
+      }
+
+      travelerMarkerRef.current?.setLngLat(target);
+      travelerPositionRef.current = target;
+      map.jumpTo({ center: target, zoom: JOURNEY_FOCUS_ZOOM });
+      markerElement.classList.remove('is-moving');
+      travelAnimationRef.current = null;
+    };
+
+    travelAnimationRef.current = requestAnimationFrame(animateTravel);
+
+    return () => {
+      if (travelAnimationRef.current) {
+        cancelAnimationFrame(travelAnimationRef.current);
+        travelAnimationRef.current = null;
+      }
+      markerElement.classList.remove('is-moving');
+    };
+  }, [focusedMarker?.coordinates, focusedMarker?.id, mapReady]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map) return;
+
+    if (focusedMarker?.coordinates?.length === 2) return;
 
     map.flyTo({
       ...DEFAULT_CAMERA,
